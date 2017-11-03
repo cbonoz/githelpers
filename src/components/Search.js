@@ -1,25 +1,25 @@
-import React, { Component } from 'react'
-import SearchInput, {createFilter} from 'react-search-input'
+import React, { Component } from 'react';
+import SearchInput, {createFilter} from 'react-search-input';
 
 // TODO: replace with data retrieved from api (github requests for help - present in a searchable view)
-import emails from './data/mails'
-const KEYS_TO_FILTERS = ['user.name', 'subject', 'dest.name']
+import emails from './data/mails';
+const KEYS_TO_FILTERS = ['user.name', 'subject', 'dest.name'];
 
 export default class Search extends Component {
     constructor (props) {
-        super(props)
+        super(props);
         this.state = {
           searchTerm: ''
-        }
-        this.searchUpdated = this.searchUpdated.bind(this)
+        };
+        this.searchUpdated = this.searchUpdated.bind(this);
       }
     
       searchUpdated (term) {
-        this.setState({searchTerm: term})
+        this.setState({searchTerm: term});
       }
 
       render () {
-        const filteredEmails = emails.filter(createFilter(this.state.searchTerm, KEYS_TO_FILTERS))
+        const filteredEmails = emails.filter(createFilter(this.state.searchTerm, KEYS_TO_FILTERS));
     
         return (
           <div>
