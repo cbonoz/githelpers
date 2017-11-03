@@ -5393,6 +5393,10 @@ react-prop-types@^0.4.0:
   dependencies:
     warning "^3.0.0"
 
+react-reveal-text@^0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/react-reveal-text/-/react-reveal-text-0.0.3.tgz#fc24b550d8b210b6d4323ce0078f7d0d3a54768e"
+
 react-rotating-text@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/react-rotating-text/-/react-rotating-text-1.2.1.tgz#0a0ec5c3dbb8e5db0146056d2f18dbb2bd3602f9"
