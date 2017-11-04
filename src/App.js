@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Callback from './components/Callback';
-import CelebrityJokes from './components/CelebrityJokes';
-import FoodJokes from './components/FoodJokes';
+// import CelebrityJokes from './components/CelebrityJokes';
+// import FoodJokes from './components/FoodJokes';
 import About from './components/About';
 import Footer from './components/Footer';
 import Header from './components/Header';

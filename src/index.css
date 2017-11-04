@@ -21,3 +21,8 @@ body {
     opacity: 0;
   }
 }
+
+.centered {
+  margin: 0 auto;
+  text-align: center;
+}

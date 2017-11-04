@@ -3,7 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "auth0-js": "^8.10.1",
+    "axios": "^0.17.0",
     "bootstrap": "3",
+    "jwt-decode": "^2.2.0",
     "material-ui": "^0.19.4",
     "react": "^16.0.0",
     "react-bootstrap": "^0.31.5",

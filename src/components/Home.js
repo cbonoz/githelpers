@@ -24,6 +24,11 @@ export default class Home extends Component {
         }, 2000);
     }
 
+    goToLogin() {
+        console.log('goToLogin')
+        // TODO: take the user to the login route.
+    }
+
     render() {
         const self = this;
         return (
@@ -59,6 +64,30 @@ export default class Home extends Component {
                 <Col md={6} mdPull={6}><code>&lt;{'Col md={6} mdPull={6}'} /&gt;</code></Col>
                 </Row>
             </Grid>
+
+            <Grid>
+                <Row className="show-grid">
+                <Col xs={12} md={4}>
+                    1. Sign up for a new GitHelpers account using your Github.
+                    <code>&lt;{'Col xs={6} md={4}'} /&gt;</code>
+                </Col>
+                <Col xs={12} md={4}>
+                    2. Create new issues or take existing ones and tag them with the GitHelpers tag.
+                    <code>&lt;{'Col xs={6} md={4}'} /&gt;</code>
+                </Col>
+                <Col xs={12} md={4}>
+                    3. Your repos with this tag will automatically be indexed and added to the GitHelpers website, where developers from around the world can search and contribute to repositories explicitly requesting assistance.
+                    <code>&lt;{'Col xsHidden md={4}'} /&gt;</code>
+                </Col>
+                </Row>
+            </Grid>
+
+            <div className="centered">
+                <p className="centered">
+                    What are you waiting for?
+                </p>
+                <Button onClick={self.goToLogin()}>Let's get Started</Button>
+            </div>
             </div>
         )
     }
