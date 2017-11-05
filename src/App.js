@@ -13,6 +13,8 @@ import {Route, BrowserRouter, Redirect, Switch} from 'react-router-dom'
 import { requireAuth } from './utils/AuthService';
 import logo from './logo.svg';
 import './App.css';
+import './assets/css/main.css';
+import './assets/css/font-awesome.min.css';
 
 import Home from './components/Home';
 

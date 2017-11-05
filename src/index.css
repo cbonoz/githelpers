@@ -1,6 +1,7 @@
 body {
   margin: 0;
   padding: 0;
+  color: white;
   font-family: sans-serif;
 }
 
@@ -25,4 +26,8 @@ body {
 .centered {
   margin: 0 auto;
   text-align: center;
+}
+
+.navbar {
+  margin-bottom: 0px;
 }
