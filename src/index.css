@@ -31,3 +31,145 @@ body {
 .navbar {
   margin-bottom: 0px;
 }
+
+
+.patient-row {
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.reporting-header {
+  margin: 30px;
+}
+
+.start-button {
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.patient-heading {
+  color: purple;
+}
+
+.page-heading {
+  color: purple;
+}
+
+.react-rotating-text-cursor {
+  animation: blinking-cursor 0.8s cubic-bezier(0.68, 0.01, 0.01, 0.99) 0s infinite;
+}
+
+@keyframes blinking-cursor {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.jumbotron {
+  height:100vh;
+}
+
+.navbar {
+  margin-bottom: 0px;
+  border-radius: 0px;
+}
+
+.top-margin {
+  margin-top: 20px;
+}
+
+.static-modal-jumbotron {
+  color: #222222;
+  opacity: 1.0;
+}
+
+.feed-heading {
+  /* margin-top: 15px; */
+  padding: 5px;
+}
+
+.feed-item {
+  padding: 10px;
+  border: 1px solid black;
+  margin-bottom: 10px;
+  background: whitesmoke;
+}
+
+.jumbotron p {
+  font-size: 26px;
+}
+
+.white {
+  color:white !important;
+}
+
+.purple {
+  color: purple !important;
+}
+
+.header-image {
+  margin-top: 50px;
+  margin-bottom: 15px;
+}
+
+/* Landscape phone to portrait tablet */
+@media (max-width: 767px) { 
+  .header-image    {
+    width: 250px;
+  }
+}
+
+.white-background {
+  background: white;
+}
+
+.bootstrap-green {
+  background: #dff0d8;
+}
+
+.header-text-section {
+  margin: 50px;
+}
+
+.meal-plan-button {
+  margin: 10px;
+}
+
+.header-text {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.transparency-jumbotron {
+  background: rgb(0,0,0);
+  max-height: 100%;
+  background-size: cover;
+}
+
+.centered {
+  margin: 0 auto;
+  text-align: center;
+}
+
+.active-row {
+  background:lightblue !important;
+}
+
+.push-left {
+  float: left !important;
+}
+
+.img-img {
+  width: 100px;
+  height: 100px;
+}
