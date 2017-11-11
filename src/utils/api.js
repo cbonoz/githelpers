@@ -1,6 +1,3 @@
-import axios from 'axios';
-// import { getAccessToken } from './AuthService';
-
 const PORT = 9007;
 const BASE_URL = `http://localhost:${PORT}`;
 
