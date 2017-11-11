@@ -18,8 +18,8 @@ const onSuccess = response => {
     const code = response['code'];
 
     api.postGithubToken(clientId, secret, code)
-      .then(function (response) {
-        console.log('token response:', JSON.stringify(response));
+      .then(function (tokenResponse) {
+        console.log('token response:', JSON.stringify(tokenResponse));
       })
       .catch(function (error) {
         console.log('error getting access token:', error);
