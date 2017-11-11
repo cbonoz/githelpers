@@ -47,7 +47,7 @@ class App extends Component {
               <Route exact path="/" component={Home} />
               <Route path="/faq" component={FAQ} />
               <Route path="/login" component={Login} />
-              <Route path="dashboard" component={Dashboard} onEnter={this.requireAuth}/>
+              <Route path="/dashboard" component={Dashboard} onEnter={this.requireAuth}/>
                 <Route render={() => <h1>Page not found</h1>} />
             </Switch>
 

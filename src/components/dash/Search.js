@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import SearchInput, {createFilter} from 'react-search-input';
 
 // TODO: replace with data retrieved from api (github requests for help - present in a searchable view)
-import emails from './data/mails';
+import emails from './mails';
 const KEYS_TO_FILTERS = ['user.name', 'subject', 'dest.name'];
 
 export default class Search extends Component {

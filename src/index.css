@@ -214,6 +214,11 @@ body {
   height: 100px;
 }
 
+.dashboard-container {
+  padding: 5px;
+  margin-top: 10px;
+}
+
 .login-area {
   margin: 0 auto;
   max-width: 300px;

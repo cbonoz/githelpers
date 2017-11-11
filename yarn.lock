@@ -5355,6 +5355,10 @@ react-search-input@^0.11.3:
     fuse.js "^3.0.0"
     prop-types "^15.5.8"
 
+react-sidebar@^2.3.2:
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/react-sidebar/-/react-sidebar-2.3.2.tgz#ec140bea8a6f5fa3d8ea7a56479665b44cf4f9cf"
+
 react-sizeme@^2.2.0:
   version "2.3.6"
   resolved "https://registry.yarnpkg.com/react-sizeme/-/react-sizeme-2.3.6.tgz#d60ea2634acc3fd827a3c7738d41eea0992fa678"
