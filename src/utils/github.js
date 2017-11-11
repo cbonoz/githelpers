@@ -4,27 +4,34 @@ const library = (function () {
 
     // Github api object.
     // https://github.com/github-tools/github
-    var gh;
+    var gh = null;
+    // authToken of the current user.
+    var authToken = null;
 
     const initializeWithToken = (token) => {
+        console.log('initWithToken', token);
+        authToken = token;
         gh = new GitHub({
             token: token
         });
+    }
+
+    function logout() {
+        gh = null;
+        authToken = null;
     }
 
     const initialize = (user, pass) => {
         gh = new GitHub({
             username: user,
             password: pass
-            /* also acceptable:
-               token: 'MY_OAUTH_TOKEN'
-             */
         });
     }
 
     return {
         initialize: initialize,
         initializeWithToken: initializeWithToken,
+        authToken: authToken,
         gh: gh
     }
 

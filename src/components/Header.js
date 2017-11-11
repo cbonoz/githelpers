@@ -12,7 +12,7 @@ export default class Header extends Component {
         super(props);
         this.state = {
             showModal: false,
-            loggedIn: true
+            loggedIn: false // TODO: use redux (don't hardcode the login state).
         }
     }
 

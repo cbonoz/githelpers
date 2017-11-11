@@ -5,8 +5,10 @@ import Search from './dash/Search';
 import Profile from './dash/Profile';
 import Reporting from './dash/Reporting';
 import Help from './dash/Help';
-
 import Sidebar from './dash/Sidebar';
+
+import github from '../utils/github';
+import token from '../utils/token';
 
 export default class Dashboard extends Component {
 
@@ -22,7 +24,7 @@ export default class Dashboard extends Component {
     }
     
     componentWillMount() {
-        
+        // github.initializeWithToken(token.githubTestToken);
     }
 
     updateCurrentPage(currentPage) {
