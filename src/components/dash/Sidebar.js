@@ -13,7 +13,7 @@ export default class Sidebar extends Component {
         return (
             <div className="sidebar-container">
                 <ListGroup>
-                    <ListGroupItem className={"sidebar-item"} header={"Dashboard"} bsStyle="warning">
+                    <ListGroupItem className={"sidebar-item"} header={"Dashboard"} bsStyle="success">
                     </ListGroupItem>
                     <ListGroupItem className={"sidebar-item " + (self._activePage(0) ? 'selected-item' : '')} onClick={() => this.props.updateCurrentPage(0)}>
                         Search
