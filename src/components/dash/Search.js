@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { FormControl, FormGroup, Button } from 'react-bootstrap';
 
+import { ClimbingBoxLoader } from 'react-spinners';
+
 export default class Search extends Component {
   constructor(props) {
     super(props);
@@ -12,7 +14,7 @@ export default class Search extends Component {
   }
 
   _search() {
-    this.setState( {searched: true});
+    this.setState({ searched: true, searching: true });
     console.log('searching', this.searchInput.value);
   }
 
@@ -20,13 +22,21 @@ export default class Search extends Component {
     const self = this;
     return (
       <div>
-        <FormGroup>
-          <FormControl type="text" placeholder="Search" inputRef={input => this.searchInput = input} />
-        </FormGroup>
-        {' '}
-        <Button type="submit" onClick={() => this._search()}>Submit</Button>
-        <hr/>
-        {self.state.searched && self.searchInput.value && <div><p>No search results for {self.searchInput.value}</p></div>}
+        <div class="search-form">
+          <h3>Browse Repositories that need your help.</h3>
+          <FormGroup>
+            <FormControl type="text" placeholder="Search" inputRef={input => this.searchInput = input} />
+          </FormGroup>
+          {' '}
+          <Button type="submit" onClick={() => this._search()} bsStyle="success">Search Projects</Button>
+          <hr />
+        </div>
+        <div class="search-results">
+          <div class="centered">
+            <ClimbingBoxLoader color={'#123abc'} size={500} loading={this.state.searching} />
+          </div>
+          {self.state.searched && self.searchInput.value && <div><p>No search results for {self.searchInput.value}</p></div>}
+        </div>
       </div>
     )
   }

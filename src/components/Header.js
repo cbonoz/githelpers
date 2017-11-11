@@ -11,14 +11,10 @@ export default class Header extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            showModal: false
+            showModal: false,
+            loggedIn: true
         }
     }
-    
-    componentWillMount() {
-        this.state
-    }
-    
 
     close() {
         this.setState({ showModal: false });
@@ -28,6 +24,10 @@ export default class Header extends Component {
         this.setState({ showModal: true });
     }
 
+    logout() {
+        console.log('logged out');
+        // TODO: implement by clearing the github auth token from store.
+    }
 
     render() {
         const self = this;
@@ -46,10 +46,14 @@ export default class Header extends Component {
                     </Navbar.Header>
                     <Navbar.Collapse>
                         <Nav pullRight>
+                            {this.state.loggedIn && <LinkContainer to="/dashboard">
+                                <NavItem>Dashboard</NavItem>
+                            </LinkContainer>}
                             <LinkContainer to="/faq">
                                 <NavItem>FAQ</NavItem>
                             </LinkContainer>
-                            <NavItem onClick={() => self.open()}>Login</NavItem>
+                            {this.state.loggedIn && <NavItem onClick={() => self.logout()}>Logout</NavItem>}
+                            {!this.state.loggedIn && <NavItem onClick={() => self.open()}>Login</NavItem>}
                         </Nav>
                     </Navbar.Collapse>
                 </Navbar>
