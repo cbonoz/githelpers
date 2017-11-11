@@ -1,7 +1,6 @@
 'use strict';
-import { Github } from 'github-api';
-
 const library = (function () {
+    var GitHub = require('github-api');
 
     // Github api object.
     // https://github.com/github-tools/github

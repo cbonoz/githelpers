@@ -154,11 +154,17 @@ body {
   cursor: pointer;
 }
 
+.home-box-grid {
+  margin-top: 50px;
+  padding: 5px;
+}
+
 .home-box {
   height: 200px;
 }
 
 .home-box-number {
+  color: whitesmoke;
   text-align: center;
   font-size: 72px;
   font-weight: bold;
@@ -211,6 +217,20 @@ body {
 /* .sidebar-item:hover {
   background: lightsteelblue !important;
 } */
+
+.full-width {
+  width: 100%;
+}
+
+.dots-width {
+  width: 50%;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.home-background {
+  background: #0d112B;
+}
 
 .sidebar-item {
   border: 5px;
