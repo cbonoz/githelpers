@@ -5,6 +5,10 @@ import token from '../utils/token';
 
 import githubIcon from '../assets/github.svg';
 
+const onRequest = response => {
+    console.log('onRequest', response)
+}
+
 const onSuccess = response => {
     console.log('onSuccess', response);
 }
@@ -22,9 +26,10 @@ export default class Login extends Component {
     componentDidMount() {
         // https://stackoverflow.com/questions/40407632/how-to-render-a-react-component-using-reactdom-render
         ReactDOM.render(
-            <GitHubLogin 
+            <GitHubLogin
                 clientId={token.githubClientId}
-                redirectUri={token.githubRedirectUrl}
+                redirectUri=""
+                scope={token.githubScope}
                 onSuccess={onSuccess}
                 onFailure={onFailure} />,
             document.getElementById('github-login-button')
