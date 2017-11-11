@@ -216,12 +216,13 @@ body {
 
 .login-area {
   margin: 0 auto;
-  max-width: 800px;
+  max-width: 300px;
   border: 1px solid black;
-  height: 400px;
+  height: 300px;
 }
 
-.github-login-button {
+#github-login-button button {
+  color: white;
   background: black;
   margin: 15px;
   padding-left: 20px;
@@ -232,6 +233,12 @@ body {
 
 .bold {
   font-weight: bold;
+}
+
+.github-logo {
+  margin-top: 20px;
+  padding: 25px;
+  width: 150px;
 }
 
 .page-header {

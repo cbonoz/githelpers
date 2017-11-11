@@ -1,15 +1,18 @@
 'use strict';
 const library = (function () {
 
-    const token = "";;
-    const githubClientId = "";
-    const githubRedirectUrl = "";
+    const githubClientId = process.env.REACT_APP_GIT_CLIENT_ID
+    const githubSecret = process.env.REACT_APP_GIT_SECRET
+    const githubRedirectUrl = "/dashboard";
+
+    console.log('clientId', githubClientId)
+    console.log('secret', githubSecret)
 
     return {
         githubClientId: githubClientId,
-        githubRedirectUrl: githubRedirectUrl,
-        token: token
-    }
+        githubSecret: githubSecret,
+        githubRedirectUrl: githubRedirectUrl
+    };
 
 })();
 module.exports = library;

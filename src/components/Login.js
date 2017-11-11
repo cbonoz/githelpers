@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import GitHubLogin from 'react-github-login';
 import token from '../utils/token';
 
+import githubIcon from '../assets/github.svg';
+
 const onSuccess = response => {
     console.log('onSuccess', response);
 }
@@ -20,7 +22,8 @@ export default class Login extends Component {
     componentDidMount() {
         // https://stackoverflow.com/questions/40407632/how-to-render-a-react-component-using-reactdom-render
         ReactDOM.render(
-            <GitHubLogin clientId={token.githubClientId}
+            <GitHubLogin 
+                clientId={token.githubClientId}
                 redirectUri={token.githubRedirectUrl}
                 onSuccess={onSuccess}
                 onFailure={onFailure} />,
@@ -31,7 +34,8 @@ export default class Login extends Component {
     render() {
         return (
             <div>
-                <div className="login-area">
+                <div className="login-area centered">
+                    <img src={githubIcon} className="github-logo"/>
                     <div id='github-login-button' />
                 </div>
             </div>
