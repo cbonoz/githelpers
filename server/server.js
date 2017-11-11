@@ -1,5 +1,6 @@
 'use strict';
 
+const axios = require('axios');
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
@@ -12,30 +13,49 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors());
+app.use(cors({credentials: true, origin: 'http://localhost:3000'}));
 
 app.get('/api/hello', (req, res) => {
   return res.json("hello world");
 });
 
-const server = require('https').createServer(app);
-const io = require('socket.io')(server);
+app.post('api/github', (req, res) => {
+  const body = req.body;
+  const clientId = body.clientId;
+  const clientSecret = body.clientSecret;
+  const code = body.code;
 
-io.on('connection', function (client) {
-  client.on('event', function (data) { 
-    console.log('event', event);
-
-  });
-
-  client.on('disconnect', function () { 
-    console.log('disconnect', event);
+  axios.post('https://github.com/login/oauth/access_token', {
+    client_id: clientId,
+    client_secret: clientSecret,
+    code: code
+  })
+  .then(function (response) {
+    console.log('token response:', JSON.stringify(response));
+    const resp = JSON.parse(response);
+    return res.json(response);
+  })
+  .catch(function (error) {
+    console.log('error getting access token:', error);
+    return res.json(error);
   });
 });
 
-// app.get('/api/hello', (req, res) => {
-//   return res.json("hello world");
-// });
+const server = require('http').createServer(app);
+const io = require('socket.io')(server);
 
-app.listen(PORT, () => {
+io.on('connection', function (client) {
+
+  client.on('action', function (data) { 
+    console.log('action', JSON.stringify(data));
+    io.emit('incoming', data)
+  });
+
+  client.on('disconnect', function () { 
+    console.log('disconnect');
+  });
+});
+
+server.listen(PORT, () => {
   console.log('Listening on localhost:' + PORT);
 });

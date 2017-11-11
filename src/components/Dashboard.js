@@ -9,6 +9,7 @@ import Sidebar from './dash/Sidebar';
 
 import github from '../utils/github';
 import token from '../utils/token';
+import { socket } from '../utils/api';
 
 export default class Dashboard extends Component {
 
@@ -24,7 +25,9 @@ export default class Dashboard extends Component {
     }
     
     componentWillMount() {
-        // github.initializeWithToken(token.githubTestToken);
+        socket.emit('action', { name: 'User accessed dashboard', time: Date.now()}, (data) => {
+            console.log('action ack', data);
+        });
     }
 
     updateCurrentPage(currentPage) {

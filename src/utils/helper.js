@@ -9,7 +9,7 @@ const library = (function () {
         return `${date.toDateString()} ${date.toLocaleTimeString()}`;
     }
 
-    const exampleEvent = {name: "John Doe registered a new account.", time: formatDateTimeMs(Date.now())};
+    const exampleEvent = {name: "John Doe registered a new account.", time: Date.now()};
 
     return {
         getRandom: getRandom,

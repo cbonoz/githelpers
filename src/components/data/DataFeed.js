@@ -14,7 +14,7 @@ export default class DataFeed extends Component {
 
     this.state = {
       duration: 480,
-      columnWidth: 300,
+      columnWidth: "100%",
       gutter: 5,
       easing: easings.quartOut,
       transition: 'fadeDown',

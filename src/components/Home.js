@@ -13,6 +13,8 @@ import bgImage from '../assets/desk_hero_1080.png';
 import orangeDots from '../assets/orange-dots.svg';
 import greenDots from '../assets/green-dots.svg';
 
+import { socket } from '../utils/api';
+
 export default class Home extends Component {
 
     constructor(props) {
@@ -23,13 +25,41 @@ export default class Home extends Component {
             headerFade: false,
             blocks: []
         }
+        this._addEvent = this._addEvent.bind(this);
+        this._setUpSocket = this._setUpSocket.bind(this);
+    }
+
+    _addEvent(event) {
+        event['time'] = helper.formatDateTimeMs(event['time']);
+        this.setState({ blocks: [event, ...this.state.blocks] })
+    }
+
+    _setUpSocket() {
+        const self = this;
+        socket.on('connect', function(){
+            console.log('connect');
+        });
+
+        socket.on('incoming', function(data){
+            console.log('incoming', data);
+            self._addEvent(data);
+        });
+
+        socket.on('disconnect', function(){
+            console.log('disconnect');
+        });
+
+        socket.open();
+    }
+    
+    componentWillUnmount() {
+        socket.close();
     }
 
     componentWillMount() {
         const self = this;
-        const result = helper.exampleEvent;
-        // TODO: replace blocks with http request for recent activity.
-        self.setState({ blocks: [result, ...self.state.blocks] })
+        self._addEvent(helper.exampleEvent);
+        self._setUpSocket();
     }
 
     componentDidMount() {

@@ -222,6 +222,10 @@ body {
   width: 100%;
 }
 
+.feed-item {
+  width: auto !important;
+}
+
 .dots-width {
   width: 50%;
   text-align: center;
