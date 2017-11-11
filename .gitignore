@@ -1,15 +1,14 @@
 # See https://help.github.com/ignore-files/ for more about ignoring files.
 
 # dependencies
-/node_modules
-/node_modules/
+node_modules/
 
-# server
-server/node_modules
+# server dependencies
 server/node_modules/
 
 # testing
-/coverage
+coverage/
+test/
 
 # production
 /build

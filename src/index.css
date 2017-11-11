@@ -154,11 +154,17 @@ body {
   cursor: pointer;
 }
 
+.home-box-grid {
+  margin-top: 50px;
+  padding: 5px;
+}
+
 .home-box {
   height: 200px;
 }
 
 .home-box-number {
+  color: whitesmoke;
   text-align: center;
   font-size: 72px;
   font-weight: bold;
@@ -194,6 +200,45 @@ body {
   background: rgb(0, 0, 0);
   max-height: 100%;
   background-size: cover;
+}
+
+.selected-item {
+  background: #eee;
+}
+
+.sidebar-container {
+  /* border: 1px solid black; */
+}
+
+.search-form {
+  max-width: 600px;
+}
+
+/* .sidebar-item:hover {
+  background: lightsteelblue !important;
+} */
+
+.full-width {
+  width: 100%;
+}
+
+.dots-width {
+  width: 50%;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.home-background {
+  background: #0d112B;
+}
+
+.sidebar-item {
+  border: 5px;
+  width: 100%;
+  margin: 3px;
+  height: 50px;
+  padding-left: 10px;
+  padding-right: 5px;
 }
 
 .centered {

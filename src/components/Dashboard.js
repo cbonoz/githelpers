@@ -2,7 +2,11 @@ import React, { Component } from 'react'
 import { Fade, Navbar, Jumbotron, Button, Row, Col, Grid, ListGroup, ListGroupItem } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Search from './dash/Search';
-import Sidebar from './dash/Sidebar'
+import Profile from './dash/Profile';
+import Reporting from './dash/Reporting';
+import Help from './dash/Help';
+
+import Sidebar from './dash/Sidebar';
 
 export default class Dashboard extends Component {
 
@@ -10,26 +14,47 @@ export default class Dashboard extends Component {
         super(props);
         this.state = {
             user: null,
-            sidebarOpen: false
+            currentPage: 0
+        };
+
+        this._renderCurrentPage = this._renderCurrentPage.bind(this);
+        this.updateCurrentPage = this.updateCurrentPage.bind(this);
+    }
+    
+    componentWillMount() {
+        
+    }
+
+    updateCurrentPage(currentPage) {
+        this.setState( {currentPage: currentPage} );
+    }
+
+    _renderCurrentPage() {
+        switch (this.state.currentPage) {
+            case 0:
+                return <Search/>;
+            case 1:
+                return <Profile/>;
+            case 2:
+                return <Reporting/>;
+            case 3:
+                return <Help/>;
         }
-        this.onSetSidebarOpen = this.onSetSidebarOpen.bind(this);
-
     }
-
-    onSetSidebarOpen(open) {
-        this.setState({ sidebarOpen: open });
-    }
-
+    
     render() {
-        const sidebarContent = <b>Sidebar content</b>;
+        const self = this;
         return (
             <div>
                 <div className='dashboard-container'>
-                    <Sidebar sidebar={sidebarContent}
-                        open={this.state.sidebarOpen}
-                        onSetOpen={this.onSetSidebarOpen}>
-                        <b>Main content</b>
-                    </Sidebar>
+                    <Row>
+                        <Col xs={4} md={3}>
+                            <Sidebar currentPage={this.state.currentPage} updateCurrentPage={this.updateCurrentPage}/>
+                        </Col>
+                        <Col xs={8} md={9}>
+                            {self._renderCurrentPage()}
+                        </Col>
+                    </Row>
                 </div>
             </div>
         )

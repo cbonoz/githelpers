@@ -11,18 +11,23 @@ export default class Header extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            showModal: false
+            showModal: false,
+            loggedIn: true
         }
     }
 
     close() {
         this.setState({ showModal: false });
-      }
-    
-      open() {
-        this.setState({ showModal: true });
-      }
+    }
 
+    open() {
+        this.setState({ showModal: true });
+    }
+
+    logout() {
+        console.log('logged out');
+        // TODO: implement by clearing the github auth token from store.
+    }
 
     render() {
         const self = this;
@@ -41,19 +46,20 @@ export default class Header extends Component {
                     </Navbar.Header>
                     <Navbar.Collapse>
                         <Nav pullRight>
+                            {this.state.loggedIn && <LinkContainer to="/dashboard">
+                                <NavItem>Dashboard</NavItem>
+                            </LinkContainer>}
                             <LinkContainer to="/faq">
                                 <NavItem>FAQ</NavItem>
                             </LinkContainer>
-                            {/* TODO: show logout or login depending on auth state. */}
-                            {/* <LinkContainer to="/login"> */}
-                                <NavItem onClick={() => self.open()}>Login</NavItem>
-                            {/* </LinkContainer> */}
+                            {this.state.loggedIn && <NavItem onClick={() => self.logout()}>Logout</NavItem>}
+                            {!this.state.loggedIn && <NavItem onClick={() => self.open()}>Login</NavItem>}
                         </Nav>
                     </Navbar.Collapse>
                 </Navbar>
 
 
-                <LoginModal showModal={this.state.showModal} close={self.close.bind(self)}/>
+                <LoginModal showModal={this.state.showModal} close={self.close.bind(self)} />
             </div>
         )
     }

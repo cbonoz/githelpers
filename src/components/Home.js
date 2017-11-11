@@ -10,6 +10,8 @@ import helper from '../utils/helper';
 
 import githelpers from '../assets/githelpers_trans.png';
 import bgImage from '../assets/desk_hero_1080.png';
+import orangeDots from '../assets/orange-dots.svg';
+import greenDots from '../assets/green-dots.svg';
 
 export default class Home extends Component {
 
@@ -49,67 +51,46 @@ export default class Home extends Component {
         };
 
         return (
-            <div className="home-content">
-                <Row>
-                    <Col xs={12} md={9}>
-                        <Jumbotron className="jumbotron transparency-jumbotron" style={backgroundStyle}>
-                            <div className="static-modal-jumbotron opaque centered">
-                                <img className="home-banner-image" src={githelpers} />
-                                <p>Connect with developers around the world building open source software.</p>
-                                {/* <h1>AthenaDelivered</h1> */}
+            <div className="home-background">
+                <div className="home-content">
+                    <Row>
+                        <Col xs={12} md={9}>
+                            <Jumbotron className="jumbotron transparency-jumbotron" style={backgroundStyle}>
+                                <div className="static-modal-jumbotron opaque centered">
+                                    <img className="home-banner-image" src={githelpers} />
+                                    <p>Connect with developers around the world building open source software.</p>
+                                    {/* <h1>AthenaDelivered</h1> */}
 
-                                <div className="header-text-section">
-                                    <span className="header-text">
+                                    <div className="header-text-section">
+                                        <span className="header-text">
 
-                                        <div className="centered">
-                                            <p className="centered large">
-                                                What are you waiting for?
+                                            <div className="centered">
+                                                <p className="centered large">
+                                                    What are you waiting for?
                                             </p>
-                                            <p><Link to="/faq">
-                                                <Button bsStyle="primary" className="start-button">
-                                                    Learn More
+                                                <p><Link to="/faq">
+                                                    <Button bsStyle="primary" className="start-button">
+                                                        Learn More
                                             </Button></Link></p>
-                                        </div>
-                                    </span>
+                                            </div>
+                                        </span>
+                                    </div>
                                 </div>
-                            </div>
-                        </Jumbotron>
+                            </Jumbotron>
 
-                    </Col>
-                    <Col xs={12} md={3}>
-                        <ListGroup>
-                            <HeaderBox header={"Activity Feed"}><DataFeed blocks={this.state.blocks} /></HeaderBox>
-                        </ListGroup>
-                    </Col>
-                </Row>
-
-                <div className="black-divider"/>
-
-                <Grid className="code-grid">
-                    <Row className="show-grid">
-                        <Col xs={12} md={8}><code>&lt;{'Col xs={12} md={8}'} /&gt;</code></Col>
-                        <Col xs={6} md={4}><code>&lt;{'Col xs={6} md={4}'} /&gt;</code></Col>
+                        </Col>
+                        <Col xs={12} md={3}>
+                            <ListGroup>
+                                <HeaderBox header={"Activity Feed"}><DataFeed blocks={this.state.blocks} /></HeaderBox>
+                            </ListGroup>
+                        </Col>
                     </Row>
 
-                    <Row className="show-grid">
-                        <Col xs={6} md={4}><code>&lt;{'Col xs={6} md={4}'} /&gt;</code></Col>
-                        <Col xs={6} md={4}><code>&lt;{'Col xs={6} md={4}'} /&gt;</code></Col>
-                        <Col xsHidden md={4}><code>&lt;{'Col xsHidden md={4}'} /&gt;</code></Col>
-                    </Row>
+                </div>
 
+                <Grid className="home-box-grid">
                     <Row className="show-grid">
-                        <Col xs={6} xsOffset={6}><code>&lt;{'Col xs={6} xsOffset={6}'} /&gt;</code></Col>
-                    </Row>
-
-                    <Row className="show-grid">
-                        <Col md={6} mdPush={6}><code>&lt;{'Col md={6} mdPush={6}'} /&gt;</code></Col>
-                        <Col md={6} mdPull={6}><code>&lt;{'Col md={6} mdPull={6}'} /&gt;</code></Col>
-                    </Row>
-                </Grid>
-
-                <Grid>
-                    <Row className="show-grid">
-                        <Col xs={12} md={4}>
+                        <Col xs={6} md={4}>
                             <div className="home-box-number">1.</div>
                             <HeaderBox header={"Register"}>
                                 <div className="centered home-box">
@@ -117,7 +98,7 @@ export default class Home extends Component {
                             </div>
                             </HeaderBox>
                         </Col>
-                        <Col xs={12} md={4}>
+                        <Col xs={6} md={4}>
                             <div className="home-box-number">2.</div>
                             <HeaderBox header={"Tag"}>
                                 <div className="centered home-box">
