@@ -1,9 +1,9 @@
 body {
   margin: 0;
   padding: 0;
-  color: white;
   font-family: sans-serif;
 }
+
 
 /* Custom styles below */
 
@@ -31,7 +31,6 @@ body {
 .navbar {
   margin-bottom: 0px;
 }
-
 
 .patient-row {
   height: 50px;
@@ -76,7 +75,7 @@ body {
 }
 
 .jumbotron {
-  height:100vh;
+  height: 100vh;
 }
 
 .navbar {
@@ -110,7 +109,7 @@ body {
 }
 
 .white {
-  color:white !important;
+  color: white !important;
 }
 
 .purple {
@@ -122,9 +121,11 @@ body {
   margin-bottom: 15px;
 }
 
+
 /* Landscape phone to portrait tablet */
-@media (max-width: 767px) { 
-  .header-image    {
+
+@media (max-width: 767px) {
+  .header-image {
     width: 250px;
   }
 }
@@ -150,8 +151,12 @@ body {
   font-size: 16px;
 }
 
+.black {
+  color: black;
+}
+
 .transparency-jumbotron {
-  background: rgb(0,0,0);
+  background: rgb(0, 0, 0);
   max-height: 100%;
   background-size: cover;
 }
@@ -162,7 +167,7 @@ body {
 }
 
 .active-row {
-  background:lightblue !important;
+  background: lightblue !important;
 }
 
 .push-left {
@@ -172,4 +177,43 @@ body {
 .img-img {
   width: 100px;
   height: 100px;
+}
+
+.login-area {
+  margin: 0 auto;
+  max-width: 800px;
+  border: 1px solid black;
+  height: 400px;
+}
+
+.github-login-button {
+  background: black;
+  margin: 15px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.page-header {
+  margin: 20px;
+}
+
+.small {
+  font-size: small !important;
+}
+
+.medium {
+  font-size: medium !important;
+}
+
+.large {
+  font-size: large !important;
+}
+.xlarge {
+  font-size: x-large !important;
 }

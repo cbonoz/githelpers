@@ -24,7 +24,7 @@ export default class Header extends Component {
                             </LinkContainer>
                             {/* TODO: show logout or login depending on auth state. */}
                             <LinkContainer to="/login">
-                                <NavItem>Login / Sign Up</NavItem>
+                                <NavItem>Login</NavItem>
                             </LinkContainer>
                         </Nav>
                     </Navbar.Collapse>

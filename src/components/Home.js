@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
-import { Fade, Navbar, Jumbotron, Button, Row, Col, Grid } from 'react-bootstrap';
+import { Fade, Navbar, Jumbotron, Button, Row, Col, Grid, ListGroup, ListGroupItem} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import ReactRotatingText from 'react-rotating-text';
 import FontAwesome from 'react-fontawesome';
+
+import DataFeed from './data/DataFeed';
 import helper from '../utils/helper';
 
 import githelpers from '../assets/githelpers_trans.png';
@@ -15,9 +17,18 @@ export default class Home extends Component {
         this.state = {
             words: ['Share', 'Learn', 'Code'],
             show: false,
-            headerFade: false
+            headerFade: false,
+            blocks: []
         }
     }
+
+    componentWillMount() {
+        const self = this;
+        const result = helper.exampleEvent;
+        // TODO: replace blocks with http request for recent activity.
+        self.setState({ blocks: [result, ...self.state.blocks] })
+    }
+
     componentDidMount() {
         setTimeout(() => {
             this.setState({ show: true, headerFade: true });
@@ -25,8 +36,8 @@ export default class Home extends Component {
     }
 
     goToLogin() {
-        console.log('goToLogin')
         // TODO: take the user to the login route.
+        console.log('goToLogin')
     }
 
     render() {
@@ -39,29 +50,23 @@ export default class Home extends Component {
         return (
             <div className="home-content">
                 <Row>
-                    <Col xs={12} md={12}>
+                    <Col xs={12} md={9}>
                         <Jumbotron className="jumbotron transparency-jumbotron" style={backgroundStyle}>
                             <div className="static-modal-jumbotron opaque centered">
                                 <img className="header-image" src={githelpers} />
+                                <p>Connect with developers around the world building open source software.</p>
                                 {/* <h1>AthenaDelivered</h1> */}
 
                                 <div className="header-text-section">
                                     <span className="header-text">
 
                                         <div className="centered">
-                                            <p className="centered">
+                                            <p className="centered large">
                                                 What are you waiting for?
-                                                <FontAwesome
-                                                    className='super-crazy-colors'
-                                                    name='rocket'
-                                                    size='2x'
-                                                    spin
-                                                    style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)' }}
-                                                />
                                             </p>
-                                            <p><Link to="/login">
-                                            <Button onClick={self.goToLogin()} bsStyle="primary" className="start-button">
-                                                Let's get started
+                                            <p><Link to="/faq">
+                                            <Button bsStyle="primary" className="start-button">
+                                                Learn More
                                             </Button></Link></p>
                                         </div>
                                     </span>
@@ -69,6 +74,14 @@ export default class Home extends Component {
                             </div>
                         </Jumbotron>
 
+                    </Col>
+                    <Col xs={12} md={3}>
+                        <ListGroup>
+                            <ListGroupItem bsStyle="info"><span className="centered">Activity Feed</span></ListGroupItem>
+                            <ListGroupItem>
+                                <DataFeed blocks={this.state.blocks}/>
+                            </ListGroupItem>
+                        </ListGroup>
                     </Col>
                 </Row>
 

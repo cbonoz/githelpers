@@ -1,3 +1,5 @@
+// Example search data used by ../Search.js component.
+// TODO: replace with searchable/indexed repositories that user's want contributions to (retrieved and stored from github).
 export default [{
     id: 1,
     user: {
