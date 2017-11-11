@@ -134,6 +134,18 @@ body {
 .home-banner-image {
   margin-top: 50px;
   margin-bottom: 15px;
+  height: 100px;
+}
+
+@media (max-width: 767px) {
+  .home-banner-image {
+    margin-top: 25px;
+    margin-bottom: 25px;
+    height: 60px;
+  }
+  .header-image {
+    width: 250px;
+  }
 }
 
 .header-image {
@@ -142,13 +154,16 @@ body {
   cursor: pointer;
 }
 
-/* Landscape phone to portrait tablet */
-
-@media (max-width: 767px) {
-  .header-image {
-    width: 250px;
-  }
+.home-box {
+  height: 200px;
 }
+
+.home-box-number {
+  text-align: center;
+  font-size: 72px;
+  font-weight: bold;
+}
+
 
 .white-background {
   background: white;
@@ -234,6 +249,7 @@ body {
 .large {
   font-size: large !important;
 }
+
 .xlarge {
   font-size: x-large !important;
 }

@@ -110,22 +110,25 @@ export default class Home extends Component {
                 <Grid>
                     <Row className="show-grid">
                         <Col xs={12} md={4}>
-                            <HeaderBox header={"1. Register"}>
-                                <div className="centered">
+                            <div className="home-box-number">1.</div>
+                            <HeaderBox header={"Register"}>
+                                <div className="centered home-box">
                                     Sign up for a new GitHelpers account using your Github.
                             </div>
                             </HeaderBox>
                         </Col>
                         <Col xs={12} md={4}>
-                            <HeaderBox header={"2. Tag"}>
-                                <div className="centered">
+                            <div className="home-box-number">2.</div>
+                            <HeaderBox header={"Tag"}>
+                                <div className="centered home-box">
                                     Create new issues or take existing ones and tag them with the GitHelpers tag.
                             </div>
                             </HeaderBox>
                         </Col>
                         <Col xs={12} md={4}>
-                            <HeaderBox header={"3. Discover and Build"}>
-                                <div className="centered">
+                            <div className="home-box-number">3.</div>
+                            <HeaderBox header={"Discover and Build"}>
+                                <div className="centered home-box">
                                     Your repos with this tag will automatically be indexed and added to the GitHelpers website, where developers from around the world can search and contribute to repositories explicitly requesting assistance.
                             </div>
                             </HeaderBox>
