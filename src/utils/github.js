@@ -4,6 +4,7 @@ import { Github } from 'github-api';
 const library = (function () {
 
     // Github api object.
+    // https://github.com/github-tools/github
     var gh;
 
     const initializeWithToken = (token) => {
