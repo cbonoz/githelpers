@@ -108,6 +108,21 @@ body {
   font-size: 26px;
 }
 
+.black-divider {
+  background: black;
+  height: 75px;
+  width: 100%;
+}
+
+.jumbotron {
+  margin-bottom: 0px !important;
+}
+
+.code-grid {
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
 .white {
   color: white !important;
 }
@@ -116,11 +131,16 @@ body {
   color: purple !important;
 }
 
-.header-image {
+.home-banner-image {
   margin-top: 50px;
   margin-bottom: 15px;
 }
 
+.header-image {
+  height: 50px;
+  padding: 5px;
+  cursor: pointer;
+}
 
 /* Landscape phone to portrait tablet */
 

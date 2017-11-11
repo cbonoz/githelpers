@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
-import { Fade, Navbar, Jumbotron, Button, Row, Col, Grid, ListGroup, ListGroupItem} from 'react-bootstrap';
+import { Fade, Navbar, Jumbotron, Button, Row, Col, Grid, ListGroup, ListGroupItem } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import ReactRotatingText from 'react-rotating-text';
 import FontAwesome from 'react-fontawesome';
 
 import DataFeed from './data/DataFeed';
+import HeaderBox from './data/HeaderBox';
 import helper from '../utils/helper';
 
 import githelpers from '../assets/githelpers_trans.png';
@@ -53,7 +54,7 @@ export default class Home extends Component {
                     <Col xs={12} md={9}>
                         <Jumbotron className="jumbotron transparency-jumbotron" style={backgroundStyle}>
                             <div className="static-modal-jumbotron opaque centered">
-                                <img className="header-image" src={githelpers} />
+                                <img className="home-banner-image" src={githelpers} />
                                 <p>Connect with developers around the world building open source software.</p>
                                 {/* <h1>AthenaDelivered</h1> */}
 
@@ -65,8 +66,8 @@ export default class Home extends Component {
                                                 What are you waiting for?
                                             </p>
                                             <p><Link to="/faq">
-                                            <Button bsStyle="primary" className="start-button">
-                                                Learn More
+                                                <Button bsStyle="primary" className="start-button">
+                                                    Learn More
                                             </Button></Link></p>
                                         </div>
                                     </span>
@@ -77,15 +78,14 @@ export default class Home extends Component {
                     </Col>
                     <Col xs={12} md={3}>
                         <ListGroup>
-                            <ListGroupItem bsStyle="info"><span className="centered">Activity Feed</span></ListGroupItem>
-                            <ListGroupItem>
-                                <DataFeed blocks={this.state.blocks}/>
-                            </ListGroupItem>
+                            <HeaderBox header={"Activity Feed"}><DataFeed blocks={this.state.blocks} /></HeaderBox>
                         </ListGroup>
                     </Col>
                 </Row>
 
-                <Grid>
+                <div className="black-divider"/>
+
+                <Grid className="code-grid">
                     <Row className="show-grid">
                         <Col xs={12} md={8}><code>&lt;{'Col xs={12} md={8}'} /&gt;</code></Col>
                         <Col xs={6} md={4}><code>&lt;{'Col xs={6} md={4}'} /&gt;</code></Col>
@@ -110,14 +110,26 @@ export default class Home extends Component {
                 <Grid>
                     <Row className="show-grid">
                         <Col xs={12} md={4}>
-                            1. Sign up for a new GitHelpers account using your Github.
-                </Col>
+                            <HeaderBox header={"1. Register"}>
+                                <div className="centered">
+                                    Sign up for a new GitHelpers account using your Github.
+                            </div>
+                            </HeaderBox>
+                        </Col>
                         <Col xs={12} md={4}>
-                            2. Create new issues or take existing ones and tag them with the GitHelpers tag.
-                </Col>
+                            <HeaderBox header={"2. Tag"}>
+                                <div className="centered">
+                                    Create new issues or take existing ones and tag them with the GitHelpers tag.
+                            </div>
+                            </HeaderBox>
+                        </Col>
                         <Col xs={12} md={4}>
-                            3. Your repos with this tag will automatically be indexed and added to the GitHelpers website, where developers from around the world can search and contribute to repositories explicitly requesting assistance.
-                </Col>
+                            <HeaderBox header={"3. Discover and Build"}>
+                                <div className="centered">
+                                    Your repos with this tag will automatically be indexed and added to the GitHelpers website, where developers from around the world can search and contribute to repositories explicitly requesting assistance.
+                            </div>
+                            </HeaderBox>
+                        </Col>
                     </Row>
                 </Grid>
 
