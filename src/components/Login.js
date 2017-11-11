@@ -13,10 +13,9 @@ const onRequest = response => {
 
 const onSuccess = response => {
     console.log('onSuccess', response);
-    const data = JSON.parse(response);
     const clientId = token.githubClientId;
     const secret = token.githubSecret;
-    const code = data['code'];
+    const code = response['code'];
 
     api.postGithubToken(clientId, secret, code)
       .then(function (response) {
