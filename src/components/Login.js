@@ -1,16 +1,35 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom';
 import GitHubLogin from 'react-github-login';
+import axios from 'axios';
+
 import token from '../utils/token';
-
 import githubIcon from '../assets/github.svg';
-
+import github from '../utils/github';
 const onRequest = response => {
     console.log('onRequest', response)
 }
 
 const onSuccess = response => {
     console.log('onSuccess', response);
+    const data = JSON.parse(response);
+    const code = data['code'];
+    const clientId = token.githubClientId;
+    const secret = token.githubSecret;
+
+    axios.post('https://github.com/login/oauth/access_token', {
+        client_id: clientId,
+        code: code,
+        client_secret: secret
+      })
+      .then(function (response) {
+        console.log('token response:', JSON.stringify(response));
+        const resp = JSON.parse(response);
+        github.initializeWithToken(resp['access_token'])
+      })
+      .catch(function (error) {
+        console.log('error getting access token:', error);
+      });
 }
 const onFailure = response => {
     console.error('onFailure', response);

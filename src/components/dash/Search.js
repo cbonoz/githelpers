@@ -22,7 +22,7 @@ export default class Search extends Component {
     const self = this;
     return (
       <div>
-        <div class="search-form">
+        <div className="search-form">
           <h3>Browse Repositories that need your help.</h3>
           <FormGroup>
             <FormControl type="text" placeholder="Search" inputRef={input => this.searchInput = input} />
@@ -31,8 +31,8 @@ export default class Search extends Component {
           <Button type="submit" onClick={() => this._search()} bsStyle="success">Search Projects</Button>
           <hr />
         </div>
-        <div class="search-results">
-          <div class="centered">
+        <div className="search-results">
+          <div className="centered">
             <ClimbingBoxLoader color={'#123abc'} size={500} loading={this.state.searching} />
           </div>
           {self.state.searched && self.searchInput.value && <div><p>No search results for {self.searchInput.value}</p></div>}

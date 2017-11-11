@@ -22,6 +22,7 @@ const library = (function () {
     }
 
     const initialize = (user, pass) => {
+        console.log('initialize');
         gh = new GitHub({
             username: user,
             password: pass
