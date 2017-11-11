@@ -196,6 +196,27 @@ body {
   background-size: cover;
 }
 
+.selected-item {
+  background: #eee;
+}
+
+.sidebar-container {
+  /* border: 1px solid black; */
+}
+
+/* .sidebar-item:hover {
+  background: lightsteelblue !important;
+} */
+
+.sidebar-item {
+  border: 5px;
+  width: 100%;
+  margin: 5px;
+  height: 50px;
+  padding-left: 10px;
+  padding-right: 5px;
+}
+
 .centered {
   margin: 0 auto;
   text-align: center;

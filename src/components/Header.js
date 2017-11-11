@@ -14,14 +14,19 @@ export default class Header extends Component {
             showModal: false
         }
     }
+    
+    componentWillMount() {
+        this.state
+    }
+    
 
     close() {
         this.setState({ showModal: false });
-      }
-    
-      open() {
+    }
+
+    open() {
         this.setState({ showModal: true });
-      }
+    }
 
 
     render() {
@@ -44,16 +49,13 @@ export default class Header extends Component {
                             <LinkContainer to="/faq">
                                 <NavItem>FAQ</NavItem>
                             </LinkContainer>
-                            {/* TODO: show logout or login depending on auth state. */}
-                            {/* <LinkContainer to="/login"> */}
-                                <NavItem onClick={() => self.open()}>Login</NavItem>
-                            {/* </LinkContainer> */}
+                            <NavItem onClick={() => self.open()}>Login</NavItem>
                         </Nav>
                     </Navbar.Collapse>
                 </Navbar>
 
 
-                <LoginModal showModal={this.state.showModal} close={self.close.bind(self)}/>
+                <LoginModal showModal={this.state.showModal} close={self.close.bind(self)} />
             </div>
         )
     }

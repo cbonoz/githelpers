@@ -1,10 +1,33 @@
 import React, { Component } from 'react'
+import { Button, Collapse, Well, Table, Grid, Row, Col, ListGroup, ListGroupItem } from 'react-bootstrap';
 
 export default class Sidebar extends Component {
+
+
+    _activePage(page) {
+        return this.props.currentPage === page;
+    }
+
     render() {
+        const self = this;
         return (
-            <div>
-               <p>Sidebar here</p> 
+            <div className="sidebar-container">
+                <ListGroup>
+                    <ListGroupItem className={"sidebar-item"} header={"Dashboard"} bsStyle="warning">
+                    </ListGroupItem>
+                    <ListGroupItem className={"sidebar-item " + (self._activePage(0) ? 'selected-item' : '')} onClick={() => this.props.updateCurrentPage(0)}>
+                        Search
+                    </ListGroupItem>
+                    <ListGroupItem className={"sidebar-item " + (self._activePage(1) ? 'selected-item' : '')} onClick={() => this.props.updateCurrentPage(1)}>
+                        Profile
+                    </ListGroupItem>
+                    <ListGroupItem className={"sidebar-item " + (self._activePage(2) ? 'selected-item' : '')} onClick={() => this.props.updateCurrentPage(2)}>
+                        Reporting
+                    </ListGroupItem>
+                    <ListGroupItem className={"sidebar-item " + (self._activePage(3) ? 'selected-item' : '')} onClick={() => this.props.updateCurrentPage(3)}>
+                        Help
+                    </ListGroupItem>
+                </ListGroup>
             </div>
         )
     }

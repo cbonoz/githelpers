@@ -1,38 +1,33 @@
 import React, { Component } from 'react';
-import SearchInput, {createFilter} from 'react-search-input';
-
-// TODO: replace with data retrieved from api (github requests for help - present in a searchable view)
-import emails from './mails';
-const KEYS_TO_FILTERS = ['user.name', 'subject', 'dest.name'];
+import { FormControl, FormGroup, Button } from 'react-bootstrap';
 
 export default class Search extends Component {
-    constructor (props) {
-        super(props);
-        this.state = {
-          searchTerm: ''
-        };
-        this.searchUpdated = this.searchUpdated.bind(this);
-      }
-    
-      searchUpdated (term) {
-        this.setState({searchTerm: term});
-      }
+  constructor(props) {
+    super(props);
+    this.state = {
+      searched: false,
+      searching: false,
+      results: []
+    }
+  }
 
-      render () {
-        const filteredEmails = emails.filter(createFilter(this.state.searchTerm, KEYS_TO_FILTERS));
-    
-        return (
-          <div>
-            <SearchInput className="search-input" onChange={this.searchUpdated} />
-            {filteredEmails.map(email => {
-              return (
-                <div className="mail" key={email.id}>
-                  <div className="from">{email.user.name}</div>
-                  <div className="subject">{email.subject}</div>
-                </div>
-              )
-            })}
-          </div>
-        )
-      }
+  _search() {
+    this.setState( {searched: true});
+    console.log('searching', this.searchInput.value);
+  }
+
+  render() {
+    const self = this;
+    return (
+      <div>
+        <FormGroup>
+          <FormControl type="text" placeholder="Search" inputRef={input => this.searchInput = input} />
+        </FormGroup>
+        {' '}
+        <Button type="submit" onClick={() => this._search()}>Submit</Button>
+        <hr/>
+        {self.state.searched && self.searchInput.value && <div><p>No search results for {self.searchInput.value}</p></div>}
+      </div>
+    )
+  }
 }
