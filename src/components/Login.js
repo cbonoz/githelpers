@@ -9,6 +9,7 @@ import { postGithubToken, postAccessTokenResults} from '../utils/api';
 import token from '../utils/token';
 import githubIcon from '../assets/github.svg';
 import github from '../utils/github';
+
 const onRequest = response => {
     console.log('onRequest', response)
 }
