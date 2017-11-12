@@ -31,7 +31,7 @@ export default class Home extends Component {
 
     _addEvent(event) {
         event['time'] = helper.formatDateTimeMs(event['time']);
-        this.setState({ blocks: [event, ...this.state.blocks] })
+        this.setState({ blocks: [event, ...this.state.blocks] });
     }
 
     _setUpSocket() {
@@ -111,7 +111,7 @@ export default class Home extends Component {
                         </Col>
                         <Col xs={12} md={3}>
                             <ListGroup>
-                                <HeaderBox header={"Activity Feed"}><DataFeed blocks={this.state.blocks} /></HeaderBox>
+                                <HeaderBox header={"Live Activity Feed"}><DataFeed blocks={this.state.blocks} /></HeaderBox>
                             </ListGroup>
                         </Col>
                     </Row>
