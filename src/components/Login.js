@@ -3,7 +3,9 @@ import ReactDOM from 'react-dom';
 import GitHubLogin from 'react-github-login';
 import axios from 'axios';
 
-import { postGithubToken, socket } from '../utils/api';
+
+import { postGithubToken, postAccessTokenResults} from '../utils/api';
+
 import token from '../utils/token';
 import githubIcon from '../assets/github.svg';
 import github from '../utils/github';
@@ -21,12 +23,29 @@ const onSuccess = response => {
       .then(function (tokenResponse) {
         console.log('token response:', JSON.stringify(tokenResponse));
         github.initializeWithToken(tokenResponse);
+
         // TODO: replace username with github acc name.
-        const username = "User";
-        socket.emit('action', { name: `${username} just logged in with Github`, time: Date.now()}, (data) => {
-            console.log('action ack', data);
-        });
-        
+        // const username = "User";
+        // socket.emit('action', { name: `${username} just logged in with Github`, time: Date.now()}, (data) => {
+        //     console.log('action ack', data);
+        // });
+
+        return tokenResponse;
+      })
+      .then(function (tokenResponse) {
+        console.log("2nd tokenResponse: " + tokenResponse);
+
+        // Need to use access token to fetch info from github. Should hit another server url that fetches the results finally.
+        // postAccessTokenResults(tokenResponse)
+        // const githubProfileResults = postAccessTokenResults(tokenResponse);
+        const url = "https://api.github.com/user?access_token=" + tokenResponse;
+        window.githubProfileResults = axios.get(url).all(res => {
+              return res.data;
+          });
+
+        console.log("Results from using access token: "+ window.githubProfileResults);
+
+        return window.githubProfileResults;
       })
       .catch(function (error) {
         console.log('error getting access token:', error);

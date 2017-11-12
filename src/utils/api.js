@@ -18,4 +18,9 @@ function postGithubToken(clientId, clientSecret, code) {
       }).then(response => response.data);
   }
 
-export {getFoodData, socket, postGithubToken};
+function postAccessTokenResults(tokenResponse) {
+    const url = "https://api.github.com/user?access_token=" + tokenResponse;
+    return axios.get(url).then(response => response);
+}
+
+export {getFoodData, socket, postGithubToken, postAccessTokenResults};
