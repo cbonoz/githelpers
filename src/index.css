@@ -32,6 +32,12 @@ body {
   text-align: center;
 }
 
+.search-image {
+  max-width: 250px;
+  margin: 10px;
+  padding-top: 25px;
+}
+
 .search-form {
   margin: 20px;
 }

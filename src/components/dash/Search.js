@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { FormControl, FormGroup, Button, Row, Col, Grid, ListGroup, ListGroupItem } from 'react-bootstrap';
 import { ClimbingBoxLoader } from 'react-spinners';
+import githelpers from '../../assets/githelpers_trans.png';
 
 export default class Search extends Component {
   constructor(props) {
@@ -26,6 +27,7 @@ export default class Search extends Component {
     return (
       <div className="full-height container">
         <div className="search-form centered">
+          <img src={githelpers} className="centered search-image"/>
           <h3 className="centered search-banner-text">Browse Repositories that need your help.</h3>
           <p>Enter any string of characters, including languages and topics, which we will attempt to match as best as possible with our database of available tagged repositories.</p>
           {' '}
