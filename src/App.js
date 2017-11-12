@@ -17,6 +17,7 @@ import {
 } from 'react-router-dom';
 
 import './App.css';
+import './footer.css';
 
 class App extends Component {
 

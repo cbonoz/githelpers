@@ -31,7 +31,7 @@ export default class Home extends Component {
 
     _addEvent(event) {
         event['time'] = helper.formatDateTimeMs(event['time']);
-        this.setState({ blocks: [event, ...this.state.blocks] })
+        this.setState({ blocks: [event, ...this.state.blocks] });
     }
 
     _setUpSocket() {

@@ -3,7 +3,6 @@ import { Button, Collapse, Well, Table, Grid, Row, Col, ListGroup, ListGroupItem
 
 export default class Sidebar extends Component {
 
-
     _activePage(page) {
         return this.props.currentPage === page;
     }
@@ -25,7 +24,7 @@ export default class Sidebar extends Component {
                         Reporting
                     </ListGroupItem>
                     <ListGroupItem className={"sidebar-item " + (self._activePage(3) ? 'selected-item' : '')} onClick={() => this.props.updateCurrentPage(3)}>
-                        Help
+                        Getting Started
                     </ListGroupItem>
                 </ListGroup>
             </div>
