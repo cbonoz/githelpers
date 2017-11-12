@@ -39,11 +39,14 @@ const onSuccess = response => {
         // postAccessTokenResults(tokenResponse)
         // const githubProfileResults = postAccessTokenResults(tokenResponse);
         const url = "https://api.github.com/user?access_token=" + tokenResponse;
-        window.githubProfileResults = axios.get(url).all(res => {
-              return res.data;
-          });
+        axios.get(url).then(function(res) {
+            console.log(res.data);
 
-        console.log("Results from using access token: "+ window.githubProfileResults);
+            // Horrible idea but making it global for now
+            window.githubProfileResults = res.data;
+
+            return res.data;
+        });
 
         return window.githubProfileResults;
       })
