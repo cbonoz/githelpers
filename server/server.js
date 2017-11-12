@@ -20,7 +20,8 @@ app.get('/api/hello', (req, res) => {
   return res.json("hello world");
 });
 
-app.post('api/github', (req, res) => {
+app.post('/api/github', (req, res) => {
+  // console.log(req);
   const body = req.body;
   const clientId = body.clientId;
   const clientSecret = body.clientSecret;
@@ -32,12 +33,18 @@ app.post('api/github', (req, res) => {
     code: code
   })
   .then(function (response) {
-    console.log('token response:', JSON.stringify(response));
-    const resp = JSON.parse(response);
-    return res.json(response);
+    // console.log('token response:', JSON.stringify(response));
+    console.log('token response:', response.data);
+    // const resp = JSON.parse(response);
+    const resp = response.data;
+    const respArray = resp.split("&");
+    const accessToken = respArray[0].split("=");
+
+    // Returns received Access Token
+    return res.json(accessToken[1]);
   })
   .catch(function (error) {
-    console.log('error getting access token:', error);
+    console.log('error getting access token from :', error);
     return res.json(error);
   });
 });

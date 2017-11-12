@@ -10,7 +10,7 @@ function getFoodData() {
 }
 
 function postGithubToken(clientId, clientSecret, code) {
-    const url = `${BASE_URL}/api/github`;
+    const url = `${BASE_URL}/api/github/`;
     return axios.post(url,  {
         clientId: clientId,
         clientSecret: clientSecret,

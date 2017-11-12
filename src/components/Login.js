@@ -20,6 +20,7 @@ const onSuccess = response => {
     postGithubToken(clientId, secret, code)
       .then(function (tokenResponse) {
         console.log('token response:', JSON.stringify(tokenResponse));
+        github.initializeWithToken(tokenResponse);
       })
       .catch(function (error) {
         console.log('error getting access token:', error);
