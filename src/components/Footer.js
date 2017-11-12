@@ -23,7 +23,7 @@ export default class Footer extends Component {
 
                     <div className="footer-left">
 
-                        <h3><img src={githelpers} className="header-image" /></h3>
+                        <h3><img src={githelpers} className="footer-image" /></h3>
 
                         <p className="footer-links">
                             <a href="/">Home</a>&nbsp;-&nbsp;

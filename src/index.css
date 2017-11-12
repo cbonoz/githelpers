@@ -143,15 +143,25 @@ body {
     margin-bottom: 25px;
     height: 60px;
   }
-  .header-image {
-    width: 250px;
-  }
+}
+
+.faq-bottom-text {
+  margin-top: 40px;
+  padding-top: 40px;
 }
 
 .header-image {
   height: 50px;
+  line-height: 50px;
+  padding-top: 12px;
+  cursor: pointer;
+}
+
+.footer-image {
+  height: 40px;
   padding: 5px;
   cursor: pointer;
+
 }
 
 .home-box-grid {
