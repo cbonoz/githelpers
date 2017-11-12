@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import {ListGroup, ListGroupItem} from 'react-bootstrap';
 
 export default class Reporting extends Component {
 
@@ -9,10 +10,14 @@ export default class Reporting extends Component {
     render() {
         return (
             <div>
-                <div className="centered">
-                    <h1>Reporting</h1> 
-                </div>
-            </div>
+                <ListGroup>
+            <ListGroupItem
+            header={"User Stats"}>
+          </ListGroupItem>
+          <ListGroupItem>
+              </ListGroupItem>
+              </ListGroup>
+          </div>
         )
     }
 }

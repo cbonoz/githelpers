@@ -55,7 +55,9 @@ export default class Dashboard extends Component {
                             <Sidebar currentPage={this.state.currentPage} updateCurrentPage={this.updateCurrentPage}/>
                         </Col>
                         <Col xs={8} md={9}>
-                            {self._renderCurrentPage()}
+                            <div className="full-height">
+                                {self._renderCurrentPage()}
+                            </div>
                         </Col>
                     </Row>
                 </div>

@@ -24,7 +24,7 @@ export default class Profile extends Component {
         //    // look at all the starred issues!
         // });
 
-        // _syncIssues()
+        this._syncIssues()
     }
 
     // TODO: prevent user from repeatedly spanning syncIssues button and web request.
@@ -37,51 +37,53 @@ export default class Profile extends Component {
         socket.emit('action', { name: `${username} just synced issues to the githelpers database`, time: Date.now()}, (data) => {
             console.log('action ack', data);
         });
-
+        self.setState({ syncing: false });
     }
 
     render() {
         const self = this;
 
         const popover = (
-            <Popover id="modal-popover" title="popover">
-                Clicking here will scan your repositories for new issues tagged with 'githelpers' and sync them to the githelpers database.
+            <Popover id="modal-popover" title="Refresh Issues">
+                Clicking here will scan your repositories for new issues tagged with 'githelpers' and sync them to the githelpers database. These will appear below.
             </Popover>
         );
 
         return (
             <div className="profile-content">
-                <div className="centered">
-                    <h1>Profile</h1>
-
+                    <ListGroup>
+                    <ListGroupItem header={"Profile"}></ListGroupItem>
+                    <ListGroupItem>
                     <OverlayTrigger overlay={popover}>
-                        <Button type="submit" onClick={() => self._syncIssues()}>Refresh tagged issues</Button>
+                        <Button className="refresh-button" type="submit" bsStyle="danger" bsSize="large" onClick={() => self._syncIssues()}>Refresh tagged issues</Button>
                     </OverlayTrigger>
+                    </ListGroupItem>
 
-                </div>
-
-                <hr />
-
-                <p className="centered">Your current tagged issues:</p>
-
+                {/* <ListGroup> */}
                 <div className="sync-results">
+                <ListGroupItem
+              header={"Your current tagged issues:"} className="centered" bsStyle="info">
+            </ListGroupItem>
 
                     <div className="syncing">
-                        <ClimbingBoxLoader color={'#123abc'} size={500} loading={self.state.syncing} />
+                        <ClimbingBoxLoader className="centered" color={'#123abc'} size={500} loading={self.state.syncing} />
                     </div>
                     <div className="synced-issues">
-                        {!self.state.syncing && self.state.syncedIssues.length == 0 && <p>No synced issuesitories</p>}
+                        {!self.state.syncing && self.state.syncedIssues.length == 0 &&
+                             <h3 className="centered">No synced repositories</h3>}
                         {!self.state.syncing && self.state.syncedIssues.length > 0 &&
                             <div>
                                 {self.state.syncedIssues.map((issue, index) => {
-                                    return (<div className="synced-issue">
+                                    return (<ListGroupItem className="synced-issue" key={index}>
                                         <p>{JSON.stringify(issue)}</p>
-                                    </div>)
+                                    </ListGroupItem>)
                                 })}
                             </div>
                         }
                     </div>
                 </div>
+
+                </ListGroup>
             </div>
         )
     }

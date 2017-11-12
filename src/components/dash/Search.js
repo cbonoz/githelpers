@@ -38,17 +38,17 @@ export default class Search extends Component {
           <hr />
         </div>
         <div className="search-results">
-          <div className="centered">
-            <ClimbingBoxLoader color={'#123abc'} size={500} loading={this.state.searching} />
+          <div className="searching">
+            <ClimbingBoxLoader className="centered" color={'#123abc'} size={500} loading={this.state.searching} />
           </div>
 
           <ListGroup>
             {self.state.lastQuery && <ListGroupItem
-              header={"Search results for " + self.state.lastQuery} bsStyle="success">
+              header={"Search results for " + self.state.lastQuery} bsStyle="info">
             </ListGroupItem>}
 
             {self.state.searching && self.state.lastQuery && self.state.results.length == 0 &&
-              <ListGroupItem className="search-result"><p>No search results for {self.state.lastQuery}</p></ListGroupItem>
+              <ListGroupItem className="centered search-result"><h4>No search results for {self.state.lastQuery}</h4></ListGroupItem>
             }
 
             {!self.state.searching && self.state.lastQuery && self.state.results.length > 0 &&

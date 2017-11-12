@@ -4,7 +4,6 @@ body {
   font-family: sans-serif;
 }
 
-
 /* Custom styles below */
 
 .react-rotating-text-cursor {
@@ -25,6 +24,15 @@ body {
 
 .login-image {
   margin-bottom: 20px;
+}
+
+.synced-issues h3 {
+  padding-top: 20px !important;
+  padding-bottom: 20px !important;
+}
+
+.refresh-button {
+  margin: 25px;
 }
 
 .centered {
