@@ -10,8 +10,6 @@ import helper from '../utils/helper';
 
 import githelpers from '../assets/githelpers_trans.png';
 import bgImage from '../assets/desk_hero_1080.png';
-import orangeDots from '../assets/orange-dots.svg';
-import greenDots from '../assets/green-dots.svg';
 
 import { socket } from '../utils/api';
 
@@ -132,7 +130,7 @@ export default class Home extends Component {
                             <div className="home-box-number">2.</div>
                             <HeaderBox header={"Tag"}>
                                 <div className="centered home-box">
-                                    Create new issues or take existing ones and tag them with the GitHelpers tag.
+                                    Create new issues or take existing ones and tag them with the 'githelpers' tag.
                             </div>
                             </HeaderBox>
                         </Col>
@@ -140,8 +138,8 @@ export default class Home extends Component {
                             <div className="home-box-number">3.</div>
                             <HeaderBox header={"Discover and Build"}>
                                 <div className="centered home-box">
-                                    Your repos with this tag will automatically be indexed and added to the GitHelpers website, where developers from around the world can search and contribute to repositories explicitly requesting assistance.
-                            </div>
+                                    Your repos with this tag will automatically be indexed and added to GitHelpers, where developers from around the world can search and contribute to them.
+                                </div>
                             </HeaderBox>
                         </Col>
                     </Row>

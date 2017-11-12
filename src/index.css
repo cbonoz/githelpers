@@ -23,6 +23,10 @@ body {
   }
 }
 
+.login-image {
+  margin-bottom: 20px;
+}
+
 .centered {
   margin: 0 auto;
   text-align: center;
@@ -30,6 +34,10 @@ body {
 
 .navbar {
   margin-bottom: 0px;
+}
+
+.faq-box {
+  padding-left: 20px;
 }
 
 .patient-row {
@@ -151,15 +159,15 @@ body {
 }
 
 .header-image {
-  height: 50px;
-  line-height: 50px;
-  padding-top: 12px;
+  height: 52px;
+  /* line-height: 60px; */
+  /* padding-top: 12px; */
   cursor: pointer;
 }
 
 .footer-image {
-  height: 40px;
-  padding: 5px;
+  height: 50px;
+  padding-bottom: 5px;
   cursor: pointer;
 
 }
@@ -170,6 +178,9 @@ body {
 }
 
 .home-box {
+  font-size: 16px;
+  line-height: 24px;
+  padding: 20px;
   height: 200px;
 }
 

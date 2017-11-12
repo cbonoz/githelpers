@@ -31,7 +31,7 @@ export default class FAQ extends Component {
                 <h1 className="centered black page-header">FAQ</h1>
                 {this.questions.map((entry, index) => {
                     return (<Accordion key={index} question={entry.question}>
-                        <p>{entry.answer}</p>
+                        <p className="large faq-box">{entry.answer}</p>
                     </Accordion>);
                 })}
                 <p className="centered faq-bottom-text large">Click the Login button to begin</p>

@@ -27,7 +27,7 @@ export default class LoginModal extends Component {
             <div>
                 <Modal show={this.props.showModal} onHide={this.props.close}>
                     <Modal.Header closeButton>
-                        <Modal.Title className="centered">Sign in to gitHelpers</Modal.Title>
+                        <Modal.Title className="centered">Sign in to githelpers</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         {/* <div className="centered">
@@ -41,7 +41,7 @@ export default class LoginModal extends Component {
                         <hr />
                         {/* Overflowing text vertically will automatically scroll */}
                         <div className="centered">
-                            <img src={githelpers} className="header-image centered"/>
+                            <img src={githelpers} className="header-image centered login-image"/>
                             <Login/>
                         </div>
                     </Modal.Body>
