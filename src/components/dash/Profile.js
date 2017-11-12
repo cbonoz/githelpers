@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
-import { gh } from '../../utils/github';
 import { Fade, Navbar, Popover, Jumbotron, Button, Row, Col, Grid, ListGroup, ListGroupItem, OverlayTrigger } from 'react-bootstrap';
 import { ClimbingBoxLoader } from 'react-spinners';
+
+import { gh } from './../../utils/github';
+import { socket } from './../../utils/api';
 
 export default class Profile extends Component {
 
@@ -30,6 +32,10 @@ export default class Profile extends Component {
         self.setState({ syncing: true });
         console.log('syncing issues for user');
         // TODO: get synced issues using github (and searching for the 'githelpers' tag)
+        const username = "User";
+        socket.emit('action', { name: `${username} just synced issues to the githelpers database`, time: Date.now()}, (data) => {
+            console.log('action ack', data);
+        });
 
     }
 

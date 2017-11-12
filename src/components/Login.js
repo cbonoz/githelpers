@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import GitHubLogin from 'react-github-login';
 import axios from 'axios';
 
-import { postGithubToken } from '../utils/api';
+import { postGithubToken, socket } from '../utils/api';
 import token from '../utils/token';
 import githubIcon from '../assets/github.svg';
 import github from '../utils/github';
@@ -21,6 +21,12 @@ const onSuccess = response => {
       .then(function (tokenResponse) {
         console.log('token response:', JSON.stringify(tokenResponse));
         github.initializeWithToken(tokenResponse);
+        // TODO: replace username with github acc name.
+        const username = "User";
+        socket.emit('action', { name: `${username} just logged in with Github`, time: Date.now()}, (data) => {
+            console.log('action ack', data);
+        });
+        
       })
       .catch(function (error) {
         console.log('error getting access token:', error);

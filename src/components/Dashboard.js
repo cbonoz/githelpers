@@ -25,9 +25,7 @@ export default class Dashboard extends Component {
     }
     
     componentWillMount() {
-        socket.emit('action', { name: 'User accessed dashboard', time: Date.now()}, (data) => {
-            console.log('action ack', data);
-        });
+        
     }
 
     updateCurrentPage(currentPage) {
