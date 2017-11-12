@@ -10,7 +10,6 @@ export default class UserStatistics extends Component {
             statMessage: "Sync your first issue to see statistics here"
         }
     }
-    
 
     componentWillMount() {
 
