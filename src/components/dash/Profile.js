@@ -34,7 +34,7 @@ export default class Profile extends Component {
         console.log('syncing issues for user');
         // TODO: get synced issues using github (and searching for the 'githelpers' tag)
         const username = "User";
-        socket.emit('action', { name: `${username} just synced issues to the githelpers database`, time: Date.now()}, (data) => {
+        socket.emit('action', { name: `${username} just synced issues to the githelpers database`, time: Date.now() }, (data) => {
             console.log('action ack', data);
         });
         self.setState({ syncing: false });
@@ -51,37 +51,37 @@ export default class Profile extends Component {
 
         return (
             <div className="profile-content">
-                    <ListGroup>
-                    <ListGroupItem header={"Profile"}></ListGroupItem>
+                <ListGroup>
+                    <ListGroupItem header={"Your Profile"}></ListGroupItem>
                     <ListGroupItem>
-                    <OverlayTrigger overlay={popover}>
-                        <Button className="refresh-button" type="submit" bsStyle="danger" bsSize="large" onClick={() => self._syncIssues()}>Refresh tagged issues</Button>
-                    </OverlayTrigger>
+                        <OverlayTrigger overlay={popover}>
+                            <Button className="refresh-button" type="submit" bsStyle="danger" bsSize="large" onClick={() => self._syncIssues()}>Refresh tagged issues</Button>
+                        </OverlayTrigger>
                     </ListGroupItem>
 
-                {/* <ListGroup> */}
-                <div className="sync-results">
-                <ListGroupItem
-              header={"Your current tagged issues:"} className="centered" bsStyle="info">
-            </ListGroupItem>
+                    {/* <ListGroup> */}
+                    <div className="sync-results">
+                        <ListGroupItem
+                            header={"Your current tagged issues:"} className="centered" bsStyle="info">
+                        </ListGroupItem>
 
-                    <div className="syncing">
-                        <ClimbingBoxLoader className="centered" color={'#123abc'} size={500} loading={self.state.syncing} />
+                        <div className="syncing">
+                            <ClimbingBoxLoader className="centered" color={'#123abc'} size={500} loading={self.state.syncing} />
+                        </div>
+                        <div className="synced-issues">
+                            {!self.state.syncing && self.state.syncedIssues.length == 0 &&
+                                <h3 className="centered">No synced repositories</h3>}
+                            {!self.state.syncing && self.state.syncedIssues.length > 0 &&
+                                <div>
+                                    {self.state.syncedIssues.map((issue, index) => {
+                                        return (<ListGroupItem className="synced-issue" key={index}>
+                                            <p>{JSON.stringify(issue)}</p>
+                                        </ListGroupItem>)
+                                    })}
+                                </div>
+                            }
+                        </div>
                     </div>
-                    <div className="synced-issues">
-                        {!self.state.syncing && self.state.syncedIssues.length == 0 &&
-                             <h3 className="centered">No synced repositories</h3>}
-                        {!self.state.syncing && self.state.syncedIssues.length > 0 &&
-                            <div>
-                                {self.state.syncedIssues.map((issue, index) => {
-                                    return (<ListGroupItem className="synced-issue" key={index}>
-                                        <p>{JSON.stringify(issue)}</p>
-                                    </ListGroupItem>)
-                                })}
-                            </div>
-                        }
-                    </div>
-                </div>
 
                 </ListGroup>
             </div>
