@@ -27,6 +27,7 @@ export default class Profile extends Component {
         // _syncIssues()
     }
 
+    // TODO: prevent user from repeatedly spanning syncIssues button and web request.
     _syncIssues() {
         const self = this;
         self.setState({ syncing: true });
