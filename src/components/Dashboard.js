@@ -17,7 +17,7 @@ export default class Dashboard extends Component {
         super(props);
         this.state = {
             user: null,
-            currentPage: 0
+            currentPage: 1
         };
 
         this._renderCurrentPage = this._renderCurrentPage.bind(this);
@@ -37,7 +37,7 @@ export default class Dashboard extends Component {
     _renderCurrentPage() {
         switch (this.state.currentPage) {
             case 0:
-                return <Search/>;
+                return <Search/>; // Search removed on sidebar (will be part of header - no auth required).
             case 1:
                 return <Profile/>;
             case 2:

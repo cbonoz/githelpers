@@ -47,8 +47,11 @@ export default class Header extends Component {
                     <Navbar.Collapse>
                         <Nav pullRight>
                             {this.state.loggedIn && <LinkContainer to="/dashboard">
-                                <NavItem>Dashboard</NavItem>
+                                <NavItem>Your Profile</NavItem>
                             </LinkContainer>}
+                            <LinkContainer to="/search">
+                                <NavItem>Search</NavItem>
+                            </LinkContainer>
                             <LinkContainer to="/faq">
                                 <NavItem>FAQ</NavItem>
                             </LinkContainer>

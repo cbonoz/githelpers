@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import Dashboard from './components/Dashboard';
+import Search from './components/dash/Search';
 import FAQ from './components/FAQ';
 import Footer from './components/Footer';
 import Header from './components/Header';
@@ -48,8 +49,9 @@ class App extends Component {
               <Route exact path="/" component={Home} />
               <Route path="/faq" component={FAQ} />
               <Route path="/login" component={Login} />
+              <Route path="/search" component={Search} />
               <Route path="/dashboard" component={Dashboard} onEnter={this.requireAuth}/>
-                <Route render={() => <h1>Page not found</h1>} />
+                <Route render={() => <h1 className="centered">Page not found</h1>} />
             </Switch>
 
               <Footer />

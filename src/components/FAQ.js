@@ -16,18 +16,22 @@ export default class FAQ extends Component {
             },
             {
                 question: "How long has GitHelpers been around?",
-                answer: "Githelpers was created in 2017 for a Facebook developer circles project / hackathon."
+                answer: "Githelpers was created in Fall 2017 for a Facebook developer circles project / hackathon."
             },
             {
-                question: "Why do I have to log in with Github?",
-                answer: "GitHelpers is designed to sync with your repositories. To do this, we make a simple index and search for particular tags. These are automatically uploaded for search - plus logging in does not require entering any sensitive passwords!"
+                question: "Do I need an account?",
+                answer: "Accounts are completely optional. Searching through the githelpers database is free and open to the public. An account is required if you want to contribute your own issues or projects to the githelpers database for discovery."
+            },
+            {
+                question: "Why do I have to log in with Github for my account?",
+                answer: "GitHelpers is designed to sync with your github repositories and issues. During this sync, we search for the 'githelpers' tag and automatically upload them to our githelpers database index - plus logging in does not require entering any sensitive passwords!"
             }
         ]
     }
 
     render() {
         return (
-            <div className="container">
+            <div className="container full-height">
                 <h1 className="centered black page-header">FAQ</h1>
                 {this.questions.map((entry, index) => {
                     return (<Accordion key={index} question={entry.question}>

@@ -27,7 +27,7 @@ export default class LoginModal extends Component {
             <div>
                 <Modal show={this.props.showModal} onHide={this.props.close}>
                     <Modal.Header closeButton>
-                        <Modal.Title className="centered">Sign in to githelpers</Modal.Title>
+                        <Modal.Title className="centered">Log into githelpers</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         {/* <div className="centered">
