@@ -3,7 +3,7 @@ import { Fade, Navbar, Jumbotron, Button, Row, Col, Grid, ListGroup, ListGroupIt
 import { Link } from 'react-router-dom';
 import Search from './dash/Search';
 import Profile from './dash/Profile';
-import Reporting from './dash/Reporting';
+import UserStatistics from './dash/UserStatistics';
 import Help from './dash/Help';
 import Sidebar from './dash/Sidebar';
 
@@ -23,28 +23,28 @@ export default class Dashboard extends Component {
         this._renderCurrentPage = this._renderCurrentPage.bind(this);
         this.updateCurrentPage = this.updateCurrentPage.bind(this);
     }
-    
+
     componentWillMount() {
-        
+
     }
 
     updateCurrentPage(currentPage) {
-        this.setState( {currentPage: currentPage} );
+        this.setState({ currentPage: currentPage });
     }
 
     _renderCurrentPage() {
         switch (this.state.currentPage) {
             case 0:
-                return <Search/>; // Search removed on sidebar (will be part of header - no auth required).
+                return <Search />; // Search removed on sidebar (will be part of header - no auth required).
             case 1:
-                return <Profile/>;
+                return <Profile />;
             case 2:
-                return <Reporting/>;
+                return <UserStatistics />;
             case 3:
-                return <Help/>;
+                return <Help />;
         }
     }
-    
+
     render() {
         const self = this;
         return (
@@ -52,7 +52,7 @@ export default class Dashboard extends Component {
                 <div className='dashboard-container'>
                     <Row>
                         <Col xs={4} md={3}>
-                            <Sidebar currentPage={this.state.currentPage} updateCurrentPage={this.updateCurrentPage}/>
+                            <Sidebar currentPage={this.state.currentPage} updateCurrentPage={this.updateCurrentPage} />
                         </Col>
                         <Col xs={8} md={9}>
                             <div className="full-height">

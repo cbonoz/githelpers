@@ -7,11 +7,11 @@ export default class Help extends Component {
         return (
             <div>
                 <div>
-                    <ListGroup> 
-                    <ListGroupItem header={"Getting Started"}></ListGroupItem>
-                    <ListGroupItem>
-                    <HelpSteps maxSize={9}/>
-                    </ListGroupItem>
+                    <ListGroup>
+                        <ListGroupItem header={"Getting Started"}></ListGroupItem>
+                        <ListGroupItem>
+                            <HelpSteps maxSize={9} />
+                        </ListGroupItem>
                     </ListGroup>
                 </div>
             </div>

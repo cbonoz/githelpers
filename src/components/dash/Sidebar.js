@@ -21,7 +21,7 @@ export default class Sidebar extends Component {
                         Your Profile
                     </ListGroupItem>
                     <ListGroupItem className={"sidebar-item " + (self._activePage(2) ? 'selected-item' : '')} onClick={() => this.props.updateCurrentPage(2)}>
-                        Statistics
+                        User Statistics
                     </ListGroupItem>
                     <ListGroupItem className={"sidebar-item " + (self._activePage(3) ? 'selected-item' : '')} onClick={() => this.props.updateCurrentPage(3)}>
                         Getting Started
