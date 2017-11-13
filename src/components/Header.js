@@ -1,24 +1,18 @@
 import React, { Component } from 'react'
-// import { Link } from 'react-router-dom'
 import { Navbar, NavItem, Nav } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import LoginModal from './LoginModal';
 
 import githelpers from '../assets/githelpers_trans_white.png';
 import { cookies } from '../utils/api';
-import PropTypes from 'prop-types'
 
 export default class Header extends Component {
-    static propTypes = {
-        match: PropTypes.object.isRequired,
-        location: PropTypes.object.isRequired,
-        history: PropTypes.object.isRequired
-      }
 
     constructor(props) {
         super(props);
         this.state = {
-            showModal: false
+            showModal: false,
+            currentUser: cookies.get('user')
         }
 
         this._logout = this._logout.bind(this);
@@ -33,15 +27,17 @@ export default class Header extends Component {
     }
 
     _logout() {
+        const self = this;
         console.log('logged out');
-        cookies.set('user', null, { path: '/' });
-        const { match, location, history } = this.props
-        location.pathname = '/';
+        cookies.remove('user');
+        console.log('location', window.location);
+        window.location = '/';
+        self.setState( {currentUser: cookies.get('user')})
     }
 
     render() {
         const self = this;
-        const currentUser = cookies.get('user');
+        const currentUser = self.state.currentUser;
         return (
             <div>
                 {/* <Navbar inverse collapseOnSelect> */}

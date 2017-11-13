@@ -59,6 +59,7 @@ export default class Login extends Component {
                         console.log('action ack', data);
                     });
                     self.props.onLogin();
+                    window.location = '/dashboard';
                     return res.data;
                 });
 

@@ -30,6 +30,10 @@ export default class Home extends Component {
 
     _addEvent(event) {
         event['time'] = helper.formatDateTimeMs(event['time']);
+        var newList = [event, ...this.state.blocks];
+        if (newList.length > 8) {
+            newList = newList.splice(-1,1); // remove last element
+        }
         this.setState({ blocks: [event, ...this.state.blocks] });
     }
 
@@ -57,7 +61,7 @@ export default class Home extends Component {
 
     componentWillMount() {
         const self = this;
-        self._addEvent(helper.exampleEvent);
+        // self._addEvent(helper.exampleEvent);
         self._setUpSocket();
     }
 
