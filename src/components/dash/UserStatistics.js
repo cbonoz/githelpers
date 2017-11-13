@@ -11,7 +11,6 @@ export default class UserStatistics extends Component {
             statMessage: "Sync your first issue to see statistics here",
             user: cookies.get('user')
         }
-        this._printProfile = this._printProfile.bind(this);
     }
 
     render() {
