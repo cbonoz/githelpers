@@ -18,7 +18,7 @@ export default class UserStatistics extends Component {
         return (
             <div>
                 <ListGroup>
-                    <ListGroupItem header={"User Statistics"} />
+                    <ListGroupItem header={"User Statistics"} bsStyle="info"/>
                     <ListGroupItem className="group-padding">
                         <p className="stats-text">{self.state.statMessage}</p>
                     </ListGroupItem>

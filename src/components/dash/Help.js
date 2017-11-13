@@ -8,7 +8,7 @@ export default class Help extends Component {
             <div>
                 <div>
                     <ListGroup>
-                        <ListGroupItem header={"Getting Started"}></ListGroupItem>
+                        <ListGroupItem header={"Getting Started"} bsStyle="info"/>
                         <ListGroupItem>
                             <HelpSteps maxSize={9} />
                         </ListGroupItem>

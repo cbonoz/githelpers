@@ -52,7 +52,7 @@ export default class Profile extends Component {
         return (
             <div className="profile-content">
                 <ListGroup>
-                    <ListGroupItem header={"Your Profile"}></ListGroupItem>
+                    <ListGroupItem header={"Your Profile"} bsStyle="info"></ListGroupItem>
                     <ListGroupItem>
                         <OverlayTrigger overlay={popover}>
                             <Button className="refresh-button" type="submit" bsStyle="danger" bsSize="large" onClick={() => self._syncIssues()}>Refresh tagged issues</Button>
@@ -61,10 +61,7 @@ export default class Profile extends Component {
 
                     {/* <ListGroup> */}
                     <div className="sync-results">
-                        <ListGroupItem
-                            header={"Your current tagged issues:"} className="centered" bsStyle="info">
-                        </ListGroupItem>
-
+                        <ListGroupItem header={"Your current tagged issues:"}/>
                         <div className="syncing">
                             <ClimbingBoxLoader className="centered" color={'#123abc'} size={500} loading={self.state.syncing} />
                         </div>
