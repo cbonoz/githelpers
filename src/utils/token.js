@@ -5,7 +5,7 @@ const library = (function () {
     const githubSecret = process.env.REACT_APP_GIT_SECRET
     const githubTestToken = process.env.REACT_APP_GIT_AUTH_TEST;
     const githubRedirectUrl = "/dashboard";
-    const githubScope = "user:email,read:user,notifications,read:repo_hook,repo"
+    const githubScope = "user:email,read:user,read:repo_hook,public_repo"
 
     console.log('clientId', githubClientId)
     console.log('secret', githubSecret)
