@@ -6,18 +6,55 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const http = require('http');
 const https = require('https');
+const pg = require('pg');
+const path = require('path');
+const { Pool } = require('pg')
+
+const connectionString = process.env.GITHELPERS_DATABASE_URL || 'postgres://localhost:5432/githelpers';
+const pool = new Pool({
+  connectionString: connectionString,
+})
+
+pool.on('error', (err, client) => {
+  console.error('Unexpected error on idle client', err)
+  process.exit(-1)
+})
 
 const PORT = 9007;
 
 const app = express();
+const server = require('http').createServer(app);
+const io = require('socket.io')(server);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 // app.use(cors({credentials: true, origin: 'http://localhost:3000'}));
 app.use(cors());
 
+// Endpoints //
+
 app.get('/api/hello', (req, res) => {
   return res.json("hello world");
+});
+
+app.post('/api/event', (req, res) => {
+  const body = req.body;
+  pool.query('INSERT INTO events(name, time) values($1, $2)', [body.name, body.time]);
+  return res.status(200);
+});
+
+app.get('/api/events/:count', (req, res, next) => {
+  const countParam = req.params.count === undefined ? null : req.params.count;
+  const count = Math.min(Math.abs(countParam), 8);
+
+  pool.query('SELECT * FROM events ORDER BY id DESC limit ' + count, (err, res) => {
+    console.log('events', err, res)
+    if (err) {
+      return res.status(500).json(err);
+    }
+    pool.end()
+    return res.json(res.rows);
+  })
 });
 
 app.post('/api/github', (req, res) => {
@@ -31,39 +68,41 @@ app.post('/api/github', (req, res) => {
     client_id: clientId,
     client_secret: clientSecret,
     code: code
-  })
-  .then(function (response) {
-    // console.log('token response:', JSON.stringify(response));
-    console.log('token response:', response.data);
-    // const resp = JSON.parse(response);
-    const resp = response.data;
-    const respArray = resp.split("&");
-    const accessToken = respArray[0].split("=");
+  }).then(function (response) {
+      // console.log('token response:', JSON.stringify(response));
+      console.log('token response:', response.data);
+      // const resp = JSON.parse(response);
+      const resp = response.data;
+      const respArray = resp.split("&");
+      const accessToken = respArray[0].split("=");
 
-    // Returns received Access Token
-    return res.json(accessToken[1]);
-  })
-  .catch(function (error) {
-    console.log('error getting access token from :', error);
-    return res.json(error);
-  });
+      // Returns received Access Token
+      return res.json(accessToken[1]);
+    })
+    .catch(function (error) {
+      console.log('error getting access token from :', error);
+      return res.json(error);
+    });
 });
 
-const server = require('http').createServer(app);
-const io = require('socket.io')(server);
-
+// Socket IO handlers //
 io.on('connection', function (client) {
-
-  client.on('action', function (data) { 
+  client.on('action', function (data) {
     console.log('action', JSON.stringify(data));
     io.emit('incoming', data)
   });
-
-  client.on('disconnect', function () { 
-    console.log('disconnect');
+  client.on('disconnect', function () {
+    console.log('user disconnect');
   });
 });
 
+pool.connect((err, client, done) => {
+  if (err) {
+    console.error('postgres connection error', err)
+    // TODO: properly handle connection rejection case (stop server).
+    console.log('continuing without postgres connection');
+  }
+})
 server.listen(PORT, () => {
   console.log('Listening on localhost:' + PORT);
 });
