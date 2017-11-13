@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { ListGroup, ListGroupItem } from 'react-bootstrap';
+import github from './../../utils/github';
 import { cookies } from './../../utils/api';
 
 export default class UserStatistics extends Component {
@@ -12,6 +13,11 @@ export default class UserStatistics extends Component {
             user: cookies.get('user')
         }
     }
+
+    
+    componentWillMount() {
+    }
+    
 
     render() {
         const self = this;

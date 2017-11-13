@@ -31,7 +31,6 @@ export default class Login extends Component {
         postGithubToken(clientId, secret, code)
             .then(function (tokenResponse) {
                 console.log('token response:', JSON.stringify(tokenResponse));
-                github.initializeWithToken(tokenResponse);
 
                 // TODO: replace username with github acc name.
                 // const username = "User";
@@ -49,21 +48,21 @@ export default class Login extends Component {
                 // const githubProfileResults = postAccessTokenResults(tokenResponse);
                 const url = "https://api.github.com/user?access_token=" + tokenResponse;
                 axios.get(url).then(function (res) {
-                    console.log('access token response data', res.data);
+                    console.log('access token response data', tokenResponse, res.data);
 
-                    // Horrible idea but making it global for now
-                    window.githubProfileResults = res.data;
-
+                    // store session in cookies.
                     cookies.set('user', res.data, { path: '/' });
+                    // cookies.set('token', tokenResponse, { path: '/' });
+
                     socket.emit('action', { name: `${res.data['login']} just logged in`, time: Date.now() }, (data) => {
                         console.log('action ack', data);
                     });
                     self.props.onLogin();
+                    // console.log(github.gh)
+                    github.gh.__auth.token = tokenResponse;
                     window.location = '/dashboard';
                     return res.data;
                 });
-
-                return window.githubProfileResults;
             })
             .catch(function (error) {
                 console.log('error getting access token:', error);

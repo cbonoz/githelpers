@@ -5,11 +5,21 @@ This is a project for the <a href="https://developercircles.devpost.com/">Develo
 
 GitHelpers is a platform for connecting with developers around the world building open source software.
 
-### Description
+## Description
 
 Contributing to open source projects can be intimidating. GitHelpers is designed to be a forum *exclusively* for projects that need/want open source contributions.
 
-### How it Works
+Githelpers is a completely open source solution built with NodeJS and ReactJS on the front end.
+
+##  What Github currently offers:
+
+Github currently has the notion of the following tags: `good-first-timers` and `help-wanted`.
+
+These tags can also be searched on github, but it can still be ambiguous where specific projects need help and from who. These tags can also be difficult to find - requiring advanced search by the end user in order to discover particular tags.
+
+
+
+## How it Works
 
 The process of adding a new project on GitHelpers is a 3 step process.
 
@@ -19,9 +29,25 @@ The process of adding a new project on GitHelpers is a 3 step process.
 
 As developers find your project, there is no lack of understanding or expectations  of whether you are looking for help. All your tagged issues become searchable, and those developers can freely open pull requests on your github repository.
 
+## Where Githelpers differentiates.
 
+<ol>
+<li>Live contribution and user sign up feed.</li>
+<li>Community website around the tags. </li>
+<li>Searchable index around issues that have been explicitly marked.</li>
+</ol>
+
+
+### Future Work
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
+
+Future work includes:
+* Adding leaderboard and user contribution history.
+
+
+
+These 
 
 ### Dev Notes
 

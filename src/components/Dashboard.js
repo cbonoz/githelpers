@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Fade, Navbar, Jumbotron, Button, Row, Col, Grid, ListGroup, ListGroupItem } from 'react-bootstrap';
+import { Row, Col  } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Search from './dash/Search';
 import Profile from './dash/Profile';
@@ -9,23 +9,33 @@ import Sidebar from './dash/Sidebar';
 
 import github from '../utils/github';
 import token from '../utils/token';
-import { socket } from '../utils/api';
+import { socket, cookies, getRepositories } from '../utils/api';
 
 export default class Dashboard extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            user: null,
+            currentUser: null,
             currentPage: 1
         };
 
         this._renderCurrentPage = this._renderCurrentPage.bind(this);
         this.updateCurrentPage = this.updateCurrentPage.bind(this);
+        github.gh.__auth.token = cookies.get('token')
+        console.log('cons')
     }
 
     componentWillMount() {
-
+        // getRepositories().then((err, data) => {
+        //     console.log('getRepos', err, data);
+        // }).catch((err) => {
+        //     console.error(err);
+        // })
+        const user = cookies.get('user');
+        console.log('user', user)
+        this.setState( {currentUser: user})
+        console.log(this.state.currentUser);
     }
 
     updateCurrentPage(currentPage) {

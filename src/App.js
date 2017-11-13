@@ -16,18 +16,21 @@ import {
   Route,
   Switch,
 } from 'react-router-dom';
+import { cookies } from './utils/api';
 
 import './App.css';
 import './footer.css';
 
 class App extends Component {
 
-  requireAuth(nextState, replace) {
+  _requireAuth(nextState, replace) {
     // let loggedIn = store.getState().AppReducer.UserReducer.loggedIn;
     // TODO: replace loggedIn with value from redux store.
-    let loggedIn = true;
+    console.log('requireAuth')
+    const currentUser = cookies.get('user');
+    const token = cookies.get('token');
 
-    if (!loggedIn) {
+    if (!currentUser || !token) {
       replace({
         pathname: '/login',
         state: {
@@ -50,7 +53,7 @@ class App extends Component {
               <Route path="/faq" component={FAQ} />
               <Route path="/login" component={Login} />
               <Route path="/search" component={Search} />
-              <Route path="/dashboard" component={Dashboard} onEnter={this.requireAuth}/>
+              <Route path="/dashboard" component={Dashboard} onEnter={this._requireAuth}/>
                 <Route render={() => <h1 className="centered">Page not found</h1>} />
             </Switch>
 

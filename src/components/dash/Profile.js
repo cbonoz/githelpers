@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Fade, Navbar, Popover, Jumbotron, Button, Row, Col, Grid, ListGroup, ListGroupItem, OverlayTrigger } from 'react-bootstrap';
 import { ClimbingBoxLoader } from 'react-spinners';
 
-import { gh } from './../../utils/github';
+import github from './../../utils/github';
 import { socket, postSocketEvent } from './../../utils/api';
 
 export default class Profile extends Component {
@@ -17,7 +17,8 @@ export default class Profile extends Component {
     }
 
     componentWillMount() {
-        console.log('gh', gh);
+        const gh = github.gh;
+        console.log('gh token', gh.__auth.token);
         // TODO: fetch user statistics from server.
         // var clayreimann = gh.getUser('clayreimann');
         // clayreimann.listStarredIssues(function(err, issues) {
@@ -25,6 +26,11 @@ export default class Profile extends Component {
         // });
 
         // this._syncIssues()
+        // var me = gh.getUser(); // no user specified defaults to the user for whom credentials were provided
+        // me.listRepos(function (err, repos) {
+        //     console.log(err, repos);
+        //     // do some stuff
+        // });
     }
 
     // TODO: prevent user from repeatedly spanning syncIssues button and web request.

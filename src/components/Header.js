@@ -30,6 +30,7 @@ export default class Header extends Component {
         const self = this;
         console.log('logged out');
         cookies.remove('user');
+        cookies.remove('token');
         console.log('location', window.location);
         window.location = '/';
         self.setState( {currentUser: cookies.get('user')})
@@ -54,7 +55,7 @@ export default class Header extends Component {
                     <Navbar.Collapse>
                         <Nav pullRight>
                             {currentUser && <LinkContainer to="/dashboard">
-                                <NavItem>Your Profile</NavItem>
+                                <NavItem>Your Dashboard</NavItem>
                             </LinkContainer>}
                             <LinkContainer to="/search">
                                 <NavItem>Search</NavItem>

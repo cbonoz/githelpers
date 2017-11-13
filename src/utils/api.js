@@ -1,5 +1,6 @@
 const PORT = 9007;
 const BASE_URL = `http://localhost:${PORT}`;
+const GITHUB_URL = `https://api.github.com`;
 
 const axios = require('axios');
 const socket = require('socket.io-client')(BASE_URL);
@@ -8,6 +9,14 @@ const cookies = new Cookies();
 
 function getFoodData() {
     const url = `${BASE_URL}/api/jokes/food`;
+    return axios.get(url).then(response => response.data);
+}
+
+function getRepositories() {
+    const token = cookies.get('token');
+    const username = cookies.get('user')['login']
+    const url = `${GITHUB_URL}/users/${username}/repos?access_token=${token}`;
+    console.log('getting ' + url);
     return axios.get(url).then(response => response.data);
 }
 
@@ -33,4 +42,4 @@ function postAccessTokenResults(tokenResponse) {
     return axios.get(url).then(response => response);
 }
 
-export { getFoodData, socket, postGithubToken, postAccessTokenResults, getSocketEvents, cookies };
+export { getFoodData, socket, getRepositories, postGithubToken, postAccessTokenResults, getSocketEvents, cookies };

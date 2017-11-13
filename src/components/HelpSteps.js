@@ -34,9 +34,14 @@ export default class HelpSteps extends Component {
                             <div className="home-box-number">3.</div>
                             <HeaderBox header={"Discover and Build"}>
                                 <div className="centered home-box">
-                                    Your repos with this tag will automatically be indexed and added to GitHelpers, where developers from around the world can search and contribute to them.
+                                    With a single click, your tagged issues be indexed and added to our DB.
                                 </div>
                             </HeaderBox>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col xs={this.props.maxSize} md={this.props.maxSize}>
+                            <p className="centered home-bottom-text bold">That's it. Developers from around the world can now search for and contribute to these issues.</p>
                         </Col>
                     </Row>
                 </Grid>
