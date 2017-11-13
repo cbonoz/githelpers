@@ -6,5 +6,6 @@ import registerServiceWorker from './registerServiceWorker';
 // Place other imports below to take precedence over default styles.
 import './index.css';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+// Added with router to support redirect.
+ReactDOM.render(<App/>, document.getElementById('root'));
 registerServiceWorker();

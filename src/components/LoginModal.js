@@ -42,7 +42,7 @@ export default class LoginModal extends Component {
                         {/* Overflowing text vertically will automatically scroll */}
                         <div className="centered">
                             <img src={githelpers} className="header-image centered login-image"/>
-                            <Login/>
+                            <Login onLogin={this.props.close}/>
                         </div>
                     </Modal.Body>
                     <Modal.Footer>

@@ -3,6 +3,8 @@ const BASE_URL = `http://localhost:${PORT}`;
 
 const axios = require('axios');
 const socket = require('socket.io-client')(BASE_URL);
+const Cookies = require('universal-cookie');
+const cookies = new Cookies();
 
 function getFoodData() {
   const url = `${BASE_URL}/api/jokes/food`;
@@ -23,4 +25,4 @@ function postAccessTokenResults(tokenResponse) {
     return axios.get(url).then(response => response);
 }
 
-export {getFoodData, socket, postGithubToken, postAccessTokenResults};
+export {getFoodData, socket, postGithubToken, postAccessTokenResults, cookies};

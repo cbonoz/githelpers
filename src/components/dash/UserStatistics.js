@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { ListGroup, ListGroupItem } from 'react-bootstrap';
+import { cookies } from './../../utils/api';
 
 export default class UserStatistics extends Component {
 
@@ -7,12 +8,10 @@ export default class UserStatistics extends Component {
         super(props)
         this.state = {
             // TODO: replace with dynamic message.
-            statMessage: "Sync your first issue to see statistics here"
+            statMessage: "Sync your first issue to see statistics here",
+            user: cookies.get('user')
         }
-    }
-
-    componentWillMount() {
-
+        this._printProfile = this._printProfile.bind(this);
     }
 
     render() {
@@ -20,11 +19,17 @@ export default class UserStatistics extends Component {
         return (
             <div>
                 <ListGroup>
-                    <ListGroupItem
-                        header={"User Statistics"}>
-                    </ListGroupItem>
+                    <ListGroupItem header={"User Statistics"} />
                     <ListGroupItem className="group-padding">
                         <p className="stats-text">{self.state.statMessage}</p>
+                    </ListGroupItem>
+                    <ListGroupItem header={"Account"} />
+                    <ListGroupItem>
+                        {self.state.user && <ul>
+                            {Object.keys(self.state.user).map((key, index) => {
+                                return <li key={index}><b>{key}:</b>&nbsp;{JSON.stringify(self.state.user[key])}</li>
+                            })}
+                        </ul>}
                     </ListGroupItem>
                 </ListGroup>
             </div>

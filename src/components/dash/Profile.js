@@ -24,7 +24,7 @@ export default class Profile extends Component {
         //    // look at all the starred issues!
         // });
 
-        this._syncIssues()
+        // this._syncIssues()
     }
 
     // TODO: prevent user from repeatedly spanning syncIssues button and web request.

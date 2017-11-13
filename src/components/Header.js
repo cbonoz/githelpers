@@ -5,15 +5,23 @@ import { LinkContainer } from 'react-router-bootstrap';
 import LoginModal from './LoginModal';
 
 import githelpers from '../assets/githelpers_trans_white.png';
+import { cookies } from '../utils/api';
+import PropTypes from 'prop-types'
 
 export default class Header extends Component {
+    static propTypes = {
+        match: PropTypes.object.isRequired,
+        location: PropTypes.object.isRequired,
+        history: PropTypes.object.isRequired
+      }
 
     constructor(props) {
         super(props);
         this.state = {
-            showModal: false,
-            loggedIn: false // TODO: use redux (don't hardcode the login state).
+            showModal: false
         }
+
+        this._logout = this._logout.bind(this);
     }
 
     close() {
@@ -24,13 +32,16 @@ export default class Header extends Component {
         this.setState({ showModal: true });
     }
 
-    logout() {
+    _logout() {
         console.log('logged out');
-        // TODO: implement by clearing the github auth token from store.
+        cookies.set('user', null, { path: '/' });
+        const { match, location, history } = this.props
+        location.pathname = '/';
     }
 
     render() {
         const self = this;
+        const currentUser = cookies.get('user');
         return (
             <div>
                 {/* <Navbar inverse collapseOnSelect> */}
@@ -46,7 +57,7 @@ export default class Header extends Component {
                     </Navbar.Header>
                     <Navbar.Collapse>
                         <Nav pullRight>
-                            {this.state.loggedIn && <LinkContainer to="/dashboard">
+                            {currentUser && <LinkContainer to="/dashboard">
                                 <NavItem>Your Profile</NavItem>
                             </LinkContainer>}
                             <LinkContainer to="/search">
@@ -55,8 +66,8 @@ export default class Header extends Component {
                             <LinkContainer to="/faq">
                                 <NavItem>FAQ</NavItem>
                             </LinkContainer>
-                            {this.state.loggedIn && <NavItem onClick={() => self.logout()}>Logout</NavItem>}
-                            {!this.state.loggedIn && <NavItem onClick={() => self.open()}>Login</NavItem>}
+                            {currentUser && <NavItem onClick={() => self._logout()}>Logout</NavItem>}
+                            {!currentUser && <NavItem onClick={() => self.open()}>Login</NavItem>}
                         </Nav>
                     </Navbar.Collapse>
                 </Navbar>
