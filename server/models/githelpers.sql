@@ -9,5 +9,8 @@ CREATE TABLE events (
   time BIGINT,
 );
 
+-- TODO: add issues table 
+-- (or figure out alternative way of indexing/aggregating user issues with the githelpers tag)
+
 -- INSERT INTO events (name, time)
 --   VALUES ('new registration', '1');

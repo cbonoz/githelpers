@@ -3,7 +3,7 @@ import { Fade, Navbar, Popover, Jumbotron, Button, Row, Col, Grid, ListGroup, Li
 import { ClimbingBoxLoader } from 'react-spinners';
 
 import { gh } from './../../utils/github';
-import { socket } from './../../utils/api';
+import { socket, postSocketEvent } from './../../utils/api';
 
 export default class Profile extends Component {
 
@@ -34,7 +34,8 @@ export default class Profile extends Component {
         console.log('syncing issues for user');
         // TODO: get synced issues using github (and searching for the 'githelpers' tag)
         const username = "User";
-        socket.emit('action', { name: `${username} just synced issues to the githelpers database`, time: Date.now() }, (data) => {
+        const event = { name: `${username} just synced issues to the githelpers database`, time: Date.now() };
+        socket.emit('action', event, (data) => {
             console.log('action ack', data);
         });
         self.setState({ syncing: false });
@@ -61,7 +62,7 @@ export default class Profile extends Component {
 
                     {/* <ListGroup> */}
                     <div className="sync-results">
-                        <ListGroupItem header={"Your current tagged issues:"}/>
+                        <ListGroupItem header={"Your current tagged issues:"} />
                         <div className="syncing">
                             <ClimbingBoxLoader className="centered" color={'#123abc'} size={500} loading={self.state.syncing} />
                         </div>

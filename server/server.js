@@ -37,12 +37,6 @@ app.get('/api/hello', (req, res) => {
   return res.json("hello world");
 });
 
-app.post('/api/event', (req, res) => {
-  const body = req.body;
-  pool.query('INSERT INTO events(name, time) values($1, $2)', [body.name, body.time]);
-  return res.status(200);
-});
-
 app.get('/api/events/:count', (req, res, next) => {
   const countParam = req.params.count === undefined ? null : req.params.count;
   const count = Math.min(Math.abs(countParam), 8);
@@ -86,10 +80,11 @@ app.post('/api/github', (req, res) => {
 });
 
 // Socket IO handlers //
-io.on('connection', function (client) {
-  client.on('action', function (data) {
-    console.log('action', JSON.stringify(data));
-    io.emit('incoming', data)
+io.on('connection', function(client) {
+  client.on('action', function(event) {
+    pool.query('INSERT INTO events(name, time) values($1, $2)', [event.name, event.time]);
+    console.log('action', JSON.stringify(event));
+    io.emit('incoming', event)
   });
   client.on('disconnect', function () {
     console.log('user disconnect');
