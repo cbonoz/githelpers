@@ -3,7 +3,7 @@ import { Fade, Navbar, Popover, Jumbotron, Button, Row, Col, Grid, ListGroup, Li
 import { ClimbingBoxLoader } from 'react-spinners';
 
 import github from './../../utils/github';
-import api from './../../utils/api';
+import { postIssues } from './../../utils/api';
 import { cookies, socket, postSocketEvent } from './../../utils/api';
 
 export default class Profile extends Component {
@@ -32,12 +32,12 @@ export default class Profile extends Component {
     _renderIssue(issue) {
         return (
             <div>
-                <h4>{issue.name}</h4>
-
-                <a href={issue.url}>Issue Link</a>
+                <h4>{issue.title}</h4>
+                <a href={issue.html_url}>Github Issue Link</a>
+                <p>Body: {issue.body}</p>
                 <p>Last Updated: {issue.updated_at}</p>
             </div>
-        )
+        );
     }
 
     // TODO: prevent user from repeatedly spanning syncIssues button and web request.
@@ -65,18 +65,18 @@ export default class Profile extends Component {
         }, function (err, res, body, headers) {
             console.log(err, res, body, headers); //json object
             if (err) {
-                self.setState( {error: err});
-                self.setState({syncing: false})
+                self.setState({ error: err });
+                self.setState({ syncing: false })
                 return;
             }
-            self.setState( {syncedIssues: res })
+            self.setState({ syncedIssues: res })
 
-            api.postIssues(self.state.syncedIssues).then((res) => {
+            postIssues(self.state.syncedIssues).then((res) => {
                 console.log('synced issues to db')
-                self.setState({syncing: false})
+                self.setState({ syncing: false })
             }).catch((err) => {
                 console.error('error syncing issues to db', err);
-                self.setState({syncing: false})
+                self.setState({ syncing: false })
             })
         });
     }
@@ -107,23 +107,18 @@ export default class Profile extends Component {
                             <ClimbingBoxLoader className="centered" color={'#123abc'} size={500} loading={self.state.syncing} />
                         </div>
                         <div className="synced-issues">
-                            {!self.state.syncing && !self.state.error && self.state.syncedIssues.length == 0 &&
+                            {!self.state.syncing && !self.state.error && self.state.syncedIssues.length === 0 &&
                                 <h3 className="centered">No synced 'githelpers' issues</h3>}
-                            {self.state.error && <h3>Error: {self.state.error.message}</h3>}
+                            {self.state.error && <h3 className="centered">Error: {self.state.error.message}</h3>}
                             {!self.state.syncing && self.state.syncedIssues.length > 0 &&
+                                <h4 className="centered bold">{self.state.syncedIssues.length} issues synced</h4>}
                                 <div>
                                     {self.state.syncedIssues.map((issue, index) => {
                                         return (<ListGroupItem className="synced-issue" key={index}>
-                                            <div>
-                                                <h4>{issue.title}</h4>
-                                                <a href={issue.html_url}>Github Issue Link</a>
-                                                <p>Body: {issue.body}</p>
-                                                <p>Last Updated: {issue.updated_at}</p>
-                                            </div>
+                                            {self._renderIssue(issue)}
                                         </ListGroupItem>)
                                     })}
                                 </div>
-                            }
                         </div>
                     </div>
 

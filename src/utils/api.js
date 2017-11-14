@@ -29,6 +29,13 @@ function postGithubToken(clientId, clientSecret, code) {
     }).then(response => response.data);
 }
 
+function postSearchIssues(query) {
+    const url = `${BASE_URL}/api/search`;
+    return axios.post(url, {
+        query: query,
+    }).then(response => response.data);
+}
+
 function postIssues(issues) {
     const url = `${BASE_URL}/api/issues`;
     return axios.post(url, {
@@ -49,4 +56,4 @@ function postAccessTokenResults(tokenResponse) {
     return axios.get(url).then(response => response);
 }
 
-export { getFoodData, socket, getRepositories, postGithubToken, postIssues, postAccessTokenResults, getSocketEvents, cookies };
+export { getFoodData, socket, getRepositories, postGithubToken, postIssues, postSearchIssues, postAccessTokenResults, getSocketEvents, cookies };
