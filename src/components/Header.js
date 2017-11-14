@@ -53,10 +53,10 @@ export default class Header extends Component {
                         <Navbar.Toggle />
                     </Navbar.Header>
                     <Navbar.Collapse>
-                        <Nav pullRight>
                             {currentUser && <LinkContainer to='/dashboard'>
                                 <img className="header-image" src={currentUser.avatar_url}/>
                             </LinkContainer>}
+                        <Nav pullRight>
                                 {currentUser && <LinkContainer to="/dashboard"><NavItem>Your Dashboard</NavItem></LinkContainer>}
                             <LinkContainer to="/search">
                                 <NavItem>Search</NavItem>

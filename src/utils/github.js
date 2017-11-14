@@ -1,15 +1,6 @@
 'use strict';
 const library = (function () {
-    var GitHub = require('github-api');
-
-    // Github api object.
-    // https://github.com/github-tools/github
-    const gh = new GitHub();
-
-    function logout() {
-        gh.__auth.token = null;
-    }
-
+    
     // reduces the full rawIssue from the github api response into a smaller stored object for the githelpers db,
     // using the id index to detect duplicates.
     function createIssueObject(rawIssue) {
@@ -33,8 +24,7 @@ const library = (function () {
 
     return {
         isGithelperIssue: isGithelperIssue,
-        createIssueObject: createIssueObject,
-        gh: gh
+        createIssueObject: createIssueObject
     }
 
 })();

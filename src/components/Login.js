@@ -52,6 +52,7 @@ export default class Login extends Component {
 
                     // store session in cookies.
                     cookies.set('user', res.data, { path: '/' });
+                    github.client.token = tokenResponse;
                     // cookies.set('token', tokenResponse, { path: '/' });
 
                     socket.emit('action', { name: `${res.data['login']} just logged in`, time: Date.now() }, (data) => {

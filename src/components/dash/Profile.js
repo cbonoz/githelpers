@@ -3,7 +3,7 @@ import { Fade, Navbar, Popover, Jumbotron, Button, Row, Col, Grid, ListGroup, Li
 import { ClimbingBoxLoader } from 'react-spinners';
 
 import github from './../../utils/github';
-import { socket, postSocketEvent } from './../../utils/api';
+import { cookies, socket, postSocketEvent } from './../../utils/api';
 
 export default class Profile extends Component {
 
@@ -45,29 +45,31 @@ export default class Profile extends Component {
         const self = this;
         self.setState({ syncing: true, syncedIssues: [], error: null });
         console.log('syncing issues for user');
-        // TODO: get synced issues using github (and searching for the 'githelpers' tag)
-        const username = "User";
+        const username = this.props.user.login;
         const event = { name: `${username} just synced issues to the githelpers database`, time: Date.now() };
         socket.emit('action', event, (data) => {
             console.log('action ack', data);
         });
-        const gh = github.gh;
-        const me = gh.getUser(); // no user specified defaults to the user for whom credentials were provided
-        me.listRepos(function (err, repos) {
-            console.log(err, repos);
-            self.setState({ syncing: false });
+
+        const client = this.props.client;
+        console.log(JSON.stringify(client));
+        var ghme = client.me();
+
+        ghme.issues({
+            page: 2,
+            per_page: 100,
+            filter: 'all',
+            state: 'open',
+            labels: 'githelpers',
+            sort: 'created'
+        }, function (err, res, body, headers) {
+            console.log(err, res, body, headers); //json object
+            self.setState({syncing: false})
             if (err) {
-                self.setState({ error: err });
+                self.setState( {error: err});
                 return;
             }
-            repos.map((repo) => {
-                console.log('repo', JSON.stringify(repo));
-                gh.getIssues(self.props.user.login, repo['name']).listIssues().then((response) => {
-                    console.log(response.data);
-                    const issues = response.data; //.filter((x) => github.isGithelperIssue(x))
-                    self.setState({ syncedIssues: self.state.syncedIssues.concat(issues) });
-                });
-            });
+            self.setState( {syncedIssues: res })
         });
     }
 
@@ -98,17 +100,17 @@ export default class Profile extends Component {
                         </div>
                         <div className="synced-issues">
                             {!self.state.syncing && !self.state.error && self.state.syncedIssues.length == 0 &&
-                                <h3 className="centered">No synced repositories</h3>}
+                                <h3 className="centered">No synced 'githelpers' issues</h3>}
                             {self.state.error && <h3>Error: {self.state.error.message}</h3>}
                             {!self.state.syncing && self.state.syncedIssues.length > 0 &&
                                 <div>
                                     {self.state.syncedIssues.map((issue, index) => {
                                         return (<ListGroupItem className="synced-issue" key={index}>
                                             <div>
-                                                {JSON.stringify(issue)}
-                                                {/* <h4>{issue.name}</h4>
-                                                <a href={issue.url}>Issue Link</a>
-                                                <p>Last Updated: {issue.updated_at}</p> */}
+                                                <h4>{issue.title}</h4>
+                                                <a href={issue.html_url}>Github Issue Link</a>
+                                                <p>Body: {issue.body}</p>
+                                                <p>Last Updated: {issue.updated_at}</p>
                                             </div>
                                         </ListGroupItem>)
                                     })}

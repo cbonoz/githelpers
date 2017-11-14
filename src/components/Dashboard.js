@@ -10,6 +10,7 @@ import Sidebar from './dash/Sidebar';
 import github from '../utils/github';
 import token from '../utils/token';
 import { socket, cookies, getRepositories } from '../utils/api';
+const GitHub = require('octonode');
 
 export default class Dashboard extends Component {
 
@@ -17,13 +18,12 @@ export default class Dashboard extends Component {
         super(props);
         this.state = {
             currentUser: null,
-            currentPage: 1
+            currentPage: 1,
+            githubClient: null
         };
 
         this._renderCurrentPage = this._renderCurrentPage.bind(this);
         this.updateCurrentPage = this.updateCurrentPage.bind(this);
-        github.gh.__auth.token = cookies.get('token')
-        console.log('cons')
     }
 
     componentWillMount() {
@@ -33,8 +33,10 @@ export default class Dashboard extends Component {
         //     console.error(err);
         // })
         const user = cookies.get('user');
+        const token = cookies.get('token');
         console.log('user', user)
-        this.setState( {currentUser: user})
+        console.log('token', token)
+        this.setState( {currentUser: user, githubClient: GitHub.client(token)});
         console.log(this.state.currentUser);
     }
 
@@ -45,13 +47,13 @@ export default class Dashboard extends Component {
     _renderCurrentPage() {
         switch (this.state.currentPage) {
             case 0:
-                return <Search user={this.state.currentUser}/>; // Search removed on sidebar (will be part of header - no auth required).
+                return <Search user={this.state.currentUser} client={this.state.githubClient}/>; // Search removed on sidebar (will be part of header - no auth required).
             case 1:
-                return <Profile user={this.state.currentUser}/>;
+                return <Profile user={this.state.currentUser} client={this.state.githubClient}/>;
             case 2:
-                return <UserStatistics user={this.state.currentUser}/>;
+                return <UserStatistics user={this.state.currentUser} client={this.state.githubClient}/>;
             case 3:
-                return <Help user={this.state.currentUser}/>;
+                return <Help user={this.state.currentUser} client={this.state.githubClient}/>;
         }
     }
 
