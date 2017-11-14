@@ -29,7 +29,6 @@ function postGithubToken(clientId, clientSecret, code) {
     }).then(response => response.data);
 }
 
-
 function postIssues(issues) {
     const url = `${BASE_URL}/api/issues`;
     return axios.post(url, {

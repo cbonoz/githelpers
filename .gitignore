@@ -5,6 +5,9 @@
 # dependencies
 node_modules/
 
+# Docker
+Dockerfile
+
 # server dependencies
 server/node_modules/
 
