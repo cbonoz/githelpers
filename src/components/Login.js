@@ -54,7 +54,7 @@ export default class Login extends Component {
                     cookies.set('user', res.data, { path: '/' });
                     cookies.set('token', tokenResponse, { path: '/' });
 
-                    socket.emit('action', { name: `${res.data['login']} just logged in`, time: Date.now() }, (data) => {
+                    socket.emit('action', { name: `${res.data['login']} just logged in.`, time: Date.now() }, (data) => {
                         console.log('action ack', data);
                     });
                     self.props.onLogin();

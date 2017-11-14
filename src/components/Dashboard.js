@@ -34,10 +34,10 @@ export default class Dashboard extends Component {
         // })
         const user = cookies.get('user');
         const token = cookies.get('token');
-        console.log('user', user)
-        console.log('token', token)
+        // console.log('user', user)
+        // console.log('token', token)
         this.setState( {currentUser: user, githubClient: GitHub.client(token)});
-        console.log(this.state.currentUser);
+        // console.log(this.state.currentUser);
     }
 
     updateCurrentPage(currentPage) {

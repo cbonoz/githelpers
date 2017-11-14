@@ -34,15 +34,15 @@ export default class Search extends Component {
     const self = this;
     this.setState({ lastQuery: query, searching: true, error: null });
     console.log('searching', this.searchInput.value);
-    // TODO: make web request to populate issues (set searching to false once completed).
 
     const user = cookies.get('user');
     var username;
     if (user !== undefined && user['login'].length) {
       username = user['login'];
     } else {
-      username = 'Guest'
+      username = 'A guest'
     }
+
     postSearchIssues(query).then((res) => {
       self.setState({ issues: res, searching: false });
     }).catch((err) => {
@@ -52,7 +52,7 @@ export default class Search extends Component {
 
     const len = Math.min(query.length, 15)
     const shortQuery = query.slice(0, len);
-    socket.emit('action', { name: `${username} just searched for ${shortQuery}`, time: Date.now() }, (data) => {
+    socket.emit('action', { name: `${username} just searched for ${shortQuery}.`, time: Date.now() }, (data) => {
       console.log('action ack', data);
     });
 
@@ -80,18 +80,18 @@ export default class Search extends Component {
 
           <ListGroup>
             {self.state.lastQuery && <ListGroupItem
-              header={"Search issues for " + self.state.lastQuery} bsStyle="info">
+              header={"Githelpers issue results for " + self.state.lastQuery} bsStyle="info">
             </ListGroupItem>}
 
-            {!self.state.searching && !self.state.error && self.state.issues.length == 0 &&
+            {!self.state.searching && !self.state.error && self.state.lastQuery && self.state.issues.length == 0 &&
               <ListGroupItem className="centered search-issue"><h4>No active 'githelpers' issues for {self.state.lastQuery}</h4></ListGroupItem>
             }
 
             {!self.state.searching && self.state.error &&
-              <h3 className="centered">Error: {self.state.error.message}</h3>
+              <h3 className="centered error-text">Error: {self.state.error.message}</h3>
             }
 
-            {!self.state.searching && self.state.lastQuery && self.state.issues.length > 0 &&
+            {!self.state.searching && self.state.issues.length > 0 &&
               <div>
                 {self.state.issues.map((issue, index) => {
                   return (<ListGroupItem className='search-issue' key={index}>

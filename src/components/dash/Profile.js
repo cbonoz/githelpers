@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Fade, Navbar, Popover, Jumbotron, Button, Row, Col, Grid, ListGroup, ListGroupItem, OverlayTrigger } from 'react-bootstrap';
 import { ClimbingBoxLoader } from 'react-spinners';
+import TimerButton from './TimerButton';
 
 import github from './../../utils/github';
 import { postIssues } from './../../utils/api';
@@ -54,8 +55,7 @@ export default class Profile extends Component {
 
         console.log('syncing issues for user');
         const username = this.props.user.login;
-
-        const event = { name: `${username} just synced issues to the githelpers database`, time: Date.now() };
+        const event = { name: `${username} just synced issues to the githelpers database.`, time: Date.now() };
         socket.emit('action', event, (data) => {
             console.log('action ack', data);
         });
@@ -104,9 +104,8 @@ export default class Profile extends Component {
                 <ListGroup>
                     <ListGroupItem header={"Your Profile: " + self.props.user.login} bsStyle="info"></ListGroupItem>
                     <ListGroupItem>
-                        <OverlayTrigger overlay={popover}>
-                            <Button className="refresh-button" type="submit" bsStyle="danger" bsSize="large" onClick={() => self._syncIssues()}>Refresh tagged issues</Button>
-                        </OverlayTrigger>
+                            <TimerButton bsStyle="danger" bsSize="large" duration={5} popover={popover}
+                            onClick={() => self._syncIssues()} buttonText={"Refresh tagged issues"}/>
                     </ListGroupItem>
 
                     {/* <ListGroup> */}
@@ -118,7 +117,7 @@ export default class Profile extends Component {
                         <div className="synced-issues">
                             {!self.state.syncing && !self.state.error && self.state.syncedIssues.length === 0 &&
                                 <h3 className="centered">No synced 'githelpers' issues</h3>}
-                            {self.state.error && <h3 className="centered">Error: {self.state.error.message}</h3>}
+                            {self.state.error && <h3 className="centered error-text">Error: {self.state.error.message}</h3>}
                             {!self.state.syncing && self.state.syncedIssues.length > 0 &&
                                 <h4 className="centered bold">{self.state.syncedIssues.length} issues synced</h4>}
                                 <div>
