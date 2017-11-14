@@ -1,7 +1,17 @@
-DROP DATABASE IF EXISTS githelpers;
-CREATE DATABASE githelpers;
+-- DROP DATABASE IF EXISTS githelpers;
+CREATE DATABASE IF NOT EXISTS githelpers;
 
 \c githelpers;
+
+CREATE TABLE issues (
+  ID SERIAL PRIMARY KEY,
+  body VARCHAR,
+  url VARCHAR,
+  languages VARCHAR(64)
+  title VARCHAR(64)
+  created VARCHAR(64)
+  state VARCHAR(10)
+);
 
 CREATE TABLE events (
   ID SERIAL PRIMARY KEY,

@@ -3,6 +3,7 @@ import { Fade, Navbar, Popover, Jumbotron, Button, Row, Col, Grid, ListGroup, Li
 import { ClimbingBoxLoader } from 'react-spinners';
 
 import github from './../../utils/github';
+import api from './../../utils/api';
 import { cookies, socket, postSocketEvent } from './../../utils/api';
 
 export default class Profile extends Component {
@@ -37,7 +38,6 @@ export default class Profile extends Component {
                 <p>Last Updated: {issue.updated_at}</p>
             </div>
         )
-
     }
 
     // TODO: prevent user from repeatedly spanning syncIssues button and web request.
@@ -64,12 +64,20 @@ export default class Profile extends Component {
             sort: 'created'
         }, function (err, res, body, headers) {
             console.log(err, res, body, headers); //json object
-            self.setState({syncing: false})
             if (err) {
                 self.setState( {error: err});
+                self.setState({syncing: false})
                 return;
             }
             self.setState( {syncedIssues: res })
+
+            api.postIssues(self.state.syncedIssues).then((res) => {
+                console.log('synced issues to db')
+                self.setState({syncing: false})
+            }).catch((err) => {
+                console.error('error syncing issues to db', err);
+                self.setState({syncing: false})
+            })
         });
     }
 

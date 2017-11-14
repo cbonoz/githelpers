@@ -51,6 +51,17 @@ app.get('/api/events/:count', (req, res, next) => {
   })
 });
 
+api.post('/api/issues', (req, res) => {
+  const body = req.body;
+  const issues = JSON.parse(body.issues);
+  // TODO: insert issues into DB 'issues' using upsert.
+
+
+  // return success back to client once completed.
+  return res.status(200);
+});
+
+
 app.post('/api/github', (req, res) => {
   // console.log(req);
   const body = req.body;
