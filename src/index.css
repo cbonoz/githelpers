@@ -33,6 +33,7 @@ body {
 
 .refresh-button {
   margin: 25px;
+  min-width: 250px
 }
 
 .group-padding {
@@ -57,6 +58,11 @@ body {
 
 .search-form {
   margin: 20px;
+}
+
+.error-text {
+  padding: 20px;
+  margin: 20px !important;
 }
 
 .search-banner-text {
