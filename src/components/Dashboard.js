@@ -45,13 +45,13 @@ export default class Dashboard extends Component {
     _renderCurrentPage() {
         switch (this.state.currentPage) {
             case 0:
-                return <Search />; // Search removed on sidebar (will be part of header - no auth required).
+                return <Search user={this.state.currentUser}/>; // Search removed on sidebar (will be part of header - no auth required).
             case 1:
-                return <Profile />;
+                return <Profile user={this.state.currentUser}/>;
             case 2:
-                return <UserStatistics />;
+                return <UserStatistics user={this.state.currentUser}/>;
             case 3:
-                return <Help />;
+                return <Help user={this.state.currentUser}/>;
         }
     }
 
