@@ -52,14 +52,13 @@ export default class Login extends Component {
 
                     // store session in cookies.
                     cookies.set('user', res.data, { path: '/' });
-                    // cookies.set('token', tokenResponse, { path: '/' });
+                    cookies.set('token', tokenResponse, { path: '/' });
 
                     socket.emit('action', { name: `${res.data['login']} just logged in`, time: Date.now() }, (data) => {
                         console.log('action ack', data);
                     });
                     self.props.onLogin();
                     // console.log(github.gh)
-                    github.gh.__auth.token = tokenResponse;
                     window.location = '/dashboard';
                     return res.data;
                 });

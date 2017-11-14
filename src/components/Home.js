@@ -34,7 +34,7 @@ export default class Home extends Component {
         if (newList.length > 8) {
             newList = newList.splice(-1,1); // remove last element
         }
-        this.setState({ blocks: [event, ...this.state.blocks] });
+        this.setState({ blocks: newList });
     }
 
     _setUpSocket() {

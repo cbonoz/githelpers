@@ -3,8 +3,9 @@ import { Fade, Navbar, Popover, Jumbotron, Button, Row, Col, Grid, ListGroup, Li
 import { ClimbingBoxLoader } from 'react-spinners';
 
 import github from './../../utils/github';
-import { socket, postSocketEvent } from './../../utils/api';
-import { cookies } from './../../utils/api';
+import { postIssues } from './../../utils/api';
+import { cookies, socket, postSocketEvent } from './../../utils/api';
+
 
 export default class Profile extends Component {
 
@@ -13,13 +14,13 @@ export default class Profile extends Component {
         this.state = {
             // issues synced with the githelpers DB (and are currently indexed for public search and discovery).
             syncedIssues: [],
-            syncing: false
+            syncing: false,
+            error: null
         }
     }
 
     componentWillMount() {
-        const gh = github.gh;
-        console.log('gh token', gh.__auth.token);
+        // console.log('gh token', gh.__auth.token);
         // TODO: fetch user statistics from server.
         // var clayreimann = gh.getUser('clayreimann');
         // clayreimann.listStarredIssues(function(err, issues) {
@@ -27,11 +28,17 @@ export default class Profile extends Component {
         // });
 
         // this._syncIssues()
-        // var me = gh.getUser(); // no user specified defaults to the user for whom credentials were provided
-        // me.listRepos(function (err, repos) {
-        //     console.log(err, repos);
-        //     // do some stuff
-        // });
+    }
+
+    _renderIssue(issue) {
+        return (
+            <div>
+                <h4>{issue.title}</h4>
+                <a href={issue.html_url}>Github Issue Link</a>
+                <p>Body: {issue.body}</p>
+                <p>Last Updated: {issue.updated_at}</p>
+            </div>
+        );
     }
 
     // Fetch all repos for an user
@@ -43,15 +50,44 @@ export default class Profile extends Component {
     // TODO: prevent user from repeatedly spanning syncIssues button and web request.
     _syncIssues() {
         const self = this;
-        self.setState({ syncing: true });
+        self.setState({ syncing: true, syncedIssues: [], error: null });
+
         console.log('syncing issues for user');
-        // TODO: get synced issues using github (and searching for the 'githelpers' tag)
-        const username = cookies.get('user')['login'];
+        const username = this.props.user.login;
+
         const event = { name: `${username} just synced issues to the githelpers database`, time: Date.now() };
         socket.emit('action', event, (data) => {
             console.log('action ack', data);
         });
-        self.setState({ syncing: false });
+
+        const client = this.props.client;
+        console.log(JSON.stringify(client));
+        var ghme = client.me();
+
+        ghme.issues({
+            page: 2,
+            per_page: 100,
+            filter: 'all',
+            state: 'open',
+            labels: 'githelpers',
+            sort: 'created'
+        }, function (err, res, body, headers) {
+            console.log(err, res, body, headers); //json object
+            if (err) {
+                self.setState({ error: err });
+                self.setState({ syncing: false })
+                return;
+            }
+            self.setState({ syncedIssues: res })
+
+            postIssues(self.state.syncedIssues).then((res) => {
+                console.log('synced issues to db')
+                self.setState({ syncing: false })
+            }).catch((err) => {
+                console.error('error syncing issues to db', err);
+                self.setState({ syncing: false })
+            })
+        });
     }
 
     render() {
@@ -66,7 +102,7 @@ export default class Profile extends Component {
         return (
             <div className="profile-content">
                 <ListGroup>
-                    <ListGroupItem header={"Your Profile"} bsStyle="info"></ListGroupItem>
+                    <ListGroupItem header={"Your Profile: " + self.props.user.login} bsStyle="info"></ListGroupItem>
                     <ListGroupItem>
                         <OverlayTrigger overlay={popover}>
                             <Button className="refresh-button" type="submit" bsStyle="danger" bsSize="large" onClick={() => self._syncIssues()}>Refresh tagged issues</Button>
@@ -80,17 +116,18 @@ export default class Profile extends Component {
                             <ClimbingBoxLoader className="centered" color={'#123abc'} size={500} loading={self.state.syncing} />
                         </div>
                         <div className="synced-issues">
-                            {!self.state.syncing && self.state.syncedIssues.length == 0 &&
-                                <h3 className="centered">No synced repositories</h3>}
+                            {!self.state.syncing && !self.state.error && self.state.syncedIssues.length === 0 &&
+                                <h3 className="centered">No synced 'githelpers' issues</h3>}
+                            {self.state.error && <h3 className="centered">Error: {self.state.error.message}</h3>}
                             {!self.state.syncing && self.state.syncedIssues.length > 0 &&
+                                <h4 className="centered bold">{self.state.syncedIssues.length} issues synced</h4>}
                                 <div>
                                     {self.state.syncedIssues.map((issue, index) => {
                                         return (<ListGroupItem className="synced-issue" key={index}>
-                                            <p>{JSON.stringify(issue)}</p>
+                                            {self._renderIssue(issue)}
                                         </ListGroupItem>)
                                     })}
                                 </div>
-                            }
                         </div>
                     </div>
 

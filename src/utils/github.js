@@ -1,17 +1,26 @@
-'use strict';
 const library = (function () {
-    var GitHub = require('github-api');
+    // reduces the full rawIssue from the github api response into a smaller stored object for the githelpers db,
+    // using the id index to detect duplicates.
+    function createIssueObject(rawIssue) {
+        // TODO: reduce rawIssue (remove extra components).
+        return rawIssue;
+    }
 
-    // Github api object.
-    // https://github.com/github-tools/github
-    const gh = new GitHub();
+    function isGithelperIssue(issue) {
+        var hasLabel = false;
+        for (var i = 0; i < issue.labels.length; i++) {
+            if (issue.labels[i]['name'] && issue.labels[i]['name'].toLowerCase() === 'githelpers') {
+                hasLabel = true;
+                break;
+            }
+        }
 
-    function logout() {
-        gh.__auth.token = null;
+        return hasLabel && issue.state.lower() === 'open';
     }
 
     return {
-        gh: gh
+        isGithelperIssue: isGithelperIssue,
+        createIssueObject: createIssueObject
     }
 
 })();

@@ -21,11 +21,25 @@ function getRepositories() {
 }
 
 function postGithubToken(clientId, clientSecret, code) {
-    const url = `${BASE_URL}/api/github/`;
+    const url = `${BASE_URL}/api/github`;
     return axios.post(url, {
         clientId: clientId,
         clientSecret: clientSecret,
         code: code
+    }).then(response => response.data);
+}
+
+function postSearchIssues(query) {
+    const url = `${BASE_URL}/api/search`;
+    return axios.post(url, {
+        query: query,
+    }).then(response => response.data);
+}
+
+function postIssues(issues) {
+    const url = `${BASE_URL}/api/issues`;
+    return axios.post(url, {
+        issues: issues
     }).then(response => response.data);
 }
 
@@ -42,4 +56,4 @@ function postAccessTokenResults(tokenResponse) {
     return axios.get(url).then(response => response);
 }
 
-export { getFoodData, socket, getRepositories, postGithubToken, postAccessTokenResults, getSocketEvents, cookies };
+export { getFoodData, socket, getRepositories, postGithubToken, postIssues, postSearchIssues, postAccessTokenResults, getSocketEvents, cookies };

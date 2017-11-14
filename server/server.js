@@ -51,6 +51,26 @@ app.get('/api/events/:count', (req, res, next) => {
   })
 });
 
+// perform the db search for the passed query -> return a list of active issue results
+app.post('/api/search', (req, res) => {
+  const body = req.body;
+  const query = body.query;
+  // TODO: implement search filtering
+  // return success back to client once completed.
+  const results = [];
+  return res.status(200).json(results);
+});
+
+// upsert the posted issues to the githelpers db.
+app.post('/api/issues', (req, res) => {
+  const body = req.body;
+  const issues = JSON.parse(body.issues);
+  // TODO: insert issues into DB 'issues' using upsert.
+  // return success back to client once completed.
+  return res.status(200);
+});
+
+
 app.post('/api/github', (req, res) => {
   // console.log(req);
   const body = req.body;

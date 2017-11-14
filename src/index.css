@@ -224,6 +224,10 @@ body {
   min-height: 200px;
 }
 
+.pull-right {
+  float: right;
+}
+
 .home-bottom-text {
   margin: 50px !important;
   padding-bottom: 10px;

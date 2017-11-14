@@ -32,10 +32,10 @@ export default class DataFeed extends Component {
       columnWidth,
       gutter,
       easing,
-      transition: transition
+      transition: transitionSelect,
     } = this.state;
 
-    // const transition = transitions[transitionSelect];
+    const transition = transitions[transitionSelect];
     const self = this;
     
     const blockHtml = self.props.blocks.map((item, index) =>
