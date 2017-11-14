@@ -4,6 +4,7 @@ import { ClimbingBoxLoader } from 'react-spinners';
 
 import github from './../../utils/github';
 import { socket, postSocketEvent } from './../../utils/api';
+import { cookies } from './../../utils/api';
 
 export default class Profile extends Component {
 
@@ -33,13 +34,19 @@ export default class Profile extends Component {
         // });
     }
 
+    // Fetch all repos for an user
+    _syncRepos() {
+        const url = "https://api.github.com/user/repos?access_token="+github.gh.__auth.token;
+        console.log(url);
+    }
+
     // TODO: prevent user from repeatedly spanning syncIssues button and web request.
     _syncIssues() {
         const self = this;
         self.setState({ syncing: true });
         console.log('syncing issues for user');
         // TODO: get synced issues using github (and searching for the 'githelpers' tag)
-        const username = "User";
+        const username = cookies.get('user')['login'];
         const event = { name: `${username} just synced issues to the githelpers database`, time: Date.now() };
         socket.emit('action', event, (data) => {
             console.log('action ack', data);
