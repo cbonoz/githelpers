@@ -10,6 +10,8 @@ const pg = require('pg');
 const path = require('path');
 const { Pool } = require('pg')
 
+let globalAccessToken = "";
+
 const connectionString = process.env.GITHELPERS_DATABASE_URL || 'postgres://localhost:5432/githelpers';
 const pool = new Pool({
   connectionString: connectionString,
@@ -67,6 +69,20 @@ app.post('/api/issues', (req, res) => {
   const issues = JSON.parse(body.issues);
   // TODO: insert issues into DB 'issues' using upsert.
   // return success back to client once completed.
+
+  // Fetching repos and checking for open issues
+  const reposUrl = "https://api.github.com/user/repos?access_token=" + globalAccessToken;
+  const issuesUrl = "https://api.github.com/user/issues?access_token=" + globalAccessToken;
+  // const issues = axios.get(issuesUrl)
+  //     .then(function (response) {
+  //       console.log('issues response:', response.data);
+  //
+  //     })
+  //     .catch(function (error) {
+  //         console.log('error getting issues from :', error);
+  //         return res.json(error);
+  //     });
+
   return res.status(200);
 });
 
@@ -89,6 +105,8 @@ app.post('/api/github', (req, res) => {
       const resp = response.data;
       const respArray = resp.split("&");
       const accessToken = respArray[0].split("=");
+
+      globalAccessToken = accessToken[1];
 
       // Returns received Access Token
       return res.json(accessToken[1]);

@@ -44,8 +44,7 @@ export default class Profile extends Component {
 
     // Fetch all repos for an user
     _syncRepos() {
-        const url = "https://api.github.com/user/repos?access_token="+github.gh.__auth.token;
-        console.log(url);
+
     }
 
     // TODO: prevent user from repeatedly spanning syncIssues button and web request.
