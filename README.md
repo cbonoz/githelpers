@@ -9,14 +9,20 @@ GitHelpers is a platform for connecting with developers around the world buildin
 
 Contributing to open source projects can be intimidating. GitHelpers is designed to be a forum *exclusively* for projects that need/want open source contributions.
 
-Githelpers is a completely open source solution built with NodeJS and ReactJS on the front end.
+With this project we seek to mesh the coding community of github with the social environment of facebook is a more open manner. Making developer contributions more meaningful and opening up the possibility for more meaningful relationships being formed around open source development. Githelpers is a completely open source solution built with NodeJS and ReactJS on the front end. 
 
-##  What Github currently offers:
+## Facebook Technologies used
+
+* ReactJS
+* Account Kit (phone number login)
+    - Login with the bare minimum (phone number + github handle only, avoid github auth)
+    - Message us plugin, this would appear as button next to each repository in the 'githelpers' active issues search results: https://developers.facebook.com/docs/messenger-platform/discovery/message-us-plugin
+
+##  What Github offers around encouraging open source:
 
 Github currently has the notion of the following tags: `good-first-timers` and `help-wanted`.
 
 These tags can also be searched on github, but it can still be ambiguous where specific projects need help and from who. These tags can also be difficult to find - requiring advanced search by the end user in order to discover particular tags.
-
 
 
 ## How it Works
@@ -44,7 +50,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 Future work includes:
 * Adding leaderboard and user contribution history.
-
+* Ability to chat directly with the repo owner through FB integration.
 
 
 These 
