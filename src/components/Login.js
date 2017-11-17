@@ -19,6 +19,7 @@ export default class Login extends Component {
         super(props)
         this._onSuccess = this._onSuccess.bind(this);
         this._onFailure = this._onFailure.bind(this);
+        this._onFacebookResponse = this._onFacebookResponse.bind(this);
     }
 
     _onSuccess(response) {
@@ -72,6 +73,10 @@ export default class Login extends Component {
         console.error('onFailure', response);
     }
 
+    _onFacebookResponse(resp) {
+        console.log('facebook accountkit response: ' + resp);
+        // TODO: save this to cookie.
+    }
 
     componentDidMount() {
         // https://stackoverflow.com/questions/40407632/how-to-render-a-react-component-using-reactdom-render
@@ -84,6 +89,18 @@ export default class Login extends Component {
                 onFailure={this._onFailure} />,
             document.getElementById('github-login-button')
         );
+
+        ReactDOM.render(
+            <AccountKit
+              appId={process.env.REACT_APP_FB_APP_ID} // Facebook App ID.
+              version="v1.0" // Version must be in form v{major}.{minor}
+              onResponse={this._onFacebookResponse}
+              csrf={process.env.REACT_APP_FB_CSRF} // CSRF: Required for security
+            >
+              {p => <button {...p}>Initialize Account Kit</button>}
+            </AccountKit>,
+          document.getElementById('facebook-login-button')
+        );
     }
 
     render() {
@@ -92,6 +109,7 @@ export default class Login extends Component {
                 <div className="login-area centered">
                     <img src={githubIcon} className="github-logo" />
                     <div id='github-login-button' />
+                    <div id='facebook-login-button' />
                 </div>
             </div>
         )

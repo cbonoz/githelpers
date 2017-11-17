@@ -7,16 +7,23 @@ GitHelpers is a platform for connecting with developers around the world buildin
 
 ## Description
 
+Many people on facebook are not developers, so just posting to people's feeds doesn't really make a difference. Maybe you get 1-2 likes at best, but most friends (even those that are developers) won't care.
+
+Our goal is to bring friends and open source software community together.
+
 Contributing to open source projects can be intimidating. GitHelpers is designed to be a forum *exclusively* for projects that need/want open source contributions.
 
 With this project we seek to mesh the coding community of github with the social environment of facebook is a more open manner. Making developer contributions more meaningful and opening up the possibility for more meaningful relationships being formed around open source development. Githelpers is a completely open source solution built with NodeJS and ReactJS on the front end. 
+
+Githelpers is a friends-first environment, designed to make interacting and contributing with your friends to open source projects intuitive and fun. 
 
 ## Facebook Technologies used
 
 * ReactJS
 * Account Kit (phone number login)
     - Login with the bare minimum (phone number + github handle only, avoid github auth)
-    - Message us plugin, this would appear as button next to each repository in the 'githelpers' active issues search results: https://developers.facebook.com/docs/messenger-platform/discovery/message-us-plugin
+    - Message us plugin, appears as button next to each repository in the 'githelpers' active issues search results: https://developers.facebook.com/docs/messenger-platform/discovery/message-us-plugin
+    
 
 ##  What Github offers around encouraging open source:
 
@@ -33,16 +40,17 @@ The process of adding a new project on GitHelpers is a 3 step process.
 2. Create issues that you would like with on that repository. Tag with the tag githelpers
 3. Upload your project to the GitHelpers website. It will now be searchable by developers around the world.
 
+For every repo that's add to the DB, you can directly invite your friends or connect with the repo owners through facebook.
+
 As developers find your project, there is no lack of understanding or expectations  of whether you are looking for help. All your tagged issues become searchable, and those developers can freely open pull requests on your github repository.
 
 ## Where Githelpers differentiates.
 
 <ol>
-<li>Live contribution and user sign up feed.</li>
-<li>Community website around the tags. </li>
-<li>Searchable index around issues that have been explicitly marked.</li>
+    <li>Live contribution and user sign up feed.</li>
+    <li>Community website around the tags. </li>
+    <li>Searchable index around issues that have been explicitly marked.</li>
 </ol>
-
 
 ### Future Work
 
@@ -51,9 +59,6 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 Future work includes:
 * Adding leaderboard and user contribution history.
 * Ability to chat directly with the repo owner through FB integration.
-
-
-These 
 
 ### Dev Notes
 
@@ -83,13 +88,3 @@ The build is minified and the filenames include the hashes.<br/>
 Your app is ready to be deployed!
 
 See the section about [deployment](#deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.

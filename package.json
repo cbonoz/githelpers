@@ -9,6 +9,7 @@
     "react": "^16.0.0",
     "react-bootstrap": "^0.31.5",
     "react-dom": "^16.0.0",
+    "react-facebook-account-kit": "^0.1.0",
     "react-fontawesome": "^1.6.1",
     "react-github-login": "^1.0.3",
     "react-responsive-carousel": "^3.1.28",

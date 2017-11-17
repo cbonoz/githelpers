@@ -230,6 +230,10 @@ body {
   min-height: 200px;
 }
 
+.border-bottom-blue {
+  border-bottom: 2px solid #3b5998;
+}
+
 .pull-right {
   float: right;
 }
@@ -351,6 +355,15 @@ body {
   max-width: 300px;
   border: 1px solid black;
   height: 300px;
+}
+
+#facebook-login-button button {
+  color: white;
+  background: #3b5998;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 #github-login-button button {

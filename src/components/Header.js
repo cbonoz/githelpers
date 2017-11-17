@@ -40,9 +40,9 @@ export default class Header extends Component {
         const self = this;
         const currentUser = self.state.currentUser;
         return (
-            <div>
+            <div className="border-bottom-blue">
                 {/* <Navbar inverse collapseOnSelect> */}
-                <Navbar inverse>
+                <Navbar>
                     <Navbar.Header>
                         <Navbar.Brand>
                             <LinkContainer to="/">
@@ -69,7 +69,6 @@ export default class Header extends Component {
                         </Nav>
                     </Navbar.Collapse>
                 </Navbar>
-
 
                 <LoginModal showModal={this.state.showModal} close={self.close.bind(self)} />
             </div>

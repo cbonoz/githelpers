@@ -19,6 +19,8 @@ export default class Home extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            // slogan: 'Connect with developers around the world building open source software.'
+            slogan: 'Connect around open source software with your friends.',
             words: ['Share', 'Learn', 'Code'],
             show: false,
             headerFade: false,
@@ -91,7 +93,7 @@ export default class Home extends Component {
                             <Jumbotron className="jumbotron transparency-jumbotron" style={backgroundStyle}>
                                 <div className="static-modal-jumbotron opaque centered">
                                     <img className="home-banner-image" src={githelpers} />
-                                    <p>Connect with developers around the world building open source software.</p>
+                                    <p>{self.state.slogan}</p>
                                     {/* <h1>AthenaDelivered</h1> */}
 
                                     <div className="header-text-section">
