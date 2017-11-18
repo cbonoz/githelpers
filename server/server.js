@@ -8,7 +8,9 @@ const http = require('http');
 const https = require('https');
 const pg = require('pg');
 const path = require('path');
-const { Pool } = require('pg')
+const { Pool } = require('pg');
+
+var github = require('octonode');
 
 let globalAccessToken = "";
 
@@ -66,7 +68,8 @@ app.post('/api/search', (req, res) => {
 // upsert the posted issues to the githelpers db.
 app.post('/api/issues', (req, res) => {
   const body = req.body;
-  const issues = JSON.parse(body.issues);
+  // const issues = JSON.parse(body.issues);
+
   // TODO: insert issues into DB 'issues' using upsert.
   // return success back to client once completed.
 
@@ -75,13 +78,59 @@ app.post('/api/issues', (req, res) => {
   const issuesUrl = "https://api.github.com/user/issues?access_token=" + globalAccessToken;
   // const issues = axios.get(issuesUrl)
   //     .then(function (response) {
-  //       console.log('issues response:', response.data);
+  //       console.log('issues response:', response);
   //
+  //
+  //
+  //       pool.query('update issues SET id= ' + response.data.issue, (err, res) => {
+  //             console.log('events', err, res);
+  //             if (err) {
+  //                 return res.status(500).json(err);
+  //             }
+  //             pool.end()
+  //             return res.json(res.rows);
+  //       })
+  //
+  //       return response.data;
   //     })
   //     .catch(function (error) {
   //         console.log('error getting issues from :', error);
   //         return res.json(error);
   //     });
+
+
+  var client = github.client(globalAccessToken);
+  client.get('/user', {}, function (err, status, body, headers) {
+      console.log(body.login); //json object
+  });
+
+    var ghme           = client.me();
+    var ghuser         = client.user('rtre84');
+    var ghrepo         = client.repo('rtre84/pipeline');
+    // var ghorg          = client.org('flatiron');
+    var ghissue        = client.issue('rtre84/pipeline', 3);
+    var ghmilestone    = client.milestone('pksunkara/hub', 37);
+    var ghlabel        = client.label('pksunkara/hub', 'todo');
+    var ghpr           = client.pr('pksunkara/hub', 37);
+    var ghrelease      = client.release('pksunkara/hub', 37);
+    var ghgist         = client.gist();
+    var ghteam         = client.team(37);
+    var ghnotification = client.notification(37);
+
+    var ghsearch = client.search();
+
+  // client.get('/repos', {}, function (err, status, body, headers) {
+  //     console.log(body); //json object
+  // });
+
+  client.get('/user/repos', {}, function (err, status, body, headers){
+      body.forEach(function(val) {
+          // do things
+          console.log(val);
+      });
+      // console.log("Issues: " + body);
+
+  });
 
   return res.status(200);
 });
