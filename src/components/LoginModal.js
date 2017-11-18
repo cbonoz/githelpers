@@ -3,7 +3,7 @@ import { Button, Modal, Popover, Tooltip, OverlayTrigger } from 'react-bootstrap
 import Login from './Login';
 
 import githubIcon from '../assets/github.svg';
-import githelpers from '../assets/githelpers_trans.png';
+import githelpers from '../assets/githelpers_trans_blue.png';
 
 export default class LoginModal extends Component {
 

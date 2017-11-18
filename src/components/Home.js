@@ -9,7 +9,7 @@ import HeaderBox from './data/HeaderBox';
 import HelpSteps from './HelpSteps';
 import helper from '../utils/helper';
 
-import githelpers from '../assets/githelpers_trans.png';
+import githelpers from '../assets/githelpers_trans_blue.png';
 import bgImage from '../assets/desk_hero_1080.png';
 
 import { socket } from '../utils/api';
@@ -20,8 +20,8 @@ export default class Home extends Component {
         super(props);
         this.state = {
             // slogan: 'Connect with developers around the world building open source software.'
-            slogan: 'Connect around open source software with your friends.',
-            words: ['Share', 'Learn', 'Code'],
+            slogan: 'Connect with your friends around building great open source software.',
+            words: ['building', 'sharing', 'discovering'],
             show: false,
             headerFade: false,
             blocks: []
@@ -93,7 +93,9 @@ export default class Home extends Component {
                             <Jumbotron className="jumbotron transparency-jumbotron" style={backgroundStyle}>
                                 <div className="static-modal-jumbotron opaque centered">
                                     <img className="home-banner-image" src={githelpers} />
-                                    <p>{self.state.slogan}</p>
+                                    <p className="bold">
+                                        Connect with your friends around&nbsp;<ReactRotatingText pause={3000} typingInterval={50} deletingInterval={75} items={self.state.words}/><br/>&nbsp;great open source software.
+                                    </p>
                                     {/* <h1>AthenaDelivered</h1> */}
 
                                     <div className="header-text-section">
@@ -105,7 +107,7 @@ export default class Home extends Component {
                                             </p>
                                                 <p><Link to="/faq">
                                                     <Button bsStyle="primary" className="start-button">
-                                                        Learn More
+                                                       Sign Up 
                                             </Button></Link></p>
                                             </div>
                                         </span>

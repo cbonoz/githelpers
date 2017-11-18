@@ -24,6 +24,8 @@ body {
 
 .login-image {
   margin-bottom: 20px;
+  height: 60px;
+  padding-bottom: 2px;
 }
 
 .synced-issues h3 {
@@ -231,7 +233,11 @@ body {
 }
 
 .border-bottom-blue {
-  border-bottom: 2px solid #3b5998;
+  border-bottom: 5px solid #3b5998;
+}
+
+.navbar-nav a:hover  {
+  background: #e7e7e7;
 }
 
 .pull-right {

@@ -3,7 +3,7 @@ import { Navbar, NavItem, Nav } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import LoginModal from './LoginModal';
 
-import githelpers from '../assets/githelpers_trans_white.png';
+import githelpers from '../assets/githelpers_trans_blue.png';
 import { cookies } from '../utils/api';
 
 export default class Header extends Component {

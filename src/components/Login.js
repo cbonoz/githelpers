@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom';
 import GitHubLogin from 'react-github-login';
+import AccountKit from 'react-facebook-account-kit';
 import axios from 'axios';
 
 import { cookies, postGithubToken, postAccessTokenResults, socket } from '../utils/api';
@@ -97,7 +98,7 @@ export default class Login extends Component {
               onResponse={this._onFacebookResponse}
               csrf={process.env.REACT_APP_FB_CSRF} // CSRF: Required for security
             >
-              {p => <button {...p}>Initialize Account Kit</button>}
+              {p => <button {...p}>Login with Facebook</button>}
             </AccountKit>,
           document.getElementById('facebook-login-button')
         );
