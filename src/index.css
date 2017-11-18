@@ -241,8 +241,16 @@ body {
   clear: both;
 }
 
+.dark-background {
+  background: #292c2f;
+}
+
 .border-bottom-blue {
   border-bottom: 5px solid #3b5998;
+}
+
+.facebook-blue {
+  color: #3b5998; 
 }
 
 .navbar-nav a:hover  {

@@ -3,16 +3,14 @@ import { Jumbotron, Button, Row, Col, Grid, ListGroup, ListGroupItem } from 'rea
 import { Link } from 'react-router-dom';
 import ReactRotatingText from 'react-rotating-text';
 
-import LoginModal from './LoginModal';
-import DataFeed from './data/DataFeed';
 import HeaderBox from './data/HeaderBox';
 import HelpSteps from './HelpSteps';
-import helper from '../utils/helper';
+import SocketFeed from './SocketFeed';
 
 import githelpers from '../assets/githelpers_trans_blue.png';
 import bgImage from '../assets/desk_hero_1080.png';
 
-import { socket } from '../utils/api';
+import { fbLogin, firebaseAuth } from '../utils/fire';
 
 export default class Home extends Component {
 
@@ -25,57 +23,8 @@ export default class Home extends Component {
             show: false,
             headerFade: false,
             blocks: [],
-            showModal: false
+            authed: this.props.authed
         }
-        this._addEvent = this._addEvent.bind(this);
-        this._setUpSocket = this._setUpSocket.bind(this);
-        this.open = this.open.bind(this);
-        this.close = this.close.bind(this);
-    }
-
-    _addEvent(event) {
-        event['time'] = helper.formatDateTimeMs(event['time']);
-        var newList = [event, ...this.state.blocks];
-        if (newList.length > 8) {
-            newList = newList.splice(-1, 1); // remove last element
-        }
-        this.setState({ blocks: newList });
-    }
-
-    _setUpSocket() {
-        const self = this;
-        socket.on('connect', function () {
-            console.log('connect');
-        });
-
-        socket.on('incoming', function (data) {
-            console.log('incoming', data);
-            self._addEvent(data);
-        });
-
-        socket.on('disconnect', function () {
-            console.log('disconnect');
-        });
-
-        socket.open();
-    }
-
-    componentWillUnmount() {
-        socket.close();
-    }
-
-    componentWillMount() {
-        const self = this;
-        // self._addEvent(helper.exampleEvent);
-        self._setUpSocket();
-    }
-
-    close() {
-        this.setState({ showModal: false });
-    }
-
-    open() {
-        this.setState({ showModal: true });
     }
 
     componentDidMount() {
@@ -108,9 +57,9 @@ export default class Home extends Component {
                                                 <p className="centered large">
                                                     What are you waiting for?<br />
                                                 </p>
-                                                <Button bsStyle="primary" className="start-button" onClick={this.open}>
+                                                <Button bsStyle="primary" className="start-button" onClick={() => fbLogin()}>
                                                     Start Building
-                                                        {/* <i class="centered clear fa fa-paper-plane " aria-hidden="true"></i> */}
+                                                    &nbsp;<i className="centered clear fa fa-paper-plane " aria-hidden="true"></i>
                                                 </Button>
                                                 <Link to="/faq">
                                                     <p className="home-learn-more">See our FAQ</p>
@@ -123,7 +72,9 @@ export default class Home extends Component {
                             </Col>
                             <Col xs={12} md={3} className="home-right-col">
                                 <ListGroup>
-                                    <HeaderBox header={"Live Activity Feed"}><DataFeed blocks={this.state.blocks} /></HeaderBox>
+                                    <HeaderBox header={"Live Activity Feed"}>
+                                        <SocketFeed />
+                                    </HeaderBox>
                                 </ListGroup>
                             </Col>
                             <Col xsHidden md={1} />
@@ -131,10 +82,7 @@ export default class Home extends Component {
                     </Row>
 
                 </div>
-
                 <HelpSteps maxSize={12} />
-                <LoginModal showModal={this.state.showModal} close={self.close} />
-
             </div>
         )
     }

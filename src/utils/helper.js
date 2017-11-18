@@ -1,4 +1,3 @@
-'use strict';
 const library = (function () {
     const getRandom = (items) => {
         return items[Math.floor(Math.random()*items.length)];

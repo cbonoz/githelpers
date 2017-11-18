@@ -4,12 +4,13 @@ import { Link } from 'react-router-dom';
 import Search from './dash/Search';
 import Profile from './dash/Profile';
 import UserStatistics from './dash/UserStatistics';
+import FeedPage from './dash/FeedPage';
 import Help from './dash/Help';
 import Sidebar from './dash/Sidebar';
 
 import github from '../utils/github';
-import token from '../utils/token';
 import { socket, cookies, getRepositories } from '../utils/api';
+import { firebaseAuth } from '../utils/fire';
 const GitHub = require('octonode');
 
 export default class Dashboard extends Component {
@@ -17,27 +18,12 @@ export default class Dashboard extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            currentUser: null,
-            currentPage: 1,
-            githubClient: null
+            currentUser: firebaseAuth.currentUser,
+            currentPage: 1
         };
 
         this._renderCurrentPage = this._renderCurrentPage.bind(this);
         this.updateCurrentPage = this.updateCurrentPage.bind(this);
-    }
-
-    componentWillMount() {
-        // getRepositories().then((err, data) => {
-        //     console.log('getRepos', err, data);
-        // }).catch((err) => {
-        //     console.error(err);
-        // })
-        const user = cookies.get('user');
-        const token = cookies.get('token');
-        // console.log('user', user)
-        // console.log('token', token)
-        this.setState( {currentUser: user, githubClient: GitHub.client(token)});
-        // console.log(this.state.currentUser);
     }
 
     updateCurrentPage(currentPage) {
@@ -46,14 +32,16 @@ export default class Dashboard extends Component {
 
     _renderCurrentPage() {
         switch (this.state.currentPage) {
-            case 0:
-                return <Search user={this.state.currentUser} client={this.state.githubClient}/>; // Search removed on sidebar (will be part of header - no auth required).
+            // case 0:
+            //     return <Search user={this.state.currentUser}/>; // Search removed on sidebar (will be part of header - no auth required).
             case 1:
-                return <Profile user={this.state.currentUser} client={this.state.githubClient}/>;
+                return <Profile user={this.state.currentUser}/>
             case 2:
-                return <UserStatistics user={this.state.currentUser} client={this.state.githubClient}/>;
+                return <UserStatistics user={this.state.currentUser}/>
             case 3:
-                return <Help user={this.state.currentUser} client={this.state.githubClient}/>;
+                return <FeedPage user={this.state.currentUser}/>
+            case 4:
+                return <Help user={this.state.currentUser}/>
         }
     }
 

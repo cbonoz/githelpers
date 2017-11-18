@@ -6,6 +6,7 @@ import TimerButton from './TimerButton';
 import github from './../../utils/github';
 import { postIssues } from './../../utils/api';
 import { cookies, socket, postSocketEvent } from './../../utils/api';
+import {firebaseAuth} from '../../utils/fire';
 
 
 export default class Profile extends Component {
@@ -16,7 +17,7 @@ export default class Profile extends Component {
             // issues synced with the githelpers DB (and are currently indexed for public search and discovery).
             syncedIssues: [],
             syncing: false,
-            error: null
+            error: null,
         }
     }
 
@@ -30,6 +31,11 @@ export default class Profile extends Component {
 
         // this._syncIssues()
     }
+
+    componentDidMount() {
+        this.setState( {currentUser: firebaseAuth.currentUser });
+    }
+    
 
     _renderIssue(issue) {
         return (
@@ -98,18 +104,20 @@ export default class Profile extends Component {
             </Popover>
         );
 
+        const currentUser = this.state.currentUser;
+        
         return (
             <div className="profile-content">
                 <ListGroup>
-                    <ListGroupItem header={"Your Profile: " + self.props.user.login} bsStyle="info"></ListGroupItem>
+                    <ListGroupItem header={"Your Profile " + (currentUser != null ? currentUser.displayName : "")} bsStyle="info"></ListGroupItem>
                     <ListGroupItem>
                             <TimerButton bsStyle="danger" bsSize="large" duration={5} popover={popover}
-                            onClick={() => self._syncIssues()} buttonText={"Refresh label ged issues"}/>
+                            onClick={() => self._syncIssues()} buttonText={"Refresh tagged issues"}/>
                     </ListGroupItem>
 
                     {/* <ListGroup> */}
                     <div className="sync-results">
-                        <ListGroupItem header={"Your current label ged issues:"} />
+                        <ListGroupItem header={"Your current 'githelpers' tagged issues:"} />
                         <div className="syncing">
                             <ClimbingBoxLoader className="centered" color={'#123abc'} size={500} loading={self.state.syncing} />
                         </div>

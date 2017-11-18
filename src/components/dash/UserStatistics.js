@@ -10,7 +10,7 @@ export default class UserStatistics extends Component {
         this.state = {
             // TODO: replace with dynamic message.
             statMessage: "Sync your first issue to see statistics here",
-            user: cookies.get('user')
+            user: this.props.user
         }
     }
 
@@ -28,8 +28,9 @@ export default class UserStatistics extends Component {
                     <ListGroupItem className="group-padding">
                         <p className="stats-text">{self.state.statMessage}</p>
                     </ListGroupItem>
-                    <ListGroupItem header={"Account"} />
+                    <ListGroupItem header={"User Information"} />
                     <ListGroupItem>
+                        <p>{JSON.stringify(self.state.user)}</p>
                         {self.state.user && <ul>
                             {Object.keys(self.state.user).map((key, index) => {
                                 return <li key={index}><b>{key}:</b>&nbsp;{JSON.stringify(self.state.user[key])}</li>
