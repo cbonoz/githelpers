@@ -6,11 +6,13 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const http = require('http');
 const https = require('https');
+const Guid = require('guid');
 const pg = require('pg');
 const path = require('path');
 const { Pool } = require('pg');
 
-var github = require('octonode');
+const github = require('octonode');
+const csrfGuid = Guid.raw();
 
 let globalAccessToken = "";
 
@@ -36,6 +38,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 
 // Endpoints //
+
+app.get('/guid', (req, res) => {
+  return res.json(csrfGuid);
+})
 
 app.get('/api/hello', (req, res) => {
   return res.json("hello world");

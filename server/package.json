@@ -15,8 +15,7 @@
         "body-parser": "^1.15.2",
         "cors": "^2.8.1",
         "express": "^4.14.0",
-        "express-jwt": "^3.4.0",
-        "jwks-rsa": "^1.2.0",
+        "guid": "^0.0.12",
         "pg": "^7.4.0",
         "socket.io": "^2.0.4"
     }
