@@ -64,7 +64,7 @@ export default class Search extends Component {
       <div className="full-height container">
         <div className="search-form centered">
           <img src={githelpers} className="centered search-image" />
-          <h3 className="centered search-banner-text">Browse Repositories that need your help.</h3>
+          <h3 className="centered search-banner-text">Discover Repositories that need your help.</h3>
           <p>Enter any string of characters, including languages and topics, which we will attempt to match as best as possible with our database of available tagged repositories.</p>
           {' '}
           <FormGroup>

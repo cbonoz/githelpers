@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import {  Button, Row, Col, Grid } from 'react-bootstrap';
 import HeaderBox from './data/HeaderBox';
+import FontAwesome from 'react-fontawesome';
 
 export default class HelpSteps extends Component {
     render() {
@@ -17,7 +18,8 @@ export default class HelpSteps extends Component {
                             <div className="home-box-number">1.</div>
                             <HeaderBox header={"Register"}>
                                 <div className="centered home-box">
-                                    Sign up for a new GitHelpers account using your Github.
+                                    Sign up for a new GitHelpers account using your facebook account.<br/>
+                                    <i class="centered clear fa fa-4x fa-facebook-square help-icon" aria-hidden="true"></i>
                             </div>
                             </HeaderBox>
                         </Col>
@@ -27,6 +29,7 @@ export default class HelpSteps extends Component {
                             <HeaderBox header={"Tag"}>
                                 <div className="centered home-box">
                                     Create new issues or take existing ones and tag them with the 'githelpers' tag.
+                                    <i class="centered clear fa fa-4x fa-tag help-icon" aria-hidden="true"></i>
                             </div>
                             </HeaderBox>
                         </Col>
@@ -35,6 +38,7 @@ export default class HelpSteps extends Component {
                             <HeaderBox header={"Discover and Build"}>
                                 <div className="centered home-box">
                                     With a single click, your tagged issues be indexed and added to our DB.
+                                    <i class="centered clear fa fa-4x fa-database help-icon" aria-hidden="true"></i>
                                 </div>
                             </HeaderBox>
                         </Col>

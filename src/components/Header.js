@@ -59,13 +59,14 @@ export default class Header extends Component {
                         <Nav pullRight>
                                 {currentUser && <LinkContainer to="/dashboard"><NavItem>Your Dashboard</NavItem></LinkContainer>}
                             <LinkContainer to="/search">
-                                <NavItem>Search</NavItem>
+                                <NavItem>Discover Projects</NavItem>
                             </LinkContainer>
                             <LinkContainer to="/faq">
                                 <NavItem>FAQ</NavItem>
                             </LinkContainer>
                             {currentUser && <NavItem onClick={() => self._logout()}>Logout</NavItem>}
-                            {!currentUser && <NavItem onClick={() => self.open()}>Login</NavItem>}
+                            {!currentUser && <NavItem onClick={() => self.open()}>Login&nbsp;<i class="centered clear fa fa-paper-plane " aria-hidden="true"></i>
+                            </NavItem>}
                         </Nav>
                     </Navbar.Collapse>
                 </Navbar>

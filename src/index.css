@@ -187,6 +187,10 @@ body {
   color: purple !important;
 }
 
+.home-right-col {
+  padding-right: 15px;
+}
+
 .home-banner-image {
   margin-top: 75px;
   margin-bottom: 15px;
@@ -231,6 +235,9 @@ body {
   padding: 15px;
   min-height: 200px;
 }
+.clear {
+  clear: both;
+}
 
 .border-bottom-blue {
   border-bottom: 5px solid #3b5998;
@@ -240,23 +247,28 @@ body {
   background: #e7e7e7;
 }
 
+.help-icon {
+  padding: 30px;
+  color: gray;;
+}
+
 .pull-right {
   float: right;
 }
 
 .home-bottom-text {
   margin: 50px !important;
+  font-size: 20px;
   padding-bottom: 10px;
-  color: purple;
+  color: white;
 }
 
 .home-box-number {
-  color: gray;
+  color: white;
   text-align: center;
   font-size: 72px;
   font-weight: bold;
 }
-
 
 .white-background {
   background: white;
@@ -268,6 +280,10 @@ body {
 
 .header-text-section {
   margin: 50px;
+}
+
+.navbar-nav li:hover {
+  background: #dbdbdb;
 }
 
 .meal-plan-button {
@@ -321,7 +337,8 @@ body {
 }
 
 .home-background {
-  background: #0d112B;
+  /* background: #0d112B; */
+  background: #3b5998;
 }
 
 .sidebar-item {

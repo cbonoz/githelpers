@@ -34,29 +34,29 @@ export default class Home extends Component {
         event['time'] = helper.formatDateTimeMs(event['time']);
         var newList = [event, ...this.state.blocks];
         if (newList.length > 8) {
-            newList = newList.splice(-1,1); // remove last element
+            newList = newList.splice(-1, 1); // remove last element
         }
         this.setState({ blocks: newList });
     }
 
     _setUpSocket() {
         const self = this;
-        socket.on('connect', function(){
+        socket.on('connect', function () {
             console.log('connect');
         });
 
-        socket.on('incoming', function(data){
+        socket.on('incoming', function (data) {
             console.log('incoming', data);
             self._addEvent(data);
         });
 
-        socket.on('disconnect', function(){
+        socket.on('disconnect', function () {
             console.log('disconnect');
         });
 
         socket.open();
     }
-    
+
     componentWillUnmount() {
         socket.close();
     }
@@ -89,43 +89,43 @@ export default class Home extends Component {
             <div className="home-background">
                 <div className="home-content">
                     <Row>
-                        <Col xs={12} md={9}>
-                            <Jumbotron className="jumbotron transparency-jumbotron" style={backgroundStyle}>
+                        <Jumbotron className="jumbotron transparency-jumbotron" style={backgroundStyle}>
+                            <Col xs={12} md={8}>
                                 <div className="static-modal-jumbotron opaque centered">
                                     <img className="home-banner-image" src={githelpers} />
                                     <p className="bold">
-                                        Connect with your friends around&nbsp;<ReactRotatingText pause={3000} typingInterval={50} deletingInterval={75} items={self.state.words}/><br/>&nbsp;great open source software.
+                                        {/* Connect with your friends around&nbsp;<ReactRotatingText pause={3000} typingInterval={50} deletingInterval={75} items={self.state.words}/><br/>&nbsp;great open source software. */}
+                                        {self.state.slogan}
                                     </p>
-                                    {/* <h1>AthenaDelivered</h1> */}
-
                                     <div className="header-text-section">
                                         <span className="header-text">
-
                                             <div className="centered">
                                                 <p className="centered large">
-                                                    What are you waiting for?
-                                            </p>
+                                                    What are you waiting for?<br/>
+                                                </p>
                                                 <p><Link to="/faq">
                                                     <Button bsStyle="primary" className="start-button">
-                                                       Sign Up 
+                                                        Sign Up
+                                                        {/* <i class="centered clear fa fa-paper-plane " aria-hidden="true"></i> */}
                                             </Button></Link></p>
                                             </div>
                                         </span>
                                     </div>
-                                </div>
-                            </Jumbotron>
 
-                        </Col>
-                        <Col xs={12} md={3}>
-                            <ListGroup>
-                                <HeaderBox header={"Live Activity Feed"}><DataFeed blocks={this.state.blocks} /></HeaderBox>
-                            </ListGroup>
-                        </Col>
+                                </div>
+                            </Col>
+                            <Col xs={12} md={3} className="home-right-col">
+                                <ListGroup>
+                                    <HeaderBox header={"Live Activity Feed"}><DataFeed blocks={this.state.blocks} /></HeaderBox>
+                                </ListGroup>
+                            </Col>
+                            <Col xsHidden md={1} />
+                        </Jumbotron>
                     </Row>
 
                 </div>
 
-                <HelpSteps maxSize={12}/>
+                <HelpSteps maxSize={12} />
 
             </div>
         )

@@ -60,6 +60,13 @@ Future work includes:
 * Adding leaderboard and user contribution history.
 * Ability to chat directly with the repo owner through FB integration.
 
+
+### Useful Links
+* https://developers.facebook.com/docs/accountkit
+* https://developer.github.com/v3/
+* http://fontawesome.io/examples/
+* https://socket.io/
+
 ### Dev Notes
 
 <b>Available Scripts</b>
