@@ -53,7 +53,7 @@ d
                                 <NavItem>FAQ</NavItem>
                             </LinkContainer>
                             {authed && <NavItem onClick={() => self._logout()}>Logout</NavItem>}
-                            {!authed && <NavItem onClick={() => self._login()}>Login&nbsp;
+                            {!authed && <NavItem onClick={() => self._login()}>Login&nbsp;&nbsp;
                             <i className="centered clear fa fa-facebook-official facebook-blue" aria-hidden="true"></i>
                             </NavItem>}
                         </Nav>

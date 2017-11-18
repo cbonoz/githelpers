@@ -59,7 +59,7 @@ export default class Profile extends Component {
         self.setState({ syncing: true, syncedIssues: [], error: null });
 
         console.log('syncing issues for user');
-        const username = this.props.user.login;
+        const username = this.props.currentUser.displayName;
         const event = { name: `${username} just synced issues to the githelpers database.`, time: Date.now() };
         socket.emit('action', event, (data) => {
             console.log('action ack', data);
@@ -97,6 +97,7 @@ export default class Profile extends Component {
 
     render() {
         const self = this;
+        const currentUser = self.props.currentUser;
 
         const popover = (
             <Popover id="modal-popover" title="Refresh Issues">
@@ -104,12 +105,10 @@ export default class Profile extends Component {
             </Popover>
         );
 
-        const currentUser = this.state.currentUser;
-        
         return (
             <div className="profile-content">
                 <ListGroup>
-                    <ListGroupItem header={"Your Profile " + (currentUser != null ? currentUser.displayName : "")} bsStyle="info"></ListGroupItem>
+                    <ListGroupItem header={"Your Profile: " + (currentUser != null ? currentUser.displayName : "")} bsStyle="info"></ListGroupItem>
                     <ListGroupItem>
                             <TimerButton bsStyle="danger" bsSize="large" duration={5} popover={popover}
                             onClick={() => self._syncIssues()} buttonText={"Refresh tagged issues"}/>
@@ -117,7 +116,7 @@ export default class Profile extends Component {
 
                     {/* <ListGroup> */}
                     <div className="sync-results">
-                        <ListGroupItem header={"Your current 'githelpers' tagged issues:"} />
+                        <ListGroupItem header={"Your current tagged issues:"} />
                         <div className="syncing">
                             <ClimbingBoxLoader className="centered" color={'#123abc'} size={500} loading={self.state.syncing} />
                         </div>

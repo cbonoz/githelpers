@@ -24,10 +24,13 @@ export default class Sidebar extends Component {
                         User Statistics
                     </ListGroupItem>
                     <ListGroupItem className={"sidebar-item " + (self._activePage(3) ? 'selected-item' : '')} onClick={() => this.props.updateCurrentPage(3)}>
-                        Live Events
+                        Getting Started
                     </ListGroupItem>
                     <ListGroupItem className={"sidebar-item " + (self._activePage(4) ? 'selected-item' : '')} onClick={() => this.props.updateCurrentPage(4)}>
-                        Getting Started
+                        Live Events
+                    </ListGroupItem>
+                    <ListGroupItem className={"sidebar-item " + (self._activePage(5) ? 'selected-item' : '')} onClick={() => this.props.updateCurrentPage(5)}>
+                        Settings
                     </ListGroupItem>
                 </ListGroup>
             </div>

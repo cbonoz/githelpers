@@ -72,7 +72,7 @@ export default class Home extends Component {
                             </Col>
                             <Col xs={12} md={3} className="home-right-col">
                                 <ListGroup>
-                                    <HeaderBox header={"Live Activity Feed"}>
+                                    <HeaderBox header={"Recent Activity"}>
                                         <SocketFeed />
                                     </HeaderBox>
                                 </ListGroup>

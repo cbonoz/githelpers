@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
-import { Row, Col  } from 'react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Search from './dash/Search';
 import Profile from './dash/Profile';
+import Settings from './dash/Settings';
 import UserStatistics from './dash/UserStatistics';
 import FeedPage from './dash/FeedPage';
 import Help from './dash/Help';
@@ -18,7 +19,7 @@ export default class Dashboard extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            currentUser: firebaseAuth.currentUser,
+            currentUser: null,
             currentPage: 1
         };
 
@@ -26,22 +27,37 @@ export default class Dashboard extends Component {
         this.updateCurrentPage = this.updateCurrentPage.bind(this);
     }
 
+    componentDidMount() {
+        const self = this;
+        this.removeListener = firebaseAuth().onAuthStateChanged((user) => {
+            self.setState({ currentUser: user });
+            console.log('currentUser', JSON.stringify(self.state.currentUser));
+        })
+    }
+
+    componentWillUnmount() {
+        this.removeListener();
+    }
+
     updateCurrentPage(currentPage) {
         this.setState({ currentPage: currentPage });
     }
 
     _renderCurrentPage() {
-        switch (this.state.currentPage) {
+        const self = this;
+        switch (self.state.currentPage) {
             // case 0:
-            //     return <Search user={this.state.currentUser}/>; // Search removed on sidebar (will be part of header - no auth required).
+            //     return <Search user={self.state.currentUser}/>; // Search removed on sidebar (will be part of header - no auth required).
             case 1:
-                return <Profile user={this.state.currentUser}/>
+                return <Profile currentUser={self.state.currentUser} />
             case 2:
-                return <UserStatistics user={this.state.currentUser}/>
+                return <UserStatistics currentUser={self.state.currentUser} />
             case 3:
-                return <FeedPage user={this.state.currentUser}/>
+                return <Help currentUser={self.state.currentUser} />
             case 4:
-                return <Help user={this.state.currentUser}/>
+                return <FeedPage currentUser={self.state.currentUser} />
+            case 5:
+                return <Settings currentUser={self.state.currentUser} />
         }
     }
 

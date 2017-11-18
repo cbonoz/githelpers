@@ -9,8 +9,7 @@ export default class UserStatistics extends Component {
         super(props)
         this.state = {
             // TODO: replace with dynamic message.
-            statMessage: "Sync your first issue to see statistics here",
-            user: this.props.user
+            statMessage: "Sync your first issue to see statistics here"
         }
     }
 
@@ -30,7 +29,7 @@ export default class UserStatistics extends Component {
                     </ListGroupItem>
                     <ListGroupItem header={"User Information"} />
                     <ListGroupItem>
-                        <p>{JSON.stringify(self.state.user)}</p>
+                        <p>{JSON.stringify(self.props.currentUser)}</p>
                         {self.state.user && <ul>
                             {Object.keys(self.state.user).map((key, index) => {
                                 return <li key={index}><b>{key}:</b>&nbsp;{JSON.stringify(self.state.user[key])}</li>

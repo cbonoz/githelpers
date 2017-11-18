@@ -61,7 +61,7 @@ class App extends Component {
     this.removeListener = firebaseAuth().onAuthStateChanged((user) => {
       if (user) {
         if (!this.state.authed) { // show if there is a change in state.
-          toast(<div><b>Welcome: {user.email}</b></div>);
+          toast(<div><b>Welcome: {user.displayName}</b></div>);
         }
         this.setState({
           authed: true,
