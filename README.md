@@ -27,9 +27,9 @@ Githelpers is a friends-first environment, designed to make interacting and cont
 
 ##  What Github offers around encouraging open source:
 
-Github currently has the notion of the following tags: `good-first-timers` and `help-wanted`.
+Github currently has the notion of the following label s: `good-first-timers` and `help-wanted`.
 
-These tags can also be searched on github, but it can still be ambiguous where specific projects need help and from who. These tags can also be difficult to find - requiring advanced search by the end user in order to discover particular tags.
+These label s can also be searched on github, but it can still be ambiguous where specific projects need help and from who. These label s can also be difficult to find - requiring advanced search by the end user in order to discover particular label s.
 
 
 ## How it Works
@@ -37,18 +37,18 @@ These tags can also be searched on github, but it can still be ambiguous where s
 The process of adding a new project on GitHelpers is a 3 step process.
 
 1. Create a new github repository
-2. Create issues that you would like with on that repository. Tag with the tag githelpers
+2. Create issues that you would like with on that repository. Tag with the label  githelpers
 3. Upload your project to the GitHelpers website. It will now be searchable by developers around the world.
 
 For every repo that's add to the DB, you can directly invite your friends or connect with the repo owners through facebook.
 
-As developers find your project, there is no lack of understanding or expectations  of whether you are looking for help. All your tagged issues become searchable, and those developers can freely open pull requests on your github repository.
+As developers find your project, there is no lack of understanding or expectations  of whether you are looking for help. All your label ged issues become searchable, and those developers can freely open pull requests on your github repository.
 
 ## Where Githelpers differentiates.
 
 <ol>
     <li>Live contribution and user sign up feed.</li>
-    <li>Community website around the tags. </li>
+    <li>Community website around the label s. </li>
     <li>Searchable index around issues that have been explicitly marked.</li>
 </ol>
 

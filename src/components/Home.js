@@ -105,7 +105,7 @@ export default class Home extends Component {
                                                 </p>
                                                 <p><Link to="/faq">
                                                     <Button bsStyle="primary" className="start-button">
-                                                        Sign Up
+                                                       Learn More 
                                                         {/* <i class="centered clear fa fa-paper-plane " aria-hidden="true"></i> */}
                                             </Button></Link></p>
                                             </div>

@@ -233,7 +233,7 @@ body {
   font-size: 16px;
   line-height: 24px;
   padding: 15px;
-  min-height: 200px;
+  min-height: 280px;
 }
 .clear {
   clear: both;
@@ -249,7 +249,8 @@ body {
 
 .help-icon {
   padding: 30px;
-  color: gray;;
+  color: gray;
+  vertical-align: bottom;
 }
 
 .pull-right {

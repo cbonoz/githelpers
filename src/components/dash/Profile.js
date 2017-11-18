@@ -94,7 +94,7 @@ export default class Profile extends Component {
 
         const popover = (
             <Popover id="modal-popover" title="Refresh Issues">
-                Clicking here will scan your repositories for new issues tagged with 'githelpers' and sync them to the githelpers database. These will appear below.
+                Clicking here will scan your repositories for new issues label ged with 'githelpers' and sync them to the githelpers database. These will appear below.
             </Popover>
         );
 
@@ -104,12 +104,12 @@ export default class Profile extends Component {
                     <ListGroupItem header={"Your Profile: " + self.props.user.login} bsStyle="info"></ListGroupItem>
                     <ListGroupItem>
                             <TimerButton bsStyle="danger" bsSize="large" duration={5} popover={popover}
-                            onClick={() => self._syncIssues()} buttonText={"Refresh tagged issues"}/>
+                            onClick={() => self._syncIssues()} buttonText={"Refresh label ged issues"}/>
                     </ListGroupItem>
 
                     {/* <ListGroup> */}
                     <div className="sync-results">
-                        <ListGroupItem header={"Your current tagged issues:"} />
+                        <ListGroupItem header={"Your current label ged issues:"} />
                         <div className="syncing">
                             <ClimbingBoxLoader className="centered" color={'#123abc'} size={500} loading={self.state.syncing} />
                         </div>

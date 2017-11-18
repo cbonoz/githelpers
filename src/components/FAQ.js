@@ -12,7 +12,7 @@ export default class FAQ extends Component {
             },
             {
                 question: "How does GitHelpers work?",
-                answer: "Once you login, create issues on your repositories that you would like with (tag with the tag 'githelpers'). Sync your repositories from the GitHelpers dashboard page once logged in. Your tagged issues will now be searchable by developers around the world."
+                answer: "Once you login, create issues on your repositories that you would like with (tag with the label 'githelpers'). Sync your repositories from the GitHelpers dashboard page once logged in. Your label ged issues will now be searchable by developers around the world."
             },
             {
                 question: "How long has GitHelpers been around?",
@@ -24,7 +24,7 @@ export default class FAQ extends Component {
             },
             {
                 question: "Why do I have to log in with Github for my account?",
-                answer: "GitHelpers is designed to sync with your github repositories and issues. During this sync, we search for the 'githelpers' tag and automatically upload them to our githelpers database index - plus logging in does not require entering any sensitive passwords!"
+                answer: "GitHelpers is designed to sync with your github repositories and issues. During this sync, we search for the 'githelpers' label  and automatically upload them to our githelpers database index - plus logging in does not require entering any sensitive passwords!"
             }
         ]
     }

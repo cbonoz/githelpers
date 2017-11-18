@@ -65,7 +65,7 @@ export default class Search extends Component {
         <div className="search-form centered">
           <img src={githelpers} className="centered search-image" />
           <h3 className="centered search-banner-text">Discover Repositories that need your help.</h3>
-          <p>Enter any string of characters, including languages and topics, which we will attempt to match as best as possible with our database of available tagged repositories.</p>
+          <p>Enter any string of characters, including languages and topics, which we will attempt to match as best as possible with our database of available label ged repositories.</p>
           {' '}
           <FormGroup>
             <FormControl type="text" placeholder="Search" inputRef={input => this.searchInput = input} />
