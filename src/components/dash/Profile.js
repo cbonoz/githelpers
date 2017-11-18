@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Fade, Navbar, Popover, Jumbotron, Button, Row, Col, Grid, ListGroup, ListGroupItem, OverlayTrigger } from 'react-bootstrap';
+import { ListGroup, ListGroupItem, Popover } from 'react-bootstrap';
 import { ClimbingBoxLoader } from 'react-spinners';
 import TimerButton from './TimerButton';
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Collapse, Well, Table, Grid, Row, Col, ListGroup, ListGroupItem } from 'react-bootstrap';
+import { ListGroup, ListGroupItem } from 'react-bootstrap';
 
 export default class Sidebar extends Component {
 

@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
-import { Fade, Navbar, Jumbotron, Button, Row, Col, Grid, ListGroup, ListGroupItem } from 'react-bootstrap';
+import { Jumbotron, Button, Row, Col, Grid, ListGroup, ListGroupItem } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import ReactRotatingText from 'react-rotating-text';
-import FontAwesome from 'react-fontawesome';
 
+import LoginModal from './LoginModal';
 import DataFeed from './data/DataFeed';
 import HeaderBox from './data/HeaderBox';
 import HelpSteps from './HelpSteps';
@@ -24,10 +24,13 @@ export default class Home extends Component {
             words: ['building', 'sharing', 'discovering'],
             show: false,
             headerFade: false,
-            blocks: []
+            blocks: [],
+            showModal: false
         }
         this._addEvent = this._addEvent.bind(this);
         this._setUpSocket = this._setUpSocket.bind(this);
+        this.open = this.open.bind(this);
+        this.close = this.close.bind(this);
     }
 
     _addEvent(event) {
@@ -67,17 +70,19 @@ export default class Home extends Component {
         self._setUpSocket();
     }
 
+    close() {
+        this.setState({ showModal: false });
+    }
+
+    open() {
+        this.setState({ showModal: true });
+    }
+
     componentDidMount() {
         setTimeout(() => {
             this.setState({ show: true, headerFade: true });
         }, 2000);
     }
-
-    goToLogin() {
-        // TODO: take the user to the login route.
-        console.log('goToLogin')
-    }
-
     render() {
         const self = this;
 
@@ -101,13 +106,15 @@ export default class Home extends Component {
                                         <span className="header-text">
                                             <div className="centered">
                                                 <p className="centered large">
-                                                    What are you waiting for?<br/>
+                                                    What are you waiting for?<br />
                                                 </p>
-                                                <p><Link to="/faq">
-                                                    <Button bsStyle="primary" className="start-button">
-                                                       Learn More 
+                                                <Button bsStyle="primary" className="start-button" onClick={this.open}>
+                                                    Start Building
                                                         {/* <i class="centered clear fa fa-paper-plane " aria-hidden="true"></i> */}
-                                            </Button></Link></p>
+                                                </Button>
+                                                <Link to="/faq">
+                                                    <p className="home-learn-more">See our FAQ</p>
+                                                </Link>
                                             </div>
                                         </span>
                                     </div>
@@ -126,6 +133,7 @@ export default class Home extends Component {
                 </div>
 
                 <HelpSteps maxSize={12} />
+                <LoginModal showModal={this.state.showModal} close={self.close} />
 
             </div>
         )

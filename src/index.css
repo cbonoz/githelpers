@@ -100,10 +100,12 @@ body {
 }
 
 .start-button {
-  padding-left: 20px;
-  padding-right: 20px;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  font-size: 16px;
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-top: 15px;
+  margin-top: 20px;
+  padding-bottom: 15px;
 }
 
 .patient-heading {
@@ -251,6 +253,12 @@ body {
   padding: 30px;
   color: gray;
   vertical-align: bottom;
+}
+
+.home-learn-more {
+  font-size: small !important;
+  text-decoration: underline;
+  margin: 20px;
 }
 
 .pull-right {

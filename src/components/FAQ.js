@@ -38,7 +38,7 @@ export default class FAQ extends Component {
                         <p className="large faq-box">{entry.answer}</p>
                     </Accordion>);
                 })}
-                <p className="centered faq-bottom-text large">Click the Login button to begin</p>
+                <p className="centered faq-bottom-text large">Click the Login from the header bar to begin</p>
             </div>
         )
     }

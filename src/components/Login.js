@@ -22,6 +22,10 @@ export default class Login extends Component {
         this._onFailure = this._onFailure.bind(this);
         this._onFacebookResponse = this._onFacebookResponse.bind(this);
     }
+    
+    componentWillMount() {
+        console.log('appId', process.env.REACT_APP_FB_APP_ID)
+    }
 
     _onSuccess(response) {
         const self = this;

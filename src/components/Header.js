@@ -65,7 +65,7 @@ export default class Header extends Component {
                                 <NavItem>FAQ</NavItem>
                             </LinkContainer>
                             {currentUser && <NavItem onClick={() => self._logout()}>Logout</NavItem>}
-                            {!currentUser && <NavItem onClick={() => self.open()}>Login&nbsp;<i class="centered clear fa fa-paper-plane " aria-hidden="true"></i>
+                            {!currentUser && <NavItem onClick={() => self.open()}>Login&nbsp;<i className="centered clear fa fa-paper-plane " aria-hidden="true"></i>
                             </NavItem>}
                         </Nav>
                     </Navbar.Collapse>

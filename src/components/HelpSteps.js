@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import {  Button, Row, Col, Grid } from 'react-bootstrap';
 import HeaderBox from './data/HeaderBox';
-import FontAwesome from 'react-fontawesome';
 
 export default class HelpSteps extends Component {
     render() {
@@ -19,7 +18,7 @@ export default class HelpSteps extends Component {
                             <HeaderBox header={"Register"}>
                                 <div className="centered home-box">
                                     Sign up for a new GitHelpers account using your <b>facebook</b> account.<br/>
-                                    <i class="centered clear fa fa-4x fa-facebook-square help-icon" aria-hidden="true"></i>
+                                    <i className="centered clear fa fa-4x fa-facebook-square help-icon" aria-hidden="true"></i>
                             </div>
                             </HeaderBox>
                         </Col>
@@ -29,7 +28,7 @@ export default class HelpSteps extends Component {
                             <HeaderBox header={"Label"}>
                                 <div className="centered home-box">
                                     Using your github account, create new issues or take existing ones and add a label to them with the name <b>'githelpers'</b>.<br/>
-                                    <i class="centered clear fa fa-4x fa-tag help-icon" aria-hidden="true"></i>
+                                    <i className="centered clear fa fa-4x fa-tag help-icon" aria-hidden="true"></i>
                             </div>
                             </HeaderBox>
                         </Col>
@@ -38,7 +37,7 @@ export default class HelpSteps extends Component {
                             <HeaderBox header={"Discover and Build"}>
                                 <div className="centered home-box">
                                     With a single click from the githelpers dashboard, your tagged issues be indexed and added to our <b>database</b>.<br/>
-                                    <i class="centered clear fa fa-4x fa-database help-icon" aria-hidden="true"></i>
+                                    <i className="centered clear fa fa-4x fa-database help-icon" aria-hidden="true"></i>
                                 </div>
                             </HeaderBox>
                         </Col>

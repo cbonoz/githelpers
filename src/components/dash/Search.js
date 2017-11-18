@@ -74,8 +74,8 @@ export default class Search extends Component {
           <hr />
         </div>
         <div className="search-issues">
-          <div className="searching">
-            <ClimbingBoxLoader className="centered" color={'#123abc'} size={500} loading={this.state.searching} />
+          <div className="searching centered">
+            <ClimbingBoxLoader color={'#123abc'} size={500} loading={this.state.searching} />
           </div>
 
           <ListGroup>

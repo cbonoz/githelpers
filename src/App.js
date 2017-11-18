@@ -8,11 +8,8 @@ import Header from './components/Header';
 import Home from './components/Home';
 import Login from './components/Login';
 
-import logo from './logo.svg';
-
 import {
   BrowserRouter as Router,
-  Link,
   Route,
   Switch,
 } from 'react-router-dom';

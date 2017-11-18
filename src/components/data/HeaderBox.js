@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Fade, Navbar, Jumbotron, Button, Row, Col, Grid, ListGroup, ListGroupItem } from 'react-bootstrap';
+import { ListGroup, ListGroupItem } from 'react-bootstrap';
 
 export default class HeaderBox extends Component {
     render() {

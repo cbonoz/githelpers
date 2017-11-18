@@ -6,13 +6,13 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const http = require('http');
 const https = require('https');
-const Guid = require('guid');
 const pg = require('pg');
 const path = require('path');
 const { Pool } = require('pg');
 
 const github = require('octonode');
-const csrfGuid = Guid.raw();
+
+const csrfGuid = process.env.REACT_APP_FB_CSRF;
 
 let globalAccessToken = "";
 
