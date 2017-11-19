@@ -35,7 +35,7 @@ export default class HelpSteps extends Component {
                             </div>
                             </HeaderBox>
                         </Col>
-                        <Col xs={half} md={third}>
+                        <Col xs={half*2} md={third}>
                             <div className="home-box-number">3.</div>
                             <HeaderBox header={"Discover and Build"}>
                                 <div className="centered home-box">
@@ -46,7 +46,7 @@ export default class HelpSteps extends Component {
                         </Col>
                     </Row>
                     <Row>
-                        <Col xs={half} md={this.props.maxSize}>
+                        <Col xs={half*2} md={this.props.maxSize}>
                             <p className="centered home-bottom-text bold">That's it. Developers from around the world can now search for and contribute to these issues.</p>
                         </Col>
                     </Row>

@@ -23,6 +23,7 @@ export default class Search extends Component {
 
     this._search = this._search.bind(this);
     this._handlePageClick = this._handlePageClick.bind(this);
+    this._updateIssuesPage = this._updateIssuesPage.bind(this);
   }
 
   _search(query) {
@@ -41,30 +42,33 @@ export default class Search extends Component {
     postSearchIssues(query).then((data) => {
       self.setState({ issues: data, searching: false });
       // Select/show the first page of results by default.
-      self._handlePageClick(0);
+      self._updateIssuesPage(0);
     }).catch((err) => {
       console.error('error searching', err);
-      this.setState({ issues: [], searching: false, error: err });
+      self.setState({ issues: [], searching: false, error: err });
     });
 
     const len = Math.min(query.length, 15)
     const shortQuery = query.slice(0, len);
+    console.log('emitting event');
     socket.emit('action', { name: `${username} just searched for ${shortQuery}.`, time: Date.now() }, (data) => {
       console.log('action ack', data);
     });
+  }
 
+  _updateIssuesPage(selected) {
+    const self = this;
+    const issues = self.state.issues;
+    console.log('issues', issues)
+    const startIndex = Math.min(Math.ceil(selected * self.state.resultsPerPage), issues.length);
+    const endIndex = Math.min(startIndex + self.state.resultsPerPage, issues.length);
+    self.setState({ visibleIssues: issues.slice(startIndex, endIndex) });
   }
 
   _handlePageClick = (data) => {
     const self = this;
     const selected = data.selected;
-
-    const issues = self.state.issues;
-    const startIndex = Math.min(Math.ceil(selected * self.state.resultsPerPage), issues.length);
-    const endIndex = Math.min(startIndex + self.state.resultsPerPage, issues.length);
-
-    self.setState({ visibleIssues: issues.splice(startIndex, endIndex) });
-
+    self._updateIssuesPage(selected);
     // self.setState({offset: offset}, () => {
     //   this.loadCommentsFromServer();
     // });

@@ -11,11 +11,10 @@ const http = require('http');
 const https = require('https');
 const pg = require('pg');
 const path = require('path');
-const { Pool } = require('pg');
 const github = require('octonode');
 
 // Variable and Server Setup //
-const prod = false;
+const prod = true;
 
 const csrfGuid = process.env.REACT_APP_FB_CSRF;
 let globalAccessToken = "";
@@ -23,8 +22,11 @@ let globalAccessToken = "";
 const dbUser = process.env.ADMIN_DB_USER;
 const dbPass = process.env.ADMIN_DB_PASS;
 const dbName = 'githelpers';
-const connectionString = process.env.GITHELPERS_DATABASE_URL || `postgres://${dbUser}:${dbPass}@localhost:5432/${dbName}`;
-const pool = new Pool({
+const connectionString = process.env.GITHELPERS_DATABASE_URL 
+  || `postgres://${dbUser}:${dbPass}@localhost:5432/${dbName}`;
+console.log('connectionString', connectionString);
+
+const pool = new pg.Pool({
   connectionString: connectionString,
 })
 
@@ -32,14 +34,32 @@ const PORT = 9006;
 
 const app = express();
 const server = require('http').createServer(app);
-const io = require('socket.io')(server);
+const io = require('socket.io')(server, { origins: '*:*'});
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-if (!prod) {
-  app.use(cors());
-}
+// TODO: remove cors.
+app.use(cors());
+// Add headers
+app.use(function (req, res, next) {
+
+    // Website you wish to allow to connect
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+
+    // Request methods you wish to allow
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+
+    // Request headers you wish to allow
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+
+    // Set to true if you need the website to include cookies in the requests sent
+    // to the API (e.g. in case you use sessions)
+    res.setHeader('Access-Control-Allow-Credentials', true);
+
+    // Pass to next layer of middleware
+    next();
+});
 
 pool.on('error', (err, client) => {
   console.error('Unexpected error on idle client', err)
@@ -47,10 +67,6 @@ pool.on('error', (err, client) => {
 })
 
 // Endpoints //
-
-app.get('/guid', (req, res) => {
-  return res.json(csrfGuid);
-})
 
 app.get('/api/hello', (req, res) => {
   return res.json("hello world");
@@ -61,12 +77,13 @@ app.get('/api/events/:count', (req, res, next) => {
   const count = Math.min(Math.abs(countParam), 8);
 
   pool.query('SELECT * FROM events ORDER BY id DESC limit ' + count, (err, res) => {
-    console.log('events', err, res)
+    console.log('events', err, result)
     if (err) {
+      console.error('events error', err);
       return res.status(500).json(err);
     }
     pool.end()
-    return res.json(res.rows);
+    return res.json(result.rows);
   })
 });
 
@@ -74,13 +91,14 @@ app.get('/api/issues/:creator', (req, res, next) => {
   const creatorParam = req.params.creator === undefined ? null : req.params.creator;
   const creator = Math.min(Math.abs(creatorParam), 8);
 
-  pool.query(`SELECT * FROM issues where creator = "${creator}`, (err, res) => {
-    console.log('issues', err, res)
+  pool.query(`SELECT * FROM issues where creator=$1`, [`%${creator}%`], (err, result) => {
+    console.log('issues', err, result)
     if (err) {
+      console.error('get issues error', err);
       return res.status(500).json(err);
     }
     pool.end()
-    return res.json(res.rows);
+    return res.json(result.rows);
   })
 });
 
@@ -90,11 +108,12 @@ app.post('/api/search', (req, res) => {
   const query = body.query.toLowerCase();
   // TODO: implement stronger search filtering (including languages).
   pool.query("select * from issues where body like $1", [`%${query}%`],
-    function(err, res) {
+    function(err, result) {
       if (err) {
+        console.error('search error', err);
         return res.status(500).json(err);
       }
-      return res.status(200).json(res);
+      return res.status(200).json(result.rows);
     });
 });
 
@@ -133,11 +152,11 @@ app.post('/api/issues', (req, res) => {
 
 app.get('/api/rate_limit', (req, res) => {
   axios.get('https://api.github.com/rate_limit')
-    .then(function (response) {
-      console.log(response.data);
+    .then(function (result) {
+      console.log(result.data);
+      res.status(200).json(result.data);
     });
 
-  res.sendStatus(200);
 });
 
 app.post('/api/github', (req, res) => {
@@ -151,11 +170,11 @@ app.post('/api/github', (req, res) => {
     client_id: clientId,
     client_secret: clientSecret,
     code: code
-  }).then(function (response) {
-    // console.log('token response:', JSON.stringify(response));
-    console.log('token response:', response.data);
-    // const resp = JSON.parse(response);
-    const resp = response.data;
+  }).then(function (result) {
+    // console.log('token result:', JSON.stringify(result));
+    console.log('token result:', result.data);
+    // const resp = JSON.parse(result);
+    const resp = result.data;
     const respArray = resp.split("&");
     const accessToken = respArray[0].split("=");
 
@@ -172,6 +191,7 @@ app.post('/api/github', (req, res) => {
 
 // Socket IO handlers //
 
+io.origins('*:*') // for latest version
 io.on('connection', function (client) {
   client.on('action', function (event) {
     pool.query('INSERT INTO events(name, time) values($1, $2)', [event.name, event.time]);
