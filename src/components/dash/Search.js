@@ -18,7 +18,7 @@ export default class Search extends Component {
       issues: [],
       visibleIssues: [],
       lastQuery: null,
-      resultsPerPage: 10
+      resultsPerPage: 10,
     }
 
     this._search = this._search.bind(this);
@@ -81,9 +81,9 @@ export default class Search extends Component {
           <h3 className="centered search-banner-text">Discover Repositories that need your help.</h3>
           <p className="search-subtitle-text">Enter any string of characters, including languages and topics, which we will attempt to match as best as possible with our database of available <b>githelpers</b>-tagged issues.</p>
           {this.props.currentUser == null &&
-            <p>Use your <span onClick={() => fbLogin()} className="facebook-blue bold pointer">Facebook</span> to connect with friends over open source projects via githelpers.</p>}
+            <p>Login with <span onClick={() => fbLogin()} className="facebook-blue bold pointer">Facebook</span> to share projects with friends selectable in the githelpers platform.</p>}
           <FormGroup>
-            <FormControl type="text" placeholder="Search" inputRef={input => this.searchInput = input} />
+            <FormControl type="text" placeholder="Search Issues" inputRef={input => this.searchInput = input} className="githelpers-search-input" />
           </FormGroup>
           <Button type="submit" onClick={() => this._search(this.searchInput.value)} bsStyle="success">Search Projects</Button>
           <hr />

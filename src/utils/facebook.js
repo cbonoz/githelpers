@@ -1,13 +1,18 @@
 'use strict';
 const library = (function () {
     const fire = require('./fire');
+    const axios = require('axios');
 
     const firebaseAuth = fire.firebaseAuth;
     const APP_ID = process.env.REACT_APP_FB_APP_ID;
     const DASHBOARD_URL = "https://www.githelpers.com/dashboard";
+    const GRAPH_URL = 'https://graph.facebook.com/v2.11';
 
     const _getRoute = function(route) {
-        return `${graphUrl}${route}&access_token=${accessToken}`
+        const accessToken = firebaseAuth.currentUser ?
+            firebaseAuth.currentUser.accessToken :
+            null;
+        return `${GRAPH_URL}${route}&access_token=${accessToken}`
     }
 
     function getFacebookId() {
@@ -26,9 +31,6 @@ const library = (function () {
         const route = `http://www.facebook.com/dialog/send?app_id=${APP_ID}&amp;link=${issueUrl}&amp;redirect_uri=${DASHBOARD_URL}`;
         return axios.get(route).then(response => response.data);
     }
-
-
-    // TODO: add facebook graph api object using token (or api calls).
 
     return {
         getFacebookId: getFacebookId,

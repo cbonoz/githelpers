@@ -64,10 +64,10 @@ export default class Dashboard extends Component {
             <div>
                 <div className='dashboard-container'>
                     <Row>
-                        <Col xs={4} md={3}>
+                        <Col xs={12} md={3}>
                             <Sidebar currentPage={this.state.currentPage} updateCurrentPage={this.updateCurrentPage} />
                         </Col>
-                        <Col xs={8} md={9}>
+                        <Col xs={12} md={9}>
                             <div className="full-height">
                                 {self._renderCurrentPage()}
                             </div>

@@ -5,7 +5,8 @@ import TimerButton from './TimerButton';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
 import github from './../../utils/github';
-import { postIssues } from './../../utils/api';
+import fb from './../../utils/facebook';
+import { postIssues, getIssuesForUser } from './../../utils/api';
 import { cookies, socket, postSocketEvent } from './../../utils/api';
 import { firebaseAuth } from '../../utils/fire';
 import { toast } from 'react-toastify';
@@ -33,6 +34,7 @@ export default class Profile extends Component {
         this._renderRepo = this._renderRepo.bind(this);
         this._syncIssuesForRepo = this._syncIssuesForRepo.bind(this);
         this._getIssuesForUser = this._getIssuesForUser.bind(this);
+        this._shareIssue = this._shareIssue.bind(this);
         this.client = github.client;
     }
 
@@ -55,6 +57,9 @@ export default class Profile extends Component {
 
     _getIssuesForUser(user) {
         // TODO: prefetch issues associated with the particular user (if it was stored in the cookie).
+        getIssuesForUser(user).then((res) => {
+
+        });
     }
 
     _syncIssuesForRepo(repo) {
@@ -66,16 +71,17 @@ export default class Profile extends Component {
                 if (self.state.syncedRepos.hasOwnProperty(repoId)) {
                     delete self.state.syncedRepos[repoId]
                 }
-                self.setState( {error: err});
+                self.setState({ error: err });
                 return;
             }
 
-            // Filter to 'githelpers' issues.
-            const ghIssues = data.filter((issue) => issue['labels'].filter((label) => label.name.toLowerCase() === 'githelpers').length);
+            // Filter to githelpers (and 'help wanted') issues.
+            const ghIssues = data.filter((issue) => issue['labels']
+                .filter((label) => label.name.toLowerCase() === 'githelpers' || label.name.toLowerCase() === 'help wanted').length);
 
             self.state.clickedRepos.add(repoId)
             self.state.syncedRepos[repoId] = ghIssues.length;
-            const creator = self.state.currentUser.email || self.state.currentUser.phoneNumber;
+            const creator = self.props.currentUser.email || self.props.currentUser.phoneNumber;
             postIssues(ghIssues, creator).then((res) => {
                 console.log('issues to db');
                 self.setState({ syncing: false });
@@ -103,9 +109,11 @@ export default class Profile extends Component {
         } else {
             self.setState({ nameError: null });
         }
+        self.setState({ syncing: true });
 
         var ghuser = self.client.user(githubName);
         ghuser.repos((err, data, headers) => {
+            self.setState({ syncing: false });
             if (err) {
                 self.setState({ error: err });
                 return;
@@ -130,7 +138,7 @@ export default class Profile extends Component {
                 <p>Watchers: {repo.watchers_count}</p>
                 <p>Last Updated: {repo.updated_at}</p>
                 {/* Show sync button */}
-                {!self.state.clickedRepos.has(repo['id']) && 
+                {!self.state.clickedRepos.has(repo['id']) &&
                     <Button bsStyle="success"
                         onClick={() => self._syncIssuesForRepo(repo)}
                         disabled={self.state.clickedRepos.has(repo['id'])}>
@@ -138,15 +146,24 @@ export default class Profile extends Component {
                     </Button>
                 }
                 {/* Show sync result */}
-                {self.state.clickedRepos.has(repo['id']) && 
+                {self.state.clickedRepos.has(repo['id']) &&
                     <div className="sync-result-box">
-                        <img className="sync-result-image" src={self.state.syncedRepos[repo['id']] ? checkImage : cancelImage }/><br/>
+                        <img className="sync-result-image" src={self.state.syncedRepos[repo['id']] ? checkImage : cancelImage} /><br />
                         <b>{self.state.syncedRepos[repo['id']] ? self.state.syncedRepos[repo['id']] : 0}</b>
                         &nbsp;synced issues.
-                    </div> 
+                    </div>
                 }
             </div>
         );
+    }
+
+    _shareIssue(issue) {
+        console.log('sharing issue', issue);
+        fb.shareIssueDialog(issue).then((res) => {
+            console.log('shareIssueDialog', res);
+            // Success popup to the end user.
+            toast(<div><b>{res}</b></div>);
+        });
     }
 
     _renderIssue(issue) {
@@ -155,7 +172,11 @@ export default class Profile extends Component {
             <div>
                 <span className="githelpers-result-title">Issue: <a href={issue.html_url} >{issue.title}</a></span>
                 <p>Issue Body: {issue.body}</p>
+                <p>Repository Url: {issue.repository_url}</p>
                 <p>Last Updated: {issue.updated_at}</p>
+                {self.props.currentUser != null && <Button bsStyle="info" bsSize="large" onClick={() => { self._shareIssue(issue) }}>
+                    Share Issue with a Friend <i class="fa fa-share facebook-blue" aria-hidden="true"></i>
+                </Button>}
             </div>
         );
     }
@@ -172,7 +193,7 @@ export default class Profile extends Component {
 
         const popover = (
             <Popover id="modal-popover" title="Refresh issues">
-                Clicking here will scan your repositories for new issues label ged with 'githelpers' and sync them to the githelpers database. These will appear below.
+                Clicking here will scan your repositories for new issues label ged with githelpers and sync them to the githelpers database. These will appear below.
                 </Popover>
         );
 
@@ -197,7 +218,12 @@ export default class Profile extends Component {
                             onClick={() => self._syncRepos(true)} buttonText={"Refresh Your Repositories"} />
                     </ListGroupItem>
 
-                    {self.state.githubName && myRepos.length &&
+                    {myRepos.length === 0 &&
+                        <div className="searching centered">
+                            <ClimbingBoxLoader color={'#123abc'} size={500} loading={self.state.syncing} />
+                        </div>}
+
+                    {(self.state.githubName && myRepos.length > 0) &&
                         <Tabs>
                             <TabList>
                                 <Tab>Repos with Issues for {this.state.githubName}</Tab>
@@ -231,10 +257,10 @@ export default class Profile extends Component {
                                     {/* <ListGroupItem header={"Your current tagged issues:"} /> */}
                                     <div className="-issues">
                                         {!self.state.syncing && !self.state.error && myIssueIds.length === 0 &&
-                                            <h3 className="centered githelpers-results">No <b>'githelpers'</b> Issues currently Synced</h3>}
+                                            <h3 className="centered githelpers-results">No <b>githelpers</b> Issues currently Synced</h3>}
                                         {self.state.error && <h3 className="centered error-text">Error: {self.state.error.message}</h3>}
                                         {!self.state.syncing && myIssueIds.length > 0 &&
-                                            <h4 className="centered githelpers-results">{myIssueIds.length} Active <b>'githelpers'</b> Issues </h4>}
+                                            <h4 className="centered githelpers-results">{myIssueIds.length} Active <b>githelpers</b> Issues </h4>}
                                         <div>
                                             {myIssueValues.map((issue, index) => {
                                                 return (<ListGroupItem className="-issue" key={index}>
@@ -248,7 +274,6 @@ export default class Profile extends Component {
                             </TabPanel>
 
                         </Tabs>}
-
                 </ListGroup>
             </div>
         )

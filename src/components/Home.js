@@ -21,21 +21,13 @@ export default class Home extends Component {
             // slogan: 'Connect with developers around the world building open source software.'
             slogan: 'Connect with your friends around building great open source software.',
             words: ['building', 'sharing', 'discovering'],
-            show: false,
-            headerFade: false,
             blocks: [],
             authed: this.props.authed
         }
-        this._onReady = this._onReady.bind(this);
+        this._onVideoReady = this._onVideoReady.bind(this);
     }
 
-    componentDidMount() {
-        setTimeout(() => {
-            this.setState({ show: true, headerFade: true });
-        }, 2000);
-    }
-
-    _onReady(event) {
+    _onVideoReady(event) {
         // access to player in all event handlers via event.target
         event.target.pauseVideo();
     }
@@ -103,7 +95,7 @@ export default class Home extends Component {
                             {/* <YouTube
                                 videoId="2g811Eo7K8U"
                                 opts={videoOpts}
-                                onReady={this._onReady}
+                                onVideoReady={this._onVideoReady}
                             /> */}
                         </div>
                     </Col>

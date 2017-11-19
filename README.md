@@ -3,7 +3,7 @@ GitHelpers
 
 This is a project for the <a href="https://developercircles.devpost.com/">Developer Circles</a> challenge offered by Facebook.
 
-GitHelpers is a platform for connecting with developers around the world building open source software.
+GitHelpers is a platform for connecting with friends around building open source projects.
 
 ## Description
 

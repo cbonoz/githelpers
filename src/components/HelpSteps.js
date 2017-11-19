@@ -22,17 +22,20 @@ export default class HelpSteps extends Component {
                             </div>
                             </HeaderBox>
                         </Col>
+
+                        {/* Hidden middle remainder space */}
                         <Col mdHidden xs={half % 2}></Col>
+
                         <Col xs={half} md={third}>
                             <div className="home-box-number">2.</div>
                             <HeaderBox header={"Label"}>
                                 <div className="centered home-box">
-                                    Using your github account, create new issues or take existing ones and add a label to them with the name <b>'githelpers'</b>.<br/>
+                                    Using your github account, create new issues or take existing ones and add a label to them with the name <b>githelpers</b>.<br/>
                                     <i className="centered clear fa fa-4x fa-tag help-icon" aria-hidden="true"></i>
                             </div>
                             </HeaderBox>
                         </Col>
-                        <Col xs={this.props.maxSize} md={third}>
+                        <Col xs={half} md={third}>
                             <div className="home-box-number">3.</div>
                             <HeaderBox header={"Discover and Build"}>
                                 <div className="centered home-box">
@@ -43,7 +46,7 @@ export default class HelpSteps extends Component {
                         </Col>
                     </Row>
                     <Row>
-                        <Col xs={this.props.maxSize} md={this.props.maxSize}>
+                        <Col xs={half} md={this.props.maxSize}>
                             <p className="centered home-bottom-text bold">That's it. Developers from around the world can now search for and contribute to these issues.</p>
                         </Col>
                     </Row>

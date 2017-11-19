@@ -11,6 +11,7 @@ export default class SearchResults extends Component {
     }
 
   // Use facebook send dialog to promote this issue to a particular user.
+  // https://developers.facebook.com/docs/sharing/reference/send-dialog
   _shareIssue(issue) {
     console.log('sharing issue', issue);
     fb.shareIssueDialog(issue).then((res) => {

@@ -1,10 +1,14 @@
 import React, { Component } from 'react'
 import Accordion from './data/Accordion';
+import { firebaseAuth } from './../utils/fire';
 
 export default class FAQ extends Component {
 
     constructor(props) {
         super(props)
+        this.state = {
+            currentUser: null
+        };
         this.questions = [
             {
                 question: "What is Githelpers?",
@@ -33,16 +37,30 @@ export default class FAQ extends Component {
         ]
     }
 
+    componentDidMount() {
+        const self = this;
+        this.removeListener = firebaseAuth().onAuthStateChanged((user) => {
+            self.setState({ currentUser: user });
+            console.log('currentUser', JSON.stringify(self.state.currentUser));
+        })
+    }
+
+    componentWillUnmount() {
+        this.removeListener();
+    }
+
     render() {
+        const self = this;
         return (
             <div className="container full-height">
                 <h1 className="centered black page-header">FAQ</h1>
-                {this.questions.map((entry, index) => {
+                {self.questions.map((entry, index) => {
                     return (<Accordion key={index} question={entry.question}>
                         <p className="large faq-box">{entry.answer}</p>
                     </Accordion>);
                 })}
-                <p className="centered faq-bottom-text large">Click the Login from the header bar to begin</p>
+                {}
+                {!self.state.currentUser && <p className="centered faq-bottom-text large">Sounds good? Click login in the Header bar to begin.</p>}
             </div>
         )
     }
