@@ -1,10 +1,13 @@
 const library = (function () {
+    const github = require('octonode');
     // reduces the full rawIssue from the github api response into a smaller stored object for the githelpers db,
     // using the id index to detect duplicates.
     function createIssueObject(rawIssue) {
         // TODO: reduce rawIssue (remove extra components).
         return rawIssue;
     }
+
+    const client = github.client();
 
     function isGithelperIssue(issue) {
         var hasLabel = false;
@@ -20,7 +23,8 @@ const library = (function () {
 
     return {
         isGithelperIssue: isGithelperIssue,
-        createIssueObject: createIssueObject
+        createIssueObject: createIssueObject,
+        client: client
     }
 
 })();

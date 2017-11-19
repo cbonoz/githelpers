@@ -249,6 +249,11 @@ body {
   border-bottom: 5px solid #3b5998;
 }
 
+.issue-results {
+  padding: 20px;
+  margin: 20px;
+}
+
 .facebook-blue {
   color: #3b5998; 
 }
