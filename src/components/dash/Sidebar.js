@@ -23,9 +23,9 @@ export default class Sidebar extends Component {
                     <ListGroupItem className={"sidebar-item"} header={"Dashboard"} bsStyle="success">
                     </ListGroupItem>
                     {pageList.map((pageTitle, index) => {
-                    return (<ListGroupItem className={"sidebar-item " + (self._activePage(index) ? 'selected-item' : '')} onClick={() => this.props.updateCurrentPage(index)}>
-                        {pageTitle}
-                    </ListGroupItem>)
+                        return (<ListGroupItem key={index} className={"sidebar-item " + (self._activePage(index) ? 'selected-item' : '')} onClick={() => this.props.updateCurrentPage(index)}>
+                            {pageTitle}
+                        </ListGroupItem>)
                     })}
                 </ListGroup>
             </div>
