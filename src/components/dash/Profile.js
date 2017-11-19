@@ -21,16 +21,10 @@
                 githubName: 'test'
             }
 
-            this.handleGithubNameChange = this.handleGithubNameChange.bind(this);
+            this._handleGithubNameChange = this._handleGithubNameChange.bind(this);
             this._renderIssue = this._renderIssue.bind(this);
             this._renderRepo = this._renderRepo.bind(this);
             this.client = github.client;
-        }
-
-        handleGithubNameChange(event) {
-            const newName = event.target.value;
-            cookies.set('githubName', newName);
-            this.setState({githubName: newName});
         }
 
         componentWillMount() {
@@ -39,7 +33,6 @@
 
         componentDidMount() {
             const githubName = cookies.get('githubName')
-
             this.setState({ githubName: githubName, currentUser: firebaseAuth.currentUser });
             this._syncRepos();
         }
@@ -55,6 +48,14 @@
                 }
 
                 self.setState({issues: ghIssues});
+                // TODO: ANUP MAKE SURE THESE SYNC CORRECTLY BASED ON ISSUE ID.
+                postIssues(ghIssues).then((res) => {
+                    console.log(' issues to db')
+                    self.setState({ syncing: false })
+                }).catch((err) => {
+                    console.error('error syncing issues to db', err);
+                    self.setState({ syncing: false })
+                })
             });
         }
 
@@ -96,48 +97,12 @@
             })
         }
 
-        // TODO: prevent user from repeatedly spanning syncissues button and web request.
-        _syncissues() {
-            const self = this;
-            self.setState({ syncing: true, issues: [], error: null });
-
-            console.log('syncing issues for user');
-            const username = this.props.currentUser.displayName;
-            const event = { name: `${username} just issues to the githelpers database.`, time: Date.now() };
-            socket.emit('action', event, (data) => {
-                console.log('action ack', data);
-            });
-
-            const client = this.props.client;
-            console.log(JSON.stringify(client));
-            var ghme = client.me();
-
-            ghme.issues({
-                page: 2,
-                per_page: 100,
-                filter: 'all',
-                state: 'open',
-                labels: 'githelpers',
-                sort: 'created'
-            }, function (err, res, body, headers) {
-                console.log(err, res, body, headers); //json object
-                if (err) {
-                    self.setState({ error: err });
-                    self.setState({ syncing: false })
-                    return;
-                }
-                self.setState({ issues: res })
-
-                postIssues(self.state.issues).then((res) => {
-                    console.log(' issues to db')
-                    self.setState({ syncing: false })
-                }).catch((err) => {
-                    console.error('error syncing issues to db', err);
-                    self.setState({ syncing: false })
-                })
-            });
+        _handleGithubNameChange(event) {
+            const newName = event.target.value;
+            cookies.set('githubName', newName);
+            this.setState({githubName: newName});
         }
-
+        
         render() {
             const self = this;
             const currentUser = self.props.currentUser;
@@ -153,7 +118,7 @@
                     <ListGroup>
                         <ListGroupItem header={"Your Profile: " + (currentUser != null ? currentUser.displayName : "")} bsStyle="info"></ListGroupItem>
                         <ListGroupItem>
-                            <input type="text" value={this.state.githubName} onChange={this.handleGithubNameChange} />
+                            <input type="text" value={this.state.githubName} onChange={this._handleGithubNameChange} />
                             <TimerButton bsStyle="danger" bsSize="large" duration={5} popover={popover}
                                 onClick={() => self._syncissues()} buttonText={"Refresh tagged issues"} />
                         </ListGroupItem>
