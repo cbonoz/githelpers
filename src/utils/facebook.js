@@ -28,7 +28,7 @@ const library = (function () {
     function shareIssueDialog(issue) {
         const title = issue.title;
         const issueUrl = issue.html_url;
-        const route = `http://www.facebook.com/dialog/send?app_id=${APP_ID}&amp;link=${issueUrl}&amp;redirect_uri=${DASHBOARD_URL}`;
+        const route = `https://www.facebook.com/dialog/send?app_id=${APP_ID}&amp;link=${issueUrl}&amp;redirect_uri=${DASHBOARD_URL}`;
         return axios.get(route).then(response => response.data);
     }
 
