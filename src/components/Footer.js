@@ -51,7 +51,7 @@ export default class Footer extends Component {
                         <form>
                             {/* {<input type="text" name="email" placeholder="Email" />} */}
                             <textarea onChange={evt => this.updateInputValue(evt)} value={this.state.inputValue} name="message" placeholder="Message" ></textarea>
-                            <a target="_blank" href={`mailto:blackshoalgroup@gmail.com?subject=Hello&amp;body=${this.state.inputValue}`}>
+                            <a target="_top" href={`mailto:blackshoalgroup@gmail.com?Subject=Hello&body=${this.state.inputValue}`}>
                                 <button>Send</button>
                             </a>
                         </form>

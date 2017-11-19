@@ -1,4 +1,7 @@
 'use strict';
+// Server code for githelpers project.
+// Author: Chris Buonocore (2017)
+// License: MIT
 
 const axios = require('axios');
 const express = require('express');
@@ -9,22 +12,20 @@ const https = require('https');
 const pg = require('pg');
 const path = require('path');
 const { Pool } = require('pg');
-
-
 const github = require('octonode');
 
-const csrfGuid = process.env.REACT_APP_FB_CSRF;
+// Variable and Server Setup //
+const prod = false;
 
+const csrfGuid = process.env.REACT_APP_FB_CSRF;
 let globalAccessToken = "";
 
-const connectionString = process.env.GITHELPERS_DATABASE_URL || 'postgres://localhost:5432/githelpers';
+const dbUser = process.env.ADMIN_DB_USER;
+const dbPass = process.env.ADMIN_DB_PASS;
+const dbName = 'githelpers';
+const connectionString = process.env.GITHELPERS_DATABASE_URL || `postgres://${dbUser}:${dbPass}@localhost:5432/${dbName}`;
 const pool = new Pool({
   connectionString: connectionString,
-})
-
-pool.on('error', (err, client) => {
-  console.error('Unexpected error on idle client', err)
-  process.exit(-1)
 })
 
 const PORT = 9007;
@@ -35,7 +36,15 @@ const io = require('socket.io')(server);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors());
+
+if (!prod) {
+  app.use(cors());
+}
+
+pool.on('error', (err, client) => {
+  console.error('Unexpected error on idle client', err)
+  process.exit(-1)
+})
 
 // Endpoints //
 
@@ -61,108 +70,74 @@ app.get('/api/events/:count', (req, res, next) => {
   })
 });
 
-// perform the db search for the passed query -> return a list of active issue results
-app.post('/api/search', (req, res) => {
-  const body = req.body;
-  const query = body.query;
-  // TODO: implement search filtering
-  // return success back to client once completed.
-  const results = [];
-  return res.status(200).json(results);
+app.get('/api/issues/:githubName', (req, res, next) => {
+  const githubNameParam = req.params.githubName === undefined ? null : req.params.githubName;
+  const githubName = Math.min(Math.abs(githubNameParam), 8);
+
+  pool.query(`SELECT * FROM issues where githubName = "${githubName}`, (err, res) => {
+    console.log('issues', err, res)
+    if (err) {
+      return res.status(500).json(err);
+    }
+    pool.end()
+    return res.json(res.rows);
+  })
 });
 
-// upsert the posted issues to the githelpers db.
+// Perform the db search for the passed query -> return a list of active issue results
+app.post('/api/search', (req, res) => {
+  const body = req.body;
+  const query = body.query.toLowerCase();
+  // TODO: implement stronger search filtering (including languages).
+  pool.query("select * from issues where body like $1", [`%${query}%`],
+    function(err, res) {
+      if (err) {
+        return res.status(500).json(err);
+      }
+      return res.status(200).json(res);
+    });
+});
+
 app.post('/api/issues', (req, res) => {
   const body = req.body;
-  console.log(issues[0]);
+  const githubName = body.githubName
+  const issues = body.issues;
 
-  // TODO: insert issues into DB 'issues' using upsert.
-  // return success back to client once completed.
+  // TODO: determine if there is a way to batch this insert.
+  issues.map((issue) => {
+    const issueId = issue['id'];
+    const issueBody = issue.body.toLowerCase();
+    const url = issue.html_url;
+    const languages = issue.languages;
+    const title = issue.title;
+    const created = issue.created;
+    const state = issue.state;
 
-  // Fetching repos and checking for open issues
-  const reposUrl = "https://api.github.com/user/repos?access_token=" + globalAccessToken;
-  const issuesUrl = "https://api.github.com/user/issues?access_token=" + globalAccessToken;
-  // const issues = axios.get(issuesUrl)
-  //     .then(function (response) {
-  //       console.log('issues response:', response);
-  //
-  //       pool.query('update issues SET id= ' + response.data.issue, (err, res) => {
-  //             console.log('events', err, res);
-  //             if (err) {
-  //                 return res.status(500).json(err);
-  //             }
-  //             pool.end()
-  //             return res.json(res.rows);
-  //       })
-  //
-  //       return response.data;
-  //     })
-  //     .catch(function (error) {
-  //         console.log('error getting issues from :', error);
-  //         return res.json(error);
-  //     });
+    // upsert the posted issues to the githelpers db.
+    const query = `if exist(select * from issues where id=${issueId}) {
+      delete from issues where id=${issueId}
+    } 
+    insert into issues values (${issueId}, ${issueBody}, ${url}, ${languages}, ${title}, ${created}, ${state}, ${githubName})
+    `;
+    pool.query(query, (err, result) => {
+      if (err) {
+        console.log(`error inserting issue ${issueId}: ${err}`);
+      }
+    });
+  })
 
-
-  var client = github.client(globalAccessToken);
-
-  client.get('/user', {}, function (err, status, body, headers) {
-      console.log(body.login); //json object
-  });
-
-  const ghme           = client.me();
-  const ghuser         = client.user('rtre84');
-  const ghrepo         = client.repo('rtre84/pipeline');
-    // var ghorg          = client.org('flatiron');
-  const ghissue        = client.issue('rtre84/pipeline', 3);
-  const ghmilestone    = client.milestone('pksunkara/hub', 37);
-  const ghlabel        = client.label('pksunkara/hub', 'todo');
-  const ghpr           = client.pr('pksunkara/hub', 37);
-  const ghrelease      = client.release('pksunkara/hub', 37);
-  const ghgist         = client.gist();
-  const ghteam         = client.team(37);
-  const ghnotification = client.notification(37);
-
-  const ghsearch = client.search();
-
-  // client.get('/repos', {}, function (err, status, body, headers) {
-  //     console.log(body); //json object
-  // });
-
-  client.get('/user/repos', {}, function (err, status, body, headers){
-      body.forEach(function(val) {
-          // do things
-          // console.log(JSON.stringify(JSON.parse(val)));
-          console.log(val);
-      });
-      // console.log("Issues: " + body);
-
-  });
-
+  // Currently returns before the issues have been processed into the db.
+  // TODO: make async.
   return res.status(200);
 });
 
-app.post('/api/github/issues', (req, res) => {
-  console.log("Data from Zapier: " + req.body);
-
-  res.send('POST request successful');
-});
-
-app.post('/api/github_fetcher', (req, res) => {
-    let gitUsername = req.param('gitusername');
-    githubFetcher.repos(gitUsername)
-        .then( (data) => console.log(data) )
-        .catch( (err) => console.log(err) );
-
-    res.send('POST successful');
-});
-
 app.get('/api/rate_limit', (req, res) => {
-    axios.get('https://api.github.com/rate_limit')
-        .then(function (response) {
-            console.log(response.data);
-        });
+  axios.get('https://api.github.com/rate_limit')
+    .then(function (response) {
+      console.log(response.data);
+    });
 
-    res.sendStatus(200);
+  res.sendStatus(200);
 });
 
 app.post('/api/github', (req, res) => {
@@ -177,18 +152,18 @@ app.post('/api/github', (req, res) => {
     client_secret: clientSecret,
     code: code
   }).then(function (response) {
-      // console.log('token response:', JSON.stringify(response));
-      console.log('token response:', response.data);
-      // const resp = JSON.parse(response);
-      const resp = response.data;
-      const respArray = resp.split("&");
-      const accessToken = respArray[0].split("=");
+    // console.log('token response:', JSON.stringify(response));
+    console.log('token response:', response.data);
+    // const resp = JSON.parse(response);
+    const resp = response.data;
+    const respArray = resp.split("&");
+    const accessToken = respArray[0].split("=");
 
-      globalAccessToken = accessToken[1];
+    globalAccessToken = accessToken[1];
 
-      // Returns received Access Token
-      return res.json(accessToken[1]);
-    })
+    // Returns received Access Token
+    return res.json(accessToken[1]);
+  })
     .catch(function (error) {
       console.log('error getting access token from :', error);
       return res.json(error);
@@ -196,8 +171,9 @@ app.post('/api/github', (req, res) => {
 });
 
 // Socket IO handlers //
-io.on('connection', function(client) {
-  client.on('action', function(event) {
+
+io.on('connection', function (client) {
+  client.on('action', function (event) {
     pool.query('INSERT INTO events(name, time) values($1, $2)', [event.name, event.time]);
     console.log('action', JSON.stringify(event));
     io.emit('incoming', event)
@@ -207,13 +183,19 @@ io.on('connection', function(client) {
   });
 });
 
+// DB Connection and server start //
+
 pool.connect((err, client, done) => {
   if (err) {
     console.error('postgres connection error', err)
-    // TODO: properly handle connection rejection case (stop server).
-    console.log('continuing without postgres connection');
+    if (prod) {
+      console.error('exiting')
+      return;
+    }
+    console.error('continuing with disabled postgres db');
   }
+
+  server.listen(PORT, () => {
+    console.log('Express server listening on localhost port: ' + PORT);
+  });
 })
-server.listen(PORT, () => {
-  console.log('Listening on localhost:' + PORT);
-});

@@ -80,7 +80,7 @@ export default class Search extends Component {
           <h3 className="centered search-banner-text">Discover Repositories that need your help.</h3>
           <p className="search-subtitle-text">Enter any string of characters, including languages and topics, which we will attempt to match as best as possible with our database of available <b>githelpers</b>-tagged issues.</p>
           {this.props.currentUser == null &&
-            <p>Login with <span onClick={() => fbLogin()} className="facebook-blue bold pointer">Facebook</span> to connect with friends over open source projects via githelpers.</p>}
+            <p>Use your <span onClick={() => fbLogin()} className="facebook-blue bold pointer">Facebook</span> to connect with friends over open source projects via githelpers.</p>}
           <FormGroup>
             <FormControl type="text" placeholder="Search" inputRef={input => this.searchInput = input} />
           </FormGroup>

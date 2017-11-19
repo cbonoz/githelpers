@@ -22,6 +22,14 @@ body {
   }
 }
 
+.sync-result-image {
+  width: 32px;
+}
+
+.sync-result-box {
+  padding: 5px;
+}
+
 .login-image {
   margin-bottom: 20px;
   height: 60px;

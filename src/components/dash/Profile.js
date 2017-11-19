@@ -9,6 +9,9 @@ import { postIssues } from './../../utils/api';
 import { cookies, socket, postSocketEvent } from './../../utils/api';
 import { firebaseAuth } from '../../utils/fire';
 
+import checkImage from './../../assets/checkImage.png';
+import cancelImage from './../../assets/cancelImage.png';
+
 export default class Profile extends Component {
 
     constructor(props) {
@@ -17,6 +20,7 @@ export default class Profile extends Component {
             issues: {}, // id -> issue
             repos: [],
             clickedRepos: new Set(),
+            syncedRepos: {},
             syncing: false,
             error: null,
             githubName: null,
@@ -27,7 +31,7 @@ export default class Profile extends Component {
         this._renderIssue = this._renderIssue.bind(this);
         this._renderRepo = this._renderRepo.bind(this);
         this._syncIssuesForRepo = this._syncIssuesForRepo.bind(this);
-        this._syncIssuesForUser = this._syncIssuesForUser.bind(this);
+        this._getIssuesForUser = this._getIssuesForUser.bind(this);
         this.client = github.client;
     }
 
@@ -44,25 +48,32 @@ export default class Profile extends Component {
         this.setState({ githubName: githubName, currentUser: firebaseAuth.currentUser });
         this._syncRepos();
         if (githubName) {
-            this._syncIssuesForUser(githubName);
+            this._getIssuesForUser(githubName);
         }
     }
 
-    _syncIssuesForUser(user) {
+    _getIssuesForUser(user) {
         // TODO: prefetch issues associated with the particular user (if it was stored in the cookie).
     }
 
     _syncIssuesForRepo(repo) {
         const self = this;
         const ghrepo = this.client.repo(repo['full_name'])
-        self.state.clickedRepos.add(repo['id']);
         ghrepo.issues((err, data, h) => {
-
-            const ghIssues = data.filter((issue) => issue['labels'].filter((label) => label.name.toLowerCase() === 'githelpers').length);
-            if (ghIssues.length === 0) {
-                // TODO: notify the user that nothing was synced.
+            const repoId = repo['id'];
+            if (err) {
+                if (self.state.syncedRepos.hasOwnProperty(repoId)) {
+                    delete self.state.syncedRepos[repoId]
+                }
+                self.setState( {error: err});
+                return;
             }
-            // TODO: ANUP MAKE SURE THESE SYNC CORRECTLY BASED ON ISSUE ID.
+
+            // Filter to 'githelpers' issues.
+            const ghIssues = data.filter((issue) => issue['labels'].filter((label) => label.name.toLowerCase() === 'githelpers').length);
+
+            self.state.clickedRepos.add(repoId)
+            self.state.syncedRepos[repoId] = ghIssues.length;
             postIssues(ghIssues).then((res) => {
                 console.log(' issues to db');
                 self.setState({ syncing: false });
@@ -112,11 +123,22 @@ export default class Profile extends Component {
                 <p>Description: {repo.description}</p>
                 <p>Watchers: {repo.watchers_count}</p>
                 <p>Last Updated: {repo.updated_at}</p>
-                <Button bsStyle="success"
-                    onClick={() => self._syncIssuesForRepo(repo)}
-                    disabled={self.state.clickedRepos.has(repo['id'])}>
-                    Sync Issues from this Repo <i className="fa fa-refresh" aria-hidden="true"></i>
-                </Button>
+                {/* Show sync button */}
+                {!self.state.clickedRepos.has(repo['id']) && 
+                    <Button bsStyle="success"
+                        onClick={() => self._syncIssuesForRepo(repo)}
+                        disabled={self.state.clickedRepos.has(repo['id'])}>
+                        Sync Issues from this Repo <i className="fa fa-refresh" aria-hidden="true"></i>
+                    </Button>
+                }
+                {/* Show sync result */}
+                {self.state.clickedRepos.has(repo['id']) && 
+                    <div className="sync-result-box">
+                        <img className="sync-result-image" src={self.state.syncedRepos[repo['id']] ? checkImage : cancelImage }/><br/>
+                        <b>{self.state.syncedRepos[repo['id']] ? self.state.syncedRepos[repo['id']] : 0}</b>
+                        &nbsp;synced issues.
+                    </div> 
+                }
             </div>
         );
     }
@@ -162,13 +184,14 @@ export default class Profile extends Component {
                         <FormGroup className="centered">
                             <h4 className="facebook-blue">Enter your Github UserName</h4>
                             <input type="text" className="github-name-input" value={this.state.githubName} onChange={this._handleGithubNameChange} />
+                            <p>You can use your github name or someone else's, as long as the issues are publicly visible you can sync them to githelpers!</p>
                             {self.state.nameError && <p className="red">{self.state.nameError}</p>}
                         </FormGroup>
                         <TimerButton bsStyle="danger" bsSize="large" duration={5} popover={popover}
                             onClick={() => self._syncRepos()} buttonText={"Refresh Your Repositories"} />
                     </ListGroupItem>
 
-                    {self.state.githubName && myRepos &&
+                    {self.state.githubName && myRepos.length &&
                         <Tabs>
                             <TabList>
                                 <Tab>Repos with Issues for {this.state.githubName}</Tab>
