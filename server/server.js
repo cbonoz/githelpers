@@ -28,7 +28,7 @@ const pool = new Pool({
   connectionString: connectionString,
 })
 
-const PORT = 9007;
+const PORT = 9006;
 
 const app = express();
 const server = require('http').createServer(app);

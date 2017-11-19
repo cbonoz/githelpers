@@ -28,18 +28,12 @@ export default class SocketFeed extends Component {
     _setUpSocket() {
         const self = this;
         socket.on('connect', function () {
-            console.log('connect');
         });
-
         socket.on('incoming', function (data) {
-            console.log('incoming', data);
             self._addEvent(data);
         });
-
         socket.on('disconnect', function () {
-            console.log('disconnect');
         });
-
         socket.open();
     }
 

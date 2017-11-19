@@ -19,7 +19,7 @@ export const fbLogin = function() {
         var user = result.user;
         // ... save the token, etc.
         // console.log(user, token);
-        console.log(JSON.stringify(user));
+        // console.log(JSON.stringify(user));
 
         const guestName = result.user.displayName || 'Guest';
         const eventName = `${guestName.split()[0]} just logged in.`;

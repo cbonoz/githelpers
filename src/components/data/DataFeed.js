@@ -20,11 +20,7 @@ export default class DataFeed extends Component {
       transition: 'fadeDown',
     };
   }
-
-  removeItem(txHash) {
-    console.log('clicked: ' + txHash);
-  }
-
+  
   render() {
     const {
       items,

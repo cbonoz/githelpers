@@ -38,11 +38,11 @@ function postSearchIssues(query) {
     }).then(response => response.data);
 }
 
-function postIssues(issues, creator) {
+function postIssues(issues, poster) {
     const url = `${BASE_URL}/api/issues`;
     return axios.post(url, {
         issues: issues,
-        creator: creator
+        poster: poster
     }).then(response => response.data);
 }
 

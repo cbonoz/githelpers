@@ -60,7 +60,7 @@ export default class FAQ extends Component {
                     </Accordion>);
                 })}
                 {}
-                {!self.state.currentUser && <p className="centered faq-bottom-text large">Sounds good? Click login in the Header bar to begin.</p>}
+                {!self.state.currentUser && <p className="centered faq-bottom-text large">Ready? Click login in the Header bar to begin.</p>}
             </div>
         )
     }

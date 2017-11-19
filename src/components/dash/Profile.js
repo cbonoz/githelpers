@@ -103,6 +103,8 @@ export default class Profile extends Component {
     _syncRepos(clicked) {
         const self = this;
         const githubName = self.state.githubName;
+        self.setState( {lastQueryName: githubName} );
+
         if (!githubName) {
             self.setState({ nameError: "Enter a valid github username" });
             return;
@@ -113,9 +115,8 @@ export default class Profile extends Component {
 
         var ghuser = self.client.user(githubName);
         ghuser.repos((err, data, headers) => {
-            self.setState({ syncing: false });
+            self.setState({ error: err, syncing: false });
             if (err) {
-                self.setState({ error: err });
                 return;
             }
             // Only show repos with open issues.
@@ -158,7 +159,6 @@ export default class Profile extends Component {
     }
 
     _shareIssue(issue) {
-        console.log('sharing issue', issue);
         fb.shareIssueDialog(issue).then((res) => {
             console.log('shareIssueDialog', res);
             // Success popup to the end user.
@@ -175,7 +175,7 @@ export default class Profile extends Component {
                 <p>Repository Url: {issue.repository_url}</p>
                 <p>Last Updated: {issue.updated_at}</p>
                 {self.props.currentUser != null && <Button bsStyle="info" bsSize="large" onClick={() => { self._shareIssue(issue) }}>
-                    Share Issue with a Friend <i class="fa fa-share facebook-blue" aria-hidden="true"></i>
+                    Share Issue&nbsp;<i class="fa fa-share facebook-blue" aria-hidden="true"></i>
                 </Button>}
             </div>
         );
@@ -223,10 +223,10 @@ export default class Profile extends Component {
                             <ClimbingBoxLoader color={'#123abc'} size={500} loading={self.state.syncing} />
                         </div>}
 
-                    {(self.state.githubName && myRepos.length > 0) &&
+                    {(self.state.githubName && (myRepos.length > 0 || self.state.error)) &&
                         <Tabs>
                             <TabList>
-                                <Tab>Repos with Issues for {this.state.githubName}</Tab>
+                                <Tab>Repos with Issues for {this.state.lastQueryName}</Tab>
                                 <Tab>Synced Issues ({myIssueIds.length})</Tab>
                             </TabList>
 
@@ -240,7 +240,7 @@ export default class Profile extends Component {
                                             <h3 className="centered githelpers-results">No Repos found with open repos</h3>}
                                         {self.state.error && <h3 className="centered error-text">Error: {self.state.error.message}</h3>}
                                         {!self.state.syncing && myRepos.length > 0 &&
-                                            <h4 className="centered githelpers-results">{myRepos.length} Repos for {self.state.githubName} found with open Issues</h4>}
+                                            <h4 className="centered githelpers-results">{myRepos.length} Repos for {self.state.lastQueryName} found with open Issues</h4>}
                                         <div>
                                             {myRepos.map((repo, index) => {
                                                 return (<ListGroupItem className="-repo" key={index}>
