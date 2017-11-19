@@ -13,13 +13,9 @@ export default class UserStatistics extends Component {
         }
     }
 
-    
-    componentWillMount() {
-    }
-    
-
     render() {
         const self = this;
+        const currentUser = self.props.currentUser;
         return (
             <div>
                 <ListGroup>
@@ -28,14 +24,14 @@ export default class UserStatistics extends Component {
                         <p className="stats-text">{self.state.statMessage}</p>
                     </ListGroupItem>
                     <ListGroupItem header={"User Information"} />
-                    <ListGroupItem>
-                        <p>{JSON.stringify(self.props.currentUser)}</p>
-                        {self.state.user && <ul>
-                            {Object.keys(self.state.user).map((key, index) => {
-                                return <li key={index}><b>{key}:</b>&nbsp;{JSON.stringify(self.state.user[key])}</li>
-                            })}
-                        </ul>}
-                    </ListGroupItem>
+                    {currentUser && <ListGroupItem>
+                        {/* <p>{JSON.stringify(currentUser)}</p> */}
+                        {/* <h4>Account:</h4> */}
+                        <img src={currentUser.photoURL}/>
+                            <h5>Name: {currentUser.displayName}</h5>
+                            <h5>Email: {currentUser.email}</h5>
+                            {currentUser.phoneNumber && <h5>Phone: {currentUser.phoneNumber}</h5>}
+                        </ListGroupItem>}
                 </ListGroup>
             </div>
         )

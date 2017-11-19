@@ -1,156 +1,193 @@
-    import React, { Component } from 'react'
-    import { ListGroup, ListGroupItem, Popover } from 'react-bootstrap';
-    import { ClimbingBoxLoader } from 'react-spinners';
-    import TimerButton from './TimerButton';
-    import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import React, { Component } from 'react'
+import { Button, FormGroup, ListGroup, ListGroupItem, Popover } from 'react-bootstrap';
+import { ClimbingBoxLoader } from 'react-spinners';
+import TimerButton from './TimerButton';
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
-    import github from './../../utils/github';
-    import { postIssues } from './../../utils/api';
-    import { cookies, socket, postSocketEvent } from './../../utils/api';
-    import { firebaseAuth } from '../../utils/fire';
+import github from './../../utils/github';
+import { postIssues } from './../../utils/api';
+import { cookies, socket, postSocketEvent } from './../../utils/api';
+import { firebaseAuth } from '../../utils/fire';
 
-    export default class Profile extends Component {
+export default class Profile extends Component {
 
-        constructor(props) {
-            super(props)
-            this.state = {
-                issues: [],
-                repos: [],
-                syncing: false,
-                error: null,
-                githubName: 'test'
+    constructor(props) {
+        super(props)
+        this.state = {
+            issues: {}, // id -> issue
+            repos: [],
+            clickedRepos: new Set(),
+            syncing: false,
+            error: null,
+            githubName: null,
+            nameError: null
+        }
+
+        this._handleGithubNameChange = this._handleGithubNameChange.bind(this);
+        this._renderIssue = this._renderIssue.bind(this);
+        this._renderRepo = this._renderRepo.bind(this);
+        this._syncIssuesForRepo = this._syncIssuesForRepo.bind(this);
+        this._syncIssuesForUser = this._syncIssuesForUser.bind(this);
+        this.client = github.client;
+    }
+
+    componentWillMount() {
+        var existingUserName = cookies.get('githubName');
+        if (existingUserName == null || existingUserName == undefined) {
+            existingUserName = "";
+        }
+        this.setState({ githubName: existingUserName })
+    }
+
+    componentDidMount() {
+        const githubName = cookies.get('githubName') || null;
+        this.setState({ githubName: githubName, currentUser: firebaseAuth.currentUser });
+        this._syncRepos();
+        if (githubName) {
+            this._syncIssuesForUser(githubName);
+        }
+    }
+
+    _syncIssuesForUser(user) {
+        // TODO: prefetch issues associated with the particular user (if it was stored in the cookie).
+    }
+
+    _syncIssuesForRepo(repo) {
+        const self = this;
+        const ghrepo = this.client.repo(repo['full_name'])
+        self.state.clickedRepos.add(repo['id']);
+        ghrepo.issues((err, data, h) => {
+
+            const ghIssues = data.filter((issue) => issue['labels'].filter((label) => label.name.toLowerCase() === 'githelpers').length);
+            if (ghIssues.length === 0) {
+                // TODO: notify the user that nothing was synced.
             }
-
-            this._handleGithubNameChange = this._handleGithubNameChange.bind(this);
-            this._renderIssue = this._renderIssue.bind(this);
-            this._renderRepo = this._renderRepo.bind(this);
-            this.client = github.client;
-        }
-
-        componentWillMount() {
-            var existingUserName = cookies.get('githubName');
-            if (existingUserName == null || existingUserName == undefined) {
-                existingUserName = "github_username";
-            }
-            this.setState({ githubName: existingUserName})
-        }
-
-        componentDidMount() {
-            const githubName = cookies.get('githubName')
-            this.setState({ githubName: githubName, currentUser: firebaseAuth.currentUser });
-            this._syncRepos();
-        }
-
-        _syncIssuesForRepo(repo) {
-            const self = this;
-            const ghrepo = this.client.repo(repo['full_name'])
-            ghrepo.issues((err, data, h) => {
-
-                const ghIssues = data.filter((issue) => issue['labels'].filter((label) => label.name.toLowerCase() === 'githelpers').length);
-                if (ghIssues.length === 0) {
-                    // TODO: notify the user that nothing was synced.
-                }
-
-                self.setState({issues: ghIssues});
-                // TODO: ANUP MAKE SURE THESE SYNC CORRECTLY BASED ON ISSUE ID.
-                postIssues(ghIssues).then((res) => {
-                    console.log(' issues to db')
-                    self.setState({ syncing: false })
-                }).catch((err) => {
-                    console.error('error syncing issues to db', err);
-                    self.setState({ syncing: false })
-                })
-            });
-        }
-
-        _renderRepo(repo) {
-            return (
-                <div>
-                    <h4>{repo.title}</h4>
-                    <a href={repo.html_url}>Github Repo Link</a>
-                    <p>Body: {repo.body}</p>
-                    <p>Last Updated: {repo.updated_at}</p>
-                </div>
-            ); 
-        }
-
-        _renderIssue(issue) {
-            return (
-                <div>
-                    <h4>{issue.title}</h4>
-                    <a href={issue.html_url}>Github Issue Link</a>
-                    <p>Body: {issue.body}</p>
-                    <p>Last Updated: {issue.updated_at}</p>
-                </div>
-            );
-        }
-
-        // Fetch all repos for an user
-        _syncRepos() {
-            const self = this;
-            var ghuser = self.client.user(this.state.githubName);
-            ghuser.repos((err, data, headers) => {
-                if (err) {
-                    self.setState({ error: err });
-                    return;
-                }
-                // Only show repos with open issues.
-                const issueRepos = data.filter((issue) => issue['open_issues'] > 0).sort((a, b) => a['open_issues'] < b['open_issues']);
-                console.log('repos', issueRepos);
-                self.setState({ repos: data })
+            // TODO: ANUP MAKE SURE THESE SYNC CORRECTLY BASED ON ISSUE ID.
+            postIssues(ghIssues).then((res) => {
+                console.log(' issues to db');
+                self.setState({ syncing: false });
+            }).catch((err) => {
+                console.error('error syncing issues to db', err);
+                self.setState({ syncing: false });
             })
+
+            // TODO: only insert if the db insert was successful.
+            const existingIssues = self.state.issues;
+            ghIssues.map((issue) => {
+                existingIssues[issue['id']] = issue;
+            });
+            self.setState({ issues: existingIssues });
+        });
+    }
+
+    // Fetch all repos for an user
+    _syncRepos() {
+        const self = this;
+        const githubName = self.state.githubName;
+        if (!githubName) {
+            self.setState({ nameError: "Enter a valid github username" });
+            return;
+        } else {
+            self.setState({ nameError: null });
         }
 
-        _handleGithubNameChange(event) {
-            const newName = event.target.value;
-            cookies.set('githubName', newName);
-            this.setState({githubName: newName});
-        }
+        var ghuser = self.client.user(githubName);
+        ghuser.repos((err, data, headers) => {
+            if (err) {
+                self.setState({ error: err });
+                return;
+            }
+            // Only show repos with open issues.
+            const issueRepos = data.filter((issue) => issue['open_issues'] > 0).sort((a, b) => a['open_issues'] < b['open_issues']);
+            console.log('repos', issueRepos);
+            self.setState({ repos: issueRepos });
+        })
+    }
 
-        render() {
-            const self = this;
-            const currentUser = self.props.currentUser;
+    _renderRepo(repo) {
+        const self = this;
+        return (
+            <div>
+                <span className="githelpers-result-title">Repo: <a href={repo.html_url} >{repo.name}</a></span>
+                <p>Description: {repo.description}</p>
+                <p>Watchers: {repo.watchers_count}</p>
+                <p>Last Updated: {repo.updated_at}</p>
+                <Button bsStyle="success"
+                    onClick={() => self._syncIssuesForRepo(repo)}
+                    disabled={self.state.clickedRepos.has(repo['id'])}>
+                    Sync Issues from this Repo <i className="fa fa-refresh" aria-hidden="true"></i>
+                </Button>
+            </div>
+        );
+    }
 
-            const popover = (
-                <Popover id="modal-popover" title="Refresh issues">
-                    Clicking here will scan your repositories for new issues label ged with 'githelpers' and sync them to the githelpers database. These will appear below.
+    _renderIssue(issue) {
+        const self = this;
+        return (
+            <div>
+                <span className="githelpers-result-title">Issue: <a href={issue.html_url} >{issue.title}</a></span>
+                <p>Issue Body: {issue.body}</p>
+                <p>Last Updated: {issue.updated_at}</p>
+            </div>
+        );
+    }
+
+    _handleGithubNameChange(event) {
+        const newName = event.target.value;
+        cookies.set('githubName', newName);
+        this.setState({ githubName: newName });
+    }
+
+    render() {
+        const self = this;
+        const currentUser = self.props.currentUser;
+
+        const popover = (
+            <Popover id="modal-popover" title="Refresh issues">
+                Clicking here will scan your repositories for new issues label ged with 'githelpers' and sync them to the githelpers database. These will appear below.
                 </Popover>
-            );
+        );
 
-            return (
-                <div className="profile-content">
-                    <ListGroup>
-                        <ListGroupItem header={"Your Profile: " + (currentUser != null ? currentUser.displayName : "")} bsStyle="info"></ListGroupItem>
-                        <ListGroupItem>
-                            <h1>Enter your Github UserName</h1>
-                            <input type="text" value={this.state.githubName} onChange={this._handleGithubNameChange} />
-                            <TimerButton bsStyle="danger" bsSize="large" duration={5} popover={popover}
-                                onClick={() => self._syncRepos()} buttonText={"Refresh Your Repositories"} />
-                        </ListGroupItem>
+        const myIssues = self.state.issues;
+        const myIssueIds = myIssues ? Object.keys(myIssues) : [];
+        const myIssueValues = myIssues ? Object.values(myIssues) : [];
 
-                        {/* <ListGroup> */}
+        const myRepos = self.state.repos;
+
+        return (
+            <div className="profile-content">
+                <ListGroup>
+                    <ListGroupItem header={"Your Profile: " + (currentUser != null ? currentUser.displayName : "")} bsStyle="info"></ListGroupItem>
+                    <ListGroupItem>
+                        <FormGroup className="centered">
+                            <h4 className="facebook-blue">Enter your Github UserName</h4>
+                            <input type="text" className="github-name-input" value={this.state.githubName} onChange={this._handleGithubNameChange} />
+                            {self.state.nameError && <p className="red">{self.state.nameError}</p>}
+                        </FormGroup>
+                        <TimerButton bsStyle="danger" bsSize="large" duration={5} popover={popover}
+                            onClick={() => self._syncRepos()} buttonText={"Refresh Your Repositories"} />
+                    </ListGroupItem>
+
+                    {self.state.githubName && myRepos &&
                         <Tabs>
                             <TabList>
-                                <Tab>Your Repos</Tab>
-                                <Tab>Synced Issues</Tab>
+                                <Tab>Repos with Issues for {this.state.githubName}</Tab>
+                                <Tab>Synced Issues ({myIssueIds.length})</Tab>
                             </TabList>
 
                             <TabPanel>
                                 {/* REPOS */}
 
                                 <div className="sync-results">
-                                    <ListGroupItem header={"Your current repos (with at least one open repo):"} />
-                                    <div className="syncing">
-                                        <ClimbingBoxLoader className="centered" color={'#123abc'} size={500} loading={self.state.syncing} />
-                                    </div>
+                                    {/* <ListGroupItem header={"Your current repos (with at least one open repo):"} /> */}
                                     <div className="-repos">
-                                        {!self.state.syncing && !self.state.error && self.state.repos.length === 0 &&
+                                        {!self.state.syncing && !self.state.error && myRepos.length === 0 &&
                                             <h3 className="centered githelpers-results">No Repos found with open repos</h3>}
                                         {self.state.error && <h3 className="centered error-text">Error: {self.state.error.message}</h3>}
-                                        {!self.state.syncing && self.state.repos.length > 0 &&
-                                            <h4 className="centered githelpers-results">{self.state.repos.length} repos </h4>}
+                                        {!self.state.syncing && myRepos.length > 0 &&
+                                            <h4 className="centered githelpers-results">{myRepos.length} Repos for {self.state.githubName} found with open Issues</h4>}
                                         <div>
-                                            {self.state.repos.map((repo, index) => {
+                                            {myRepos.map((repo, index) => {
                                                 return (<ListGroupItem className="-repo" key={index}>
                                                     {self._renderRepo(repo)}
                                                 </ListGroupItem>)
@@ -162,20 +199,17 @@
                             <TabPanel>
                                 {/* ISSUES */}
                                 <div className="sync-results">
-                                    <ListGroupItem header={"Your current tagged issues:"} />
-                                    <div className="syncing">
-                                        <ClimbingBoxLoader className="centered" color={'#123abc'} size={500} loading={self.state.syncing} />
-                                    </div>
+                                    {/* <ListGroupItem header={"Your current tagged issues:"} /> */}
                                     <div className="-issues">
-                                        {!self.state.syncing && !self.state.error && self.state.issues.length === 0 &&
-                                            <h3 className="centered githelpers-results">No 'githelpers' issues</h3>}
+                                        {!self.state.syncing && !self.state.error && myIssueIds.length === 0 &&
+                                            <h3 className="centered githelpers-results">No <b>'githelpers'</b> Issues currently Synced</h3>}
                                         {self.state.error && <h3 className="centered error-text">Error: {self.state.error.message}</h3>}
-                                        {!self.state.syncing && self.state.issues.length > 0 &&
-                                            <h4 className="centered bold">{self.state.issues.length} issues </h4>}
+                                        {!self.state.syncing && myIssueIds.length > 0 &&
+                                            <h4 className="centered githelpers-results">{myIssueIds.length} Active <b>'githelpers'</b> Issues </h4>}
                                         <div>
-                                            {self.state.issues.map((issue, index) => {
+                                            {myIssueValues.map((issue, index) => {
                                                 return (<ListGroupItem className="-issue" key={index}>
-                                                    {self._renderissue(issue)}
+                                                    {self._renderIssue(issue)}
                                                 </ListGroupItem>)
                                             })}
                                         </div>
@@ -184,10 +218,10 @@
 
                             </TabPanel>
 
-                        </Tabs>
+                        </Tabs>}
 
-                    </ListGroup>
-                </div>
-            )
-        }
+                </ListGroup>
+            </div>
+        )
     }
+}

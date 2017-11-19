@@ -14,23 +14,17 @@ export default class Sidebar extends Component {
                 <ListGroup>
                     <ListGroupItem className={"sidebar-item"} header={"Dashboard"} bsStyle="success">
                     </ListGroupItem>
-                    {/* <ListGroupItem className={"sidebar-item " + (self._activePage(0) ? 'selected-item' : '')} onClick={() => this.props.updateCurrentPage(0)}>
-                        Search
-                    </ListGroupItem> */}
-                    <ListGroupItem className={"sidebar-item " + (self._activePage(1) ? 'selected-item' : '')} onClick={() => this.props.updateCurrentPage(1)}>
+                    <ListGroupItem className={"sidebar-item " + (self._activePage(0) ? 'selected-item' : '')} onClick={() => this.props.updateCurrentPage(0)}>
                         Your Profile
                     </ListGroupItem>
-                    <ListGroupItem className={"sidebar-item " + (self._activePage(2) ? 'selected-item' : '')} onClick={() => this.props.updateCurrentPage(2)}>
+                    <ListGroupItem className={"sidebar-item " + (self._activePage(1) ? 'selected-item' : '')} onClick={() => this.props.updateCurrentPage(1)}>
                         User Statistics
                     </ListGroupItem>
-                    <ListGroupItem className={"sidebar-item " + (self._activePage(3) ? 'selected-item' : '')} onClick={() => this.props.updateCurrentPage(3)}>
+                    <ListGroupItem className={"sidebar-item " + (self._activePage(2) ? 'selected-item' : '')} onClick={() => this.props.updateCurrentPage(2)}>
                         Getting Started
                     </ListGroupItem>
-                    <ListGroupItem className={"sidebar-item " + (self._activePage(4) ? 'selected-item' : '')} onClick={() => this.props.updateCurrentPage(4)}>
+                    <ListGroupItem className={"sidebar-item " + (self._activePage(3) ? 'selected-item' : '')} onClick={() => this.props.updateCurrentPage(3)}>
                         Live Events
-                    </ListGroupItem>
-                    <ListGroupItem className={"sidebar-item " + (self._activePage(5) ? 'selected-item' : '')} onClick={() => this.props.updateCurrentPage(5)}>
-                        Settings
                     </ListGroupItem>
                 </ListGroup>
             </div>

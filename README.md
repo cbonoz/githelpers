@@ -95,3 +95,8 @@ The build is minified and the filenames include the hashes.<br/>
 Your app is ready to be deployed!
 
 See the section about [deployment](#deployment) for more information.
+
+
+### Docker / Docker Compose
+
+Using docker-compose, run ```docker-compose up``` from the project root directory.

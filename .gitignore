@@ -7,6 +7,7 @@ node_modules/
 
 # Docker
 Dockerfile
+docker-compose.yml
 
 # server dependencies
 server/node_modules/

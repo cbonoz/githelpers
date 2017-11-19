@@ -11,8 +11,7 @@ export default class Settings extends Component {
                     <ListGroupItem header={"Settings"} bsStyle="danger" />
                     <ListGroupItem>
                         <Form>
-                            <p>Enter your github username</p>
-
+                            {/* TODO: Settings */}
                         </Form>
                     </ListGroupItem>
                 </ListGroup>

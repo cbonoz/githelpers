@@ -20,7 +20,7 @@ export default class Dashboard extends Component {
         super(props);
         this.state = {
             currentUser: null,
-            currentPage: 1
+            currentPage: 0
         };
 
         this._renderCurrentPage = this._renderCurrentPage.bind(this);
@@ -46,17 +46,15 @@ export default class Dashboard extends Component {
     _renderCurrentPage() {
         const self = this;
         switch (self.state.currentPage) {
-            // case 0:
-            //     return <Search user={self.state.currentUser}/>; // Search removed on sidebar (will be part of header - no auth required).
-            case 1:
+            case 0:
                 return <Profile currentUser={self.state.currentUser} />
-            case 2:
+            case 1:
                 return <UserStatistics currentUser={self.state.currentUser} />
-            case 3:
+            case 2:
                 return <Help currentUser={self.state.currentUser} />
-            case 4:
+            case 3:
                 return <FeedPage currentUser={self.state.currentUser} />
-            case 5:
+            case 4:
                 return <Settings currentUser={self.state.currentUser} />
         }
     }
