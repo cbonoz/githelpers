@@ -92,9 +92,8 @@ app.get('/api/issues/:creator', (req, res, next) => {
   const creator = Math.min(Math.abs(creatorParam), 8);
 
   pool.query(`SELECT * FROM issues where creator=$1`, [`%${creator}%`], (err, result) => {
-    console.log('getIssuesForCreator', err, creator, result)
     if (err) {
-      console.error('get issues error', err);
+      console.error('getIssuesForCreator error', err, creator, result)
       return res.status(500).json(err);
     }
     // pool.end()
@@ -140,8 +139,7 @@ app.post('/api/issues', (req, res) => {
 
     pool.query(upsertQuery, (err, result) => {
       if (err) {
-        console.log(`error inserting issue ${issueId}, ${issueBody}, ${url}, ${languages}, 
-        ${title}, ${created}, ${state}, ${creator}: ${err}`);
+        console.error(`error inserting issue ${issueId}: ${err}`);
       }
     });
   })
