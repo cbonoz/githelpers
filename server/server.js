@@ -150,45 +150,6 @@ app.post('/api/issues', (req, res) => {
   return res.status(200);
 });
 
-app.get('/api/rate_limit', (req, res) => {
-  axios.get('https://api.github.com/rate_limit')
-    .then(function (result) {
-      console.log(result.data);
-      res.status(200).json(result.data);
-    });
-
-});
-
-app.post('/api/github', (req, res) => {
-  // console.log(req);
-  const body = req.body;
-  const clientId = body.clientId;
-  const clientSecret = body.clientSecret;
-  const code = body.code;
-
-  axios.post('https://github.com/login/oauth/access_token', {
-    client_id: clientId,
-    client_secret: clientSecret,
-    code: code
-  }).then(function (result) {
-    // console.log('token result:', JSON.stringify(result));
-    console.log('token result:', result.data);
-    // const resp = JSON.parse(result);
-    const resp = result.data;
-    const respArray = resp.split("&");
-    const accessToken = respArray[0].split("=");
-
-    globalAccessToken = accessToken[1];
-
-    // Returns received Access Token
-    return res.json(accessToken[1]);
-  })
-    .catch(function (error) {
-      console.log('error getting access token from :', error);
-      return res.json(error);
-    });
-});
-
 // Socket IO handlers //
 
 io.origins('*:*') // for latest version
