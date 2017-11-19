@@ -138,16 +138,23 @@ app.post('/api/issues', (req, res) => {
     } 
     insert into issues values (${issueId}, ${issueBody}, ${url}, ${languages}, ${title}, ${created}, ${state}, ${creator})
     `;
-    pool.query(query, (err, result) => {
+
+    const upsertQuery = `UPDATE issues SET state=${state}, body=${issueBody} WHERE id=${issueId};
+                         INSERT INTO issues (id, body, url, languages, title, created, state, creator)
+                                SELECT ${issueId}, '${issueBody}', ${url}, ${languages}, ${title}, ${created}, ${state}, ${creator} 
+                                WHERE NOT EXISTS (SELECT 1 FROM table WHERE id=${issueId});`;
+
+    pool.query(upsertQuery, (err, result) => {
       if (err) {
-        console.log(`error inserting issue ${issueId}: ${err}`);
+        console.log(`error inserting issue ${issueId}, ${issueBody}, ${url}, ${languages}, 
+        ${title}, ${created}, ${state}, ${creator}: ${err}`);
       }
     });
   })
 
   // Currently returns before the issues have been processed into the db.
   // TODO: make async.
-  return res.status(200);
+  return res.sendStatus(200);
 });
 
 // Socket IO handlers //
