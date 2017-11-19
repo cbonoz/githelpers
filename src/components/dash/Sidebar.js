@@ -15,15 +15,18 @@ export default class Sidebar extends Component {
                     <ListGroupItem className={"sidebar-item"} header={"Dashboard"} bsStyle="success">
                     </ListGroupItem>
                     <ListGroupItem className={"sidebar-item " + (self._activePage(0) ? 'selected-item' : '')} onClick={() => this.props.updateCurrentPage(0)}>
-                        Your Profile
+                        Discover
                     </ListGroupItem>
                     <ListGroupItem className={"sidebar-item " + (self._activePage(1) ? 'selected-item' : '')} onClick={() => this.props.updateCurrentPage(1)}>
-                        User Statistics
+                        Your Profile
                     </ListGroupItem>
                     <ListGroupItem className={"sidebar-item " + (self._activePage(2) ? 'selected-item' : '')} onClick={() => this.props.updateCurrentPage(2)}>
-                        Getting Started
+                        User Statistics
                     </ListGroupItem>
                     <ListGroupItem className={"sidebar-item " + (self._activePage(3) ? 'selected-item' : '')} onClick={() => this.props.updateCurrentPage(3)}>
+                        Getting Started
+                    </ListGroupItem>
+                    <ListGroupItem className={"sidebar-item " + (self._activePage(4) ? 'selected-item' : '')} onClick={() => this.props.updateCurrentPage(4)}>
                         Live Events
                     </ListGroupItem>
                 </ListGroup>

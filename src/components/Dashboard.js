@@ -47,14 +47,16 @@ export default class Dashboard extends Component {
         const self = this;
         switch (self.state.currentPage) {
             case 0:
-                return <Profile currentUser={self.state.currentUser} />
+                return <Search currentUser={self.state.currentUser} />
             case 1:
-                return <UserStatistics currentUser={self.state.currentUser} />
+                return <Profile currentUser={self.state.currentUser} />
             case 2:
-                return <Help currentUser={self.state.currentUser} />
+                return <UserStatistics currentUser={self.state.currentUser} />
             case 3:
-                return <FeedPage currentUser={self.state.currentUser} />
+                return <Help currentUser={self.state.currentUser} />
             case 4:
+                return <FeedPage currentUser={self.state.currentUser} />
+            case 5:
                 return <Settings currentUser={self.state.currentUser} />
         }
     }

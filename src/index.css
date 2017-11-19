@@ -67,6 +67,10 @@ body {
   margin: 20px !important;
 }
 
+.search-subtitle-text {
+  margin-bottom: 20px;
+}
+
 .search-banner-text {
   margin: 20px;
   padding: 20px;
@@ -240,6 +244,10 @@ body {
 
 .clear {
   clear: both;
+}
+
+.pointer {
+  cursor: pointer;
 }
 
 .github-name-input {
