@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { Button, FormControl, FormGroup, Row, Col, Grid, ListGroup, ListGroupItem } from 'react-bootstrap';
 import { ClimbingBoxLoader } from 'react-spinners';
+import ReactPaginate from 'react-paginate';
 
 import { socket, cookies, postSearchIssues } from './../../utils/api';
 import { fbLogin } from '../../utils/fire';
+import SearchResults from './SearchResults';
 
 import githelpers from '../../assets/githelpers_trans.png';
 import { firebaseAuth } from '../../utils/fire';
@@ -14,31 +16,13 @@ export default class Search extends Component {
     this.state = {
       searching: false,
       issues: [],
-      lastQuery: null
+      visibleIssues: [],
+      lastQuery: null,
+      resultsPerPage: 10
     }
 
     this._search = this._search.bind(this);
-    this._renderIssue = this._renderIssue.bind(this);
-    this._shareIssue = this._shareIssue.bind(this);
-  }
-
-  // Use facebook graph api to promote this issue to a particular user.
-  _shareIssue(issue) {
-    console.log('sharing issue', issue);
-  }
-
-  _renderIssue(issue) {
-    const self = this;
-    return (
-      <div>
-        <span className="githelpers-result-title">Issue: <a href={issue.html_url} >{issue.title}</a></span>
-        <p>Issue Body: {issue.body}</p>
-        <p>Last Updated: {issue.updated_at}</p>
-        <Button bsStyle="info" bsSize="large" onClick={() => { self._shareIssue(issue) }}>
-          Share Issue with a Friend <i class="fa fa-share facebook-blue" aria-hidden="true"></i>
-        </Button>
-      </div>
-    );
+    this._handlePageClick = this._handlePageClick.bind(this);
   }
 
   _search(query) {
@@ -54,8 +38,10 @@ export default class Search extends Component {
       username = 'A guest'
     }
 
-    postSearchIssues(query).then((res) => {
-      self.setState({ issues: res, searching: false });
+    postSearchIssues(query).then((data) => {
+      self.setState({ issues: data, searching: false });
+      // Select/show the first page of results by default.
+      self._handlePageClick(0);
     }).catch((err) => {
       console.error('error searching', err);
       this.setState({ issues: [], searching: false, error: err });
@@ -68,6 +54,21 @@ export default class Search extends Component {
     });
 
   }
+
+  _handlePageClick = (data) => {
+    const self = this;
+    const selected = data.selected;
+
+    const issues = self.state.issues;
+    const startIndex = Math.min(Math.ceil(selected * self.state.resultsPerPage), issues.length);
+    const endIndex = Math.min(startIndex + self.state.resultsPerPage, issues.length);
+
+    self.setState({ visibleIssues: issues.splice(startIndex, endIndex) });
+
+    // self.setState({offset: offset}, () => {
+    //   this.loadCommentsFromServer();
+    // });
+  };
 
   render() {
     const self = this;
@@ -98,20 +99,27 @@ export default class Search extends Component {
             </ListGroupItem>}
 
             {!self.state.searching && !self.state.error && self.state.lastQuery && issueResults.length == 0 &&
-              <ListGroupItem className="centered search-issue"><h4>No active 'githelpers' issues for {self.state.lastQuery}</h4></ListGroupItem>
+              <ListGroupItem className="centered githelpers-results"><h4>No open <b>githelpers</b> issues for {self.state.lastQuery}</h4></ListGroupItem>
             }
 
             {!self.state.searching && self.state.error &&
-              <h3 className="centered error-text">Error: {self.state.error.message}</h3>
+              <h3 className="centered error-text githelpers-results">Error: {self.state.error.message}</h3>
             }
 
             {!self.state.searching && issueResults.length > 0 &&
-              <div>
-                {issueResults.map((issue, index) => {
-                  return (<ListGroupItem className='search-issue' key={index}>
-                    <p>{self._renderIssue(issue)}</p>
-                  </ListGroupItem>);
-                })}
+              <div className="githelpers-results">
+                <SearchResults issues={this.state.visibleIssues} />
+                <ReactPaginate previousLabel={"previous"}
+                  nextLabel={"next"}
+                  breakLabel={<a href="">...</a>}
+                  breakClassName={"break-me"}
+                  pageCount={this.state.pageCount}
+                  marginPagesDisplayed={2}
+                  pageRangeDisplayed={5}
+                  onPageChange={this._handlePageClick}
+                  containerClassName={"pagination"}
+                  subContainerClassName={"pages pagination"}
+                  activeClassName={"active"} />
               </div>
             }
           </ListGroup>
