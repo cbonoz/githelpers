@@ -21,7 +21,10 @@ export const fbLogin = function() {
         // console.log(user, token);
         console.log(JSON.stringify(user));
 
-        socket.emit('action', { name: `${result.user.name} just logged in.`, time: Date.now() }, (data) => {
+        const guestName = result.user.displayName || 'Guest';
+        const eventName = `${guestName.split()[0]} just logged in.`;
+
+        socket.emit('action', { name: eventName, time: Date.now() }, (data) => {
             console.log('action ack', data);
         });
     }).catch(function (error) {

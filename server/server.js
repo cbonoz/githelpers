@@ -70,11 +70,11 @@ app.get('/api/events/:count', (req, res, next) => {
   })
 });
 
-app.get('/api/issues/:githubName', (req, res, next) => {
-  const githubNameParam = req.params.githubName === undefined ? null : req.params.githubName;
-  const githubName = Math.min(Math.abs(githubNameParam), 8);
+app.get('/api/issues/:creator', (req, res, next) => {
+  const creatorParam = req.params.creator === undefined ? null : req.params.creator;
+  const creator = Math.min(Math.abs(creatorParam), 8);
 
-  pool.query(`SELECT * FROM issues where githubName = "${githubName}`, (err, res) => {
+  pool.query(`SELECT * FROM issues where creator = "${creator}`, (err, res) => {
     console.log('issues', err, res)
     if (err) {
       return res.status(500).json(err);
@@ -100,8 +100,8 @@ app.post('/api/search', (req, res) => {
 
 app.post('/api/issues', (req, res) => {
   const body = req.body;
-  const githubName = body.githubName
   const issues = body.issues;
+  const creator = body.creator;
 
   // TODO: determine if there is a way to batch this insert.
   issues.map((issue) => {
@@ -117,7 +117,7 @@ app.post('/api/issues', (req, res) => {
     const query = `if exist(select * from issues where id=${issueId}) {
       delete from issues where id=${issueId}
     } 
-    insert into issues values (${issueId}, ${issueBody}, ${url}, ${languages}, ${title}, ${created}, ${state}, ${githubName})
+    insert into issues values (${issueId}, ${issueBody}, ${url}, ${languages}, ${title}, ${created}, ${state}, ${creator})
     `;
     pool.query(query, (err, result) => {
       if (err) {

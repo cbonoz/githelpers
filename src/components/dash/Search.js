@@ -108,7 +108,7 @@ export default class Search extends Component {
 
             {!self.state.searching && issueResults.length > 0 &&
               <div className="githelpers-results">
-                <SearchResults issues={this.state.visibleIssues} />
+                <SearchResults issues={this.state.visibleIssues} currentUser={this.props.currentUser}/>
                 <ReactPaginate previousLabel={"previous"}
                   nextLabel={"next"}
                   breakLabel={<a href="">...</a>}

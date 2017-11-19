@@ -25,26 +25,24 @@ import { toast } from 'react-toastify';
 
 import 'react-toastify/dist/ReactToastify.min.css';
 
-function PrivateRoute({ component: Component, authed, ...rest }) {
+function PrivateRoute({component: Component, authed, ...rest}) {
   return (
     <Route
       {...rest}
       render={(props) => authed === true
         ? <Component {...props} />
-        : <Redirect to={{ pathname: '/', state: { from: props.location } }} />}
-    />
-  )
+        : <Redirect to={{ pathname: '/', state: { from: props.location } }} />}/>
+  );
 }
 
-function PublicRoute({ component: Component, authed, ...rest }) {
+function PublicRoute({component: Component, authed, ...rest}) {
   return (
     <Route
       {...rest}
       render={(props) => authed === false
         ? <Component {...props} />
-        : <Redirect to='/dashboard' />}
-    />
-  )
+        : <Redirect to='/dashboard' />}/>
+  );
 }
 
 class App extends Component {
@@ -84,7 +82,6 @@ class App extends Component {
   }
 
   render() {
-
     return (
       <div className="App">
         <Router>
@@ -98,7 +95,6 @@ class App extends Component {
               <PrivateRoute authed={this.state.authed} path="/dashboard" component={Dashboard}/>
               <Route authed={this.state.authed} render={() => <h1 className="centered">Page not found</h1>} />
             </Switch>
-
             <Footer />
           </div>
         </Router>

@@ -75,8 +75,9 @@ export default class Profile extends Component {
 
             self.state.clickedRepos.add(repoId)
             self.state.syncedRepos[repoId] = ghIssues.length;
-            postIssues(ghIssues).then((res) => {
-                console.log(' issues to db');
+            const creator = self.state.currentUser.email || self.state.currentUser.phoneNumber;
+            postIssues(ghIssues, creator).then((res) => {
+                console.log('issues to db');
                 self.setState({ syncing: false });
             }).catch((err) => {
                 console.error('error syncing issues to db', err);
