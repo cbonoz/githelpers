@@ -30,10 +30,26 @@ body {
   padding: 5px;
 }
 
+.home-video-heading {
+  margin: 20px;
+  padding-bottom: 40px;
+}
+
 .login-image {
   margin-bottom: 20px;
   height: 60px;
   padding-bottom: 2px;
+}
+
+.home-video-section {
+  background: white;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.center-video {
+  margin: 0 auto;
+  text-align:center;
 }
 
 .synced-issues h3 {

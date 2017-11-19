@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Jumbotron, Button, Row, Col, Grid, ListGroup, ListGroupItem } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import ReactRotatingText from 'react-rotating-text';
+import YouTube from 'react-youtube';
 
 import HeaderBox from './data/HeaderBox';
 import HelpSteps from './HelpSteps';
@@ -25,6 +26,7 @@ export default class Home extends Component {
             blocks: [],
             authed: this.props.authed
         }
+        this._onReady = this._onReady.bind(this);
     }
 
     componentDidMount() {
@@ -32,8 +34,21 @@ export default class Home extends Component {
             this.setState({ show: true, headerFade: true });
         }, 2000);
     }
+
+    _onReady(event) {
+        // access to player in all event handlers via event.target
+        event.target.pauseVideo();
+    }
+
     render() {
         const self = this;
+        const videoOpts = {
+            height: '390',
+            width: '640',
+            playerVars: { // https://developers.google.com/youtube/player_parameters
+                autoplay: 1
+            }
+        };
 
         const backgroundStyle = {
             backgroundImage: `url(${bgImage})`,
@@ -80,8 +95,19 @@ export default class Home extends Component {
                             <Col xsHidden md={1} />
                         </Jumbotron>
                     </Row>
-
                 </div>
+                <Row>
+                    <Col xs={12} md={12}>
+                        <div className="home-video-section centered">
+                            <h1 className='facebook-blue centered home-video-heading'>How it Works</h1>
+                            {/* <YouTube
+                                videoId="2g811Eo7K8U"
+                                opts={videoOpts}
+                                onReady={this._onReady}
+                            /> */}
+                        </div>
+                    </Col>
+                </Row>
                 <HelpSteps maxSize={12} />
             </div>
         )
