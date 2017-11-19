@@ -10,6 +10,7 @@ const pg = require('pg');
 const path = require('path');
 const { Pool } = require('pg');
 
+
 const github = require('octonode');
 
 const csrfGuid = process.env.REACT_APP_FB_CSRF;
@@ -34,7 +35,6 @@ const io = require('socket.io')(server);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-// app.use(cors({credentials: true, origin: 'http://localhost:3000'}));
 app.use(cors());
 
 // Endpoints //
@@ -74,7 +74,7 @@ app.post('/api/search', (req, res) => {
 // upsert the posted issues to the githelpers db.
 app.post('/api/issues', (req, res) => {
   const body = req.body;
-  // const issues = JSON.parse(body.issues);
+  console.log(issues[0]);
 
   // TODO: insert issues into DB 'issues' using upsert.
   // return success back to client once completed.
@@ -85,8 +85,6 @@ app.post('/api/issues', (req, res) => {
   // const issues = axios.get(issuesUrl)
   //     .then(function (response) {
   //       console.log('issues response:', response);
-  //
-  //
   //
   //       pool.query('update issues SET id= ' + response.data.issue, (err, res) => {
   //             console.log('events', err, res);
@@ -106,24 +104,25 @@ app.post('/api/issues', (req, res) => {
 
 
   var client = github.client(globalAccessToken);
+
   client.get('/user', {}, function (err, status, body, headers) {
       console.log(body.login); //json object
   });
 
-    var ghme           = client.me();
-    var ghuser         = client.user('rtre84');
-    var ghrepo         = client.repo('rtre84/pipeline');
+  const ghme           = client.me();
+  const ghuser         = client.user('rtre84');
+  const ghrepo         = client.repo('rtre84/pipeline');
     // var ghorg          = client.org('flatiron');
-    var ghissue        = client.issue('rtre84/pipeline', 3);
-    var ghmilestone    = client.milestone('pksunkara/hub', 37);
-    var ghlabel        = client.label('pksunkara/hub', 'todo');
-    var ghpr           = client.pr('pksunkara/hub', 37);
-    var ghrelease      = client.release('pksunkara/hub', 37);
-    var ghgist         = client.gist();
-    var ghteam         = client.team(37);
-    var ghnotification = client.notification(37);
+  const ghissue        = client.issue('rtre84/pipeline', 3);
+  const ghmilestone    = client.milestone('pksunkara/hub', 37);
+  const ghlabel        = client.label('pksunkara/hub', 'todo');
+  const ghpr           = client.pr('pksunkara/hub', 37);
+  const ghrelease      = client.release('pksunkara/hub', 37);
+  const ghgist         = client.gist();
+  const ghteam         = client.team(37);
+  const ghnotification = client.notification(37);
 
-    var ghsearch = client.search();
+  const ghsearch = client.search();
 
   // client.get('/repos', {}, function (err, status, body, headers) {
   //     console.log(body); //json object
@@ -132,6 +131,7 @@ app.post('/api/issues', (req, res) => {
   client.get('/user/repos', {}, function (err, status, body, headers){
       body.forEach(function(val) {
           // do things
+          // console.log(JSON.stringify(JSON.parse(val)));
           console.log(val);
       });
       // console.log("Issues: " + body);
@@ -141,6 +141,29 @@ app.post('/api/issues', (req, res) => {
   return res.status(200);
 });
 
+app.post('/api/github/issues', (req, res) => {
+  console.log("Data from Zapier: " + req.body);
+
+  res.send('POST request successful');
+});
+
+app.post('/api/github_fetcher', (req, res) => {
+    let gitUsername = req.param('gitusername');
+    githubFetcher.repos(gitUsername)
+        .then( (data) => console.log(data) )
+        .catch( (err) => console.log(err) );
+
+    res.send('POST successful');
+});
+
+app.get('/api/rate_limit', (req, res) => {
+    axios.get('https://api.github.com/rate_limit')
+        .then(function (response) {
+            console.log(response.data);
+        });
+
+    res.sendStatus(200);
+});
 
 app.post('/api/github', (req, res) => {
   // console.log(req);

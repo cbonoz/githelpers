@@ -10,7 +10,8 @@ CREATE TABLE issues (
   languages VARCHAR(64),
   title VARCHAR(64),
   created VARCHAR(64),
-  state VARCHAR(10)
+  state VARCHAR(10),
+  creator VARCHAR(20)
 );
 
 CREATE TABLE events (
@@ -24,3 +25,15 @@ CREATE TABLE events (
 
 -- INSERT INTO events (name, time)
 --   VALUES ('new registration', '1');
+
+INSERT INTO issues (id, body, url, languages, title, created, state, creator)
+VALUES (85198176 ,'Toast Hackathon 3/16/17 - Preorder Aggregation Server',
+        'https://api.github.com/repos/cbuonocore-toasttab/toast-hack-preorder',
+        'JavaScript', 'toast-hack-preorder', '2017-03-16T13:19:40Z', 'open', 'cbonoz'
+        );
+
+INSERT INTO issues (id, body, url, languages, title, created, state, creator)
+VALUES (1234 ,'Testing',
+        'https://api.github.com/repos/cbuonocore-toasttab/toast-hack-preorder',
+        'JavaScript', 'test', '2017-03-16T13:19:40Z', 'open', 'rtre84'
+        );
