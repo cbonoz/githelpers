@@ -28,7 +28,11 @@
         }
 
         componentWillMount() {
-            this.setState({ githubName: cookies.get('githubName')})
+            var existingUserName = cookies.get('githubName');
+            if (existingUserName == null || existingUserName == undefined) {
+                existingUserName = "github_username";
+            }
+            this.setState({ githubName: existingUserName})
         }
 
         componentDidMount() {
@@ -102,7 +106,7 @@
             cookies.set('githubName', newName);
             this.setState({githubName: newName});
         }
-        
+
         render() {
             const self = this;
             const currentUser = self.props.currentUser;
@@ -118,9 +122,10 @@
                     <ListGroup>
                         <ListGroupItem header={"Your Profile: " + (currentUser != null ? currentUser.displayName : "")} bsStyle="info"></ListGroupItem>
                         <ListGroupItem>
+                            <h1>Enter your Github UserName</h1>
                             <input type="text" value={this.state.githubName} onChange={this._handleGithubNameChange} />
                             <TimerButton bsStyle="danger" bsSize="large" duration={5} popover={popover}
-                                onClick={() => self._syncissues()} buttonText={"Refresh tagged issues"} />
+                                onClick={() => self._syncRepos()} buttonText={"Refresh Your Repositories"} />
                         </ListGroupItem>
 
                         {/* <ListGroup> */}
@@ -134,20 +139,20 @@
                                 {/* REPOS */}
 
                                 <div className="sync-results">
-                                    <ListGroupItem header={"Your current repos (with at least one open issue):"} />
+                                    <ListGroupItem header={"Your current repos (with at least one open repo):"} />
                                     <div className="syncing">
                                         <ClimbingBoxLoader className="centered" color={'#123abc'} size={500} loading={self.state.syncing} />
                                     </div>
                                     <div className="-repos">
                                         {!self.state.syncing && !self.state.error && self.state.repos.length === 0 &&
-                                            <h3 className="centered issue-results">No Repos found with open issues</h3>}
+                                            <h3 className="centered githelpers-results">No Repos found with open repos</h3>}
                                         {self.state.error && <h3 className="centered error-text">Error: {self.state.error.message}</h3>}
                                         {!self.state.syncing && self.state.repos.length > 0 &&
-                                            <h4 className="centered bold">{self.state.repos.length} repos </h4>}
+                                            <h4 className="centered githelpers-results">{self.state.repos.length} repos </h4>}
                                         <div>
-                                            {self.state.repos.map((issue, index) => {
-                                                return (<ListGroupItem className="-issue" key={index}>
-                                                    {self._renderissue(issue)}
+                                            {self.state.repos.map((repo, index) => {
+                                                return (<ListGroupItem className="-repo" key={index}>
+                                                    {self._renderRepo(repo)}
                                                 </ListGroupItem>)
                                             })}
                                         </div>
@@ -163,7 +168,7 @@
                                     </div>
                                     <div className="-issues">
                                         {!self.state.syncing && !self.state.error && self.state.issues.length === 0 &&
-                                            <h3 className="centered issue-results">No 'githelpers' issues</h3>}
+                                            <h3 className="centered githelpers-results">No 'githelpers' issues</h3>}
                                         {self.state.error && <h3 className="centered error-text">Error: {self.state.error.message}</h3>}
                                         {!self.state.syncing && self.state.issues.length > 0 &&
                                             <h4 className="centered bold">{self.state.issues.length} issues </h4>}
