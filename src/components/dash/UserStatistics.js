@@ -19,11 +19,11 @@ export default class UserStatistics extends Component {
         return (
             <div>
                 <ListGroup>
-                    <ListGroupItem header={"User Statistics"} bsStyle="info"/>
+                    {/* <ListGroupItem header={"User Statistics"} bsStyle="info"/>
                     <ListGroupItem className="group-padding">
                         <p className="stats-text">{self.state.statMessage}</p>
-                    </ListGroupItem>
-                    <ListGroupItem header={"User Information"} />
+                    </ListGroupItem> */}
+                    <ListGroupItem header={"User Information"} bsStyle="info"/>
                     {currentUser && <ListGroupItem>
                         {/* <p>{JSON.stringify(currentUser)}</p> */}
                         {/* <h4>Account:</h4> */}

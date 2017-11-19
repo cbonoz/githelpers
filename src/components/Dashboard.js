@@ -3,7 +3,6 @@ import { Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Search from './dash/Search';
 import Profile from './dash/Profile';
-import Settings from './dash/Settings';
 import UserStatistics from './dash/UserStatistics';
 import FeedPage from './dash/FeedPage';
 import Help from './dash/Help';
@@ -51,13 +50,11 @@ export default class Dashboard extends Component {
             case 1:
                 return <Profile currentUser={self.state.currentUser} />
             case 2:
-                return <UserStatistics currentUser={self.state.currentUser} />
+                return <FeedPage currentUser={self.state.currentUser} />
             case 3:
                 return <Help currentUser={self.state.currentUser} />
             case 4:
-                return <FeedPage currentUser={self.state.currentUser} />
-            case 5:
-                return <Settings currentUser={self.state.currentUser} />
+                return <UserStatistics currentUser={self.state.currentUser} />
         }
     }
 

@@ -8,6 +8,7 @@ import github from './../../utils/github';
 import { postIssues } from './../../utils/api';
 import { cookies, socket, postSocketEvent } from './../../utils/api';
 import { firebaseAuth } from '../../utils/fire';
+import { toast } from 'react-toastify';
 
 import checkImage from './../../assets/checkImage.png';
 import cancelImage from './../../assets/cancelImage.png';
@@ -46,7 +47,7 @@ export default class Profile extends Component {
     componentDidMount() {
         const githubName = cookies.get('githubName') || null;
         this.setState({ githubName: githubName, currentUser: firebaseAuth.currentUser });
-        this._syncRepos();
+        this._syncRepos(false);
         if (githubName) {
             this._getIssuesForUser(githubName);
         }
@@ -92,7 +93,7 @@ export default class Profile extends Component {
     }
 
     // Fetch all repos for an user
-    _syncRepos() {
+    _syncRepos(clicked) {
         const self = this;
         const githubName = self.state.githubName;
         if (!githubName) {
@@ -112,6 +113,10 @@ export default class Profile extends Component {
             const issueRepos = data.filter((issue) => issue['open_issues'] > 0).sort((a, b) => a['open_issues'] < b['open_issues']);
             console.log('repos', issueRepos);
             self.setState({ repos: issueRepos });
+            if (clicked) {
+                toast(<div><b>Found {issueRepos.length} Repos</b></div>)
+            }
+
         })
     }
 
@@ -188,7 +193,7 @@ export default class Profile extends Component {
                             {self.state.nameError && <p className="red">{self.state.nameError}</p>}
                         </FormGroup>
                         <TimerButton bsStyle="danger" bsSize="large" duration={5} popover={popover}
-                            onClick={() => self._syncRepos()} buttonText={"Refresh Your Repositories"} />
+                            onClick={() => self._syncRepos(true)} buttonText={"Refresh Your Repositories"} />
                     </ListGroupItem>
 
                     {self.state.githubName && myRepos.length &&
