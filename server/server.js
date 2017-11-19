@@ -77,7 +77,7 @@ app.get('/api/events/:count', (req, res, next) => {
   const count = Math.min(Math.abs(countParam), 8);
 
   pool.query('SELECT * FROM events ORDER BY id DESC limit ' + count, (err, res) => {
-    console.log('events', err, result)
+    console.log('getEvents', err, count, result)
     if (err) {
       console.error('events error', err);
       return res.status(500).json(err);
@@ -133,12 +133,6 @@ app.post('/api/issues', (req, res) => {
     const state = issue.state;
 
     // upsert the posted issues to the githelpers db.
-    const query = `if exist(select * from issues where id=${issueId}) {
-      delete from issues where id=${issueId}
-    } 
-    insert into issues values (${issueId}, ${issueBody}, ${url}, ${languages}, ${title}, ${created}, ${state}, ${creator})
-    `;
-
     const upsertQuery = `UPDATE issues SET state=${state}, body=${issueBody} WHERE id=${issueId};
                          INSERT INTO issues (id, body, url, languages, title, created, state, creator)
                                 SELECT ${issueId}, '${issueBody}', ${url}, ${languages}, ${title}, ${created}, ${state}, ${creator} 
