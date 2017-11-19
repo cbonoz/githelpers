@@ -82,7 +82,7 @@ app.get('/api/events/:count', (req, res, next) => {
       console.error('events error', err);
       return res.status(500).json(err);
     }
-    pool.end()
+    // pool.end()
     return res.json(result.rows);
   })
 });
@@ -97,7 +97,7 @@ app.get('/api/issues/:creator', (req, res, next) => {
       console.error('get issues error', err);
       return res.status(500).json(err);
     }
-    pool.end()
+    // pool.end()
     return res.json(result.rows);
   })
 });

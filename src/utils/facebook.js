@@ -25,16 +25,21 @@ const library = (function () {
         return axios.get(_getRoute(route)).then(response => response.data);
     }
 
-    function shareIssueDialog(issue) {
+    function getShareIssueLink(issue) {
         const title = issue.title;
         const issueUrl = issue.html_url;
-        const route = `https://www.facebook.com/dialog/send?app_id=${APP_ID}&amp;link=${issueUrl}&amp;redirect_uri=${DASHBOARD_URL}`;
+        return `https://www.facebook.com/dialog/send?app_id=${APP_ID}&link=${issueUrl}&redirect_uri=${DASHBOARD_URL}`;
+    }
+
+    function shareIssueDialog(issue) {
+        const route = getShareIssueLink(issue);
         return axios.get(route).then(response => response.data);
     }
 
     return {
         getFacebookId: getFacebookId,
         getFriendsList: getFriendsList,
+        getShareIssueLink: getShareIssueLink,
         shareIssueDialog: shareIssueDialog
     }
 

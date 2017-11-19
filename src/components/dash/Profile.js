@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, FormGroup, ListGroup, ListGroupItem, Popover } from 'react-bootstrap';
+import { Button, FormGroup, ListGroup, ListGroupItem, OverlayTrigger, Popover } from 'react-bootstrap';
 import { ClimbingBoxLoader } from 'react-spinners';
 import TimerButton from './TimerButton';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
@@ -168,15 +168,28 @@ export default class Profile extends Component {
 
     _renderIssue(issue) {
         const self = this;
+        const popover = (
+            <Popover id="modal-popover" title="Share Issue">
+                Clicking here will open a new tab to share this issue directly with selected friends.
+                </Popover>
+        );
+
         return (
             <div>
                 <span className="githelpers-result-title">Issue: <a href={issue.html_url} >{issue.title}</a></span>
                 <p>Issue Body: {issue.body}</p>
                 <p>Repository Url: {issue.repository_url}</p>
                 <p>Last Updated: {issue.updated_at}</p>
-                {self.props.currentUser != null && <Button bsStyle="info" bsSize="large" onClick={() => { self._shareIssue(issue) }}>
-                    Share Issue&nbsp;<i class="fa fa-share facebook-blue" aria-hidden="true"></i>
-                </Button>}
+                {self.props.currentUser != null && 
+                <OverlayTrigger overlay={popover} rootClose={true}>
+                    <a href={fb.getShareIssueLink(issue)} target="_blank">
+                        {/* onClick={() => fb.shareIssueDialog(issue)}> */}
+                        <Button bsStyle="info" bsSize="large"> 
+                            Share Issue&nbsp;<i className="fa fa-share facebook-blue" aria-hidden="true"></i>
+                        </Button>
+                    </a>
+                </OverlayTrigger>
+                }
             </div>
         );
     }

@@ -51,17 +51,16 @@ export default class TimerButton extends Component {
         return (
             <div>
                 <OverlayTrigger overlay={this.props.popover} rootClose={true}>
-                <span>
-                <Button
-                    className="refresh-button" 
-                    bsStyle={this.props.bsStyle || 'danger'}
-                    bsSize={this.props.bsSize || 'large'}
-                    disabled={this.state.secondsLeft !== 0}
-                    onClick={() => {this._onClick()}}
-                    >
-                    {this.state.buttonText}
-                </Button>
-                </span>
+                    <span>
+                        <Button
+                            className="refresh-button" 
+                            bsStyle={this.props.bsStyle || 'danger'}
+                            bsSize={this.props.bsSize || 'large'}
+                            disabled={this.state.secondsLeft !== 0}
+                            onClick={() => {this._onClick()}}>
+                            {this.state.buttonText}
+                        </Button>
+                    </span>
                 </OverlayTrigger>
             </div>
         )
