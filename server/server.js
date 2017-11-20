@@ -134,12 +134,12 @@ app.post('/api/issues', (req, res) => {
     // upsert the posted issues to the githelpers db.
     const upsertQuery = `UPDATE issues SET state=${state}, body=${issueBody} WHERE id=${issueId};
                          INSERT INTO issues (id, body, url, languages, title, created, state, creator)
-                                SELECT ${issueId}, '${issueBody}', ${url}, ${languages}, ${title}, ${created}, ${state}, ${creator} 
+                                SELECT "${issueId}", ${issueBody}, ${url}, ${languages}, ${title}, ${created}, ${state}, ${creator} 
                                 WHERE NOT EXISTS (SELECT 1 FROM table WHERE id=${issueId});`;
 
     pool.query(upsertQuery, (err, result) => {
       if (err) {
-        console.error(`error inserting issue ${issueId}: ${err}`);
+        console.error(`error inserting issue ${issueId}: ${issueBody}, ${err}`);
       }
     });
   })
@@ -152,11 +152,12 @@ app.post('/api/issues', (req, res) => {
 // Socket IO handlers //
 
 io.origins('*:*') // for latest version
-io.on('connection', function (client) {
+const nsp = io.of('/api/socketio');
+nsp.on('connection', function (client) {
   client.on('action', function (event) {
     pool.query('INSERT INTO events(name, time) values($1, $2)', [event.name, event.time]);
     console.log('action', JSON.stringify(event));
-    io.emit('incoming', event)
+    nsp.emit('incoming', event)
   });
   client.on('disconnect', function () {
     console.log('user disconnect');
