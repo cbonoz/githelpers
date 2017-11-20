@@ -77,7 +77,7 @@ app.get('/api/events/:count', (req, res, next) => {
   const count = Math.min(Math.abs(countParam), 8);
 
   pool.query('SELECT * FROM events ORDER BY id DESC limit ' + count, (err, res) => {
-    console.log('events', err, result)
+    console.log('getEvents', err, count, result)
     if (err) {
       console.error('events error', err);
       return res.status(500).json(err);
@@ -92,9 +92,8 @@ app.get('/api/issues/:creator', (req, res, next) => {
   const creator = Math.min(Math.abs(creatorParam), 8);
 
   pool.query(`SELECT * FROM issues where creator=$1`, [`%${creator}%`], (err, result) => {
-    console.log('issues', err, result)
     if (err) {
-      console.error('get issues error', err);
+      console.error('getIssuesForCreator error', err, creator, result)
       return res.status(500).json(err);
     }
     // pool.end()
@@ -133,12 +132,6 @@ app.post('/api/issues', (req, res) => {
     const state = issue.state;
 
     // upsert the posted issues to the githelpers db.
-    const query = `if exist(select * from issues where id=${issueId}) {
-      delete from issues where id=${issueId}
-    } 
-    insert into issues values (${issueId}, ${issueBody}, ${url}, ${languages}, ${title}, ${created}, ${state}, ${creator})
-    `;
-
     const insertQuery = ` INSERT INTO issues (id, body, url, languages, title, created, state, creator) 
                           VALUES (${issueId}, '${issueBody}', '${url}', '${languages}', '${title}', '${created}', '${state}', '${creator}');`;
 
@@ -153,7 +146,7 @@ app.post('/api/issues', (req, res) => {
         "${title}", "${created}", "${state}", "${creator}": ${err}`);
       }
     });
-  })
+  });
 
   // Currently returns before the issues have been processed into the db.
   // TODO: make async.
@@ -163,11 +156,12 @@ app.post('/api/issues', (req, res) => {
 // Socket IO handlers //
 
 io.origins('*:*') // for latest version
-io.on('connection', function (client) {
+const nsp = io.of('/api/socketio');
+nsp.on('connection', function (client) {
   client.on('action', function (event) {
     pool.query('INSERT INTO events(name, time) values($1, $2)', [event.name, event.time]);
     console.log('action', JSON.stringify(event));
-    io.emit('incoming', event)
+    nsp.emit('incoming', event)
   });
   client.on('disconnect', function () {
     console.log('user disconnect');
