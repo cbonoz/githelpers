@@ -26,15 +26,15 @@ export default class SearchResults extends Component {
         const popover = (
             <Popover id="modal-popover" title="Share Issue">
                 Clicking here will open a new tab to share this issue directly with selected friends.
-                </Popover>
+            </Popover>
         );
 
         return (
             <div>
                 <span className="githelpers-result-title">Issue: <a href={issue.url} >{issue.title}</a></span>
                 <p>Issue Body: {issue.body}</p>
-                {issue.languages && <p>Languages: {issue.languages}</p>}
-                <p>Last Updated: {helper.formatDateTimeMs(issue.created)}</p>
+                {issue.languages !== undefined && <p>Languages: {issue.languages}</p>}
+                <p>Last Updated: {helper.formatDateTimeMs(parseInt(issue.created))}</p>
                 <p>Added by: {issue.creator}</p>
                 {issue.state && <p>State: {issue.state}</p>}
                 {self.props.currentUser != null && 

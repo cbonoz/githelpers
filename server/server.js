@@ -75,7 +75,7 @@ app.get('/api/events/:count', (req, res, next) => {
   const countParam = req.params.count === undefined ? null : req.params.count;
   const count = Math.min(Math.abs(countParam), 8);
 
-  pool.query('SELECT * FROM events ORDER BY id DESC limit ' + count, (err, res) => {
+  pool.query('SELECT * FROM events ORDER BY id DESC limit ' + count, (err, result) => {
     console.log('getEvents', err, count, result)
     if (err) {
       console.error('events error', err);
