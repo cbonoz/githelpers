@@ -71,7 +71,7 @@ export default class Profile extends Component {
                 if (self.state.syncedRepos.hasOwnProperty(repoId)) {
                     delete self.state.syncedRepos[repoId]
                 }
-                self.setState({ error: err });
+                self.setState({ error: "Oops, something went wrong." });
                 return;
             }
 
@@ -117,7 +117,7 @@ export default class Profile extends Component {
 
         var ghuser = self.client.user(githubName);
         ghuser.repos((err, data, headers) => {
-            self.setState({ error: err, syncing: false });
+            self.setState({ error: "Oops, something went wrong.", syncing: false });
             if (err) {
                 return;
             }

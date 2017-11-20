@@ -433,6 +433,7 @@ body {
 
 .feed-item {
   width: auto !important;
+  overflow: hidden;
 }
 
 .dots-width {

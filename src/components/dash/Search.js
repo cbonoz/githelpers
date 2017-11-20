@@ -37,7 +37,7 @@ export default class Search extends Component {
       self._updateIssuesPage(0);
     }).catch((err) => {
       console.error('error searching', err);
-      self.setState({ issues: [], searching: false, error: err });
+      self.setState({ issues: [], searching: false, error: "Oops, something went wrong." });
     });
 
     var userName = 'A guest';
