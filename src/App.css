@@ -35,7 +35,7 @@
   to { transform: rotate(360deg); }
 }
 
-.container, full-height {
+.container, .full-height {
   overflow: visible;
   height: auto;
 }
