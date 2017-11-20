@@ -40,7 +40,8 @@ export default class DataFeed extends Component {
           key={index}
           className={`item item--${item.modifier} feed-item`}
           style={{ height: 75 }}
-        ><span className='transaction bold'>{item.name}<br/></span><span>- {helper.formatDateTimeMs(item.time)}</span>
+        ><span className='transaction bold'>{item.name}<br/></span><span>
+          - {helper.formatDateTimeMs(parseInt(item.time))}</span>
         {/* <img className="check-icon" src={checkmark}/> */}
         </div>)
     );
