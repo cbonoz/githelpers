@@ -56,7 +56,7 @@ export default class Search extends Component {
   _updateIssuesPage(selected) {
     const self = this;
     const issues = self.state.issues;
-    console.log('issues', issues)
+    // console.log('issues', issues)
     const startIndex = Math.min(Math.ceil(selected * self.state.resultsPerPage), issues.length);
     const endIndex = Math.min(startIndex + self.state.resultsPerPage, issues.length);
     self.setState({ visibleIssues: issues.slice(startIndex, endIndex) });

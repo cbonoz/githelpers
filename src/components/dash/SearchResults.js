@@ -15,7 +15,7 @@ export default class SearchResults extends Component {
     // https://developers.facebook.com/docs/sharing/reference/send-dialog
     _shareIssue(issue) {
         fb.shareIssueDialog(issue).then((res) => {
-            console.log('shareIssueDialog', res);
+            // console.log('shareIssueDialog', res);
             // Success popup to the end user.
             toast(<div><b>{res}</b></div>);
         });

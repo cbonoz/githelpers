@@ -127,7 +127,7 @@ export default class Profile extends Component {
             }
             // Only show repos with open issues.
             const issueRepos = data.filter((issue) => issue['open_issues'] > 0).sort((a, b) => a['open_issues'] < b['open_issues']);
-            console.log('repos', issueRepos);
+            // console.log('repos', issueRepos);
             self.setState({ repos: issueRepos });
             if (clicked) {
                 toast(<div><b>Found {issueRepos.length} Repos</b></div>)
@@ -166,7 +166,7 @@ export default class Profile extends Component {
 
     _shareIssue(issue) {
         fb.shareIssueDialog(issue).then((res) => {
-            console.log('shareIssueDialog', res);
+            // console.log('shareIssueDialog', res);
             // Success popup to the end user.
             toast(<div><b>{res}</b></div>);
         });

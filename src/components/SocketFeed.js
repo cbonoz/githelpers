@@ -27,7 +27,6 @@ export default class SocketFeed extends Component {
             if (blocks.length <= MAX_BLOCKS && res instanceof Array && res.length > 0) {
                 const count = Math.max(0, res.length - blocks.length)
                 const neededBlocks =  res.slice(0, count);
-                console.log('neededBlocks', neededBlocks);
                 self.setState( {blocks: neededBlocks.concat(blocks)} );
             }
         }).catch((err) => {

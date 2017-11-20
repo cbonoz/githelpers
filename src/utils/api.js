@@ -15,13 +15,11 @@ function getRepositories() {
     const token = cookies.get('token');
     const username = cookies.get('user')['login']
     const url = `${GITHUB_URL}/users/${username}/repos?access_token=${token}`;
-    console.log('getting ' + url);
     return axios.get(url).then(response => response.data);
 }
 
 function getIssuesForUser(githubName) {
     const url = `${BASE_URL}/api/issues/${githubName}`;
-    console.log('getting ' + url);
     return axios.get(url).then(response => response.data);
 }
 
