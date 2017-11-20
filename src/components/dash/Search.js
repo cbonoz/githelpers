@@ -40,18 +40,15 @@ export default class Search extends Component {
       self.setState({ issues: [], searching: false, error: "Oops, something went wrong." });
     });
 
-    var userName = 'A guest';
-    if (user !== undefined && user['displayName'].length) {
-      const displayName = user['displayName'];
-      if (displayName) {
-        userName = displayName.split()[0];
-      }
-    }
+    
+    const guestName = user.displayName || 'A guest';
+    const nameArray = guestName.split(' ');
+    const firstName = nameArray[0];
 
     const len = Math.min(query.length, 15)
     const shortQuery = query.slice(0, len);
     console.log('emitting event');
-    socket.emit('action', { name: `${userName} just searched for ${shortQuery}.`, time: Date.now() }, (data) => {
+    socket.emit('action', { name: `${firstName} just searched for ${shortQuery}.`, time: Date.now() }, (data) => {
       console.log('action ack', data);
     });
   }
