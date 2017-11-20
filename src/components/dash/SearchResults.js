@@ -34,7 +34,7 @@ export default class SearchResults extends Component {
                 <span className="githelpers-result-title">Issue: <a href={issue.url} >{issue.title}</a></span>
                 <p>Issue Body: {issue.body}</p>
                 {(issue.languages && issue.languages !== 'undefined') && <p>Languages: {issue.languages}</p>}
-                <p>Last Updated: {helper.formatDateTimeMs('2017-11-14T00:16:55Z')}</p>
+                {issue.created && <p>Last Updated: {helper.formatDateTimeMs(issue.created)}</p>}
                 <p>Added by: {issue.creator}</p>
                 {issue.state && <p>State: {issue.state}</p>}
                 {self.props.currentUser != null && 

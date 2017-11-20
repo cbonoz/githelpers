@@ -6,6 +6,7 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
 import github from './../../utils/github';
 import fb from './../../utils/facebook';
+import helper from './../../utils/helper';
 import { postIssues, getIssuesForUser, cookies, socket } from './../../utils/api';
 import { firebaseAuth } from '../../utils/fire';
 import { toast } from 'react-toastify';
@@ -71,7 +72,7 @@ export default class Profile extends Component {
                 if (self.state.syncedRepos.hasOwnProperty(repoId)) {
                     delete self.state.syncedRepos[repoId]
                 }
-                self.setState({ error: err });
+                self.setState({ error: "Oops, something went wrong." });
                 return;
             }
 
@@ -117,7 +118,7 @@ export default class Profile extends Component {
 
         var ghuser = self.client.user(githubName);
         ghuser.repos((err, data, headers) => {
-            self.setState({ error: err, syncing: false });
+            self.setState({ error: "Oops, something went wrong.", syncing: false });
             if (err) {
                 return;
             }
@@ -139,7 +140,7 @@ export default class Profile extends Component {
                 <span className="githelpers-result-title">Repo: <a href={repo.html_url} >{repo.name}</a></span>
                 <p>Description: {repo.description}</p>
                 <p>Watchers: {repo.watchers_count}</p>
-                <p>Last Updated: {repo.updated_at}</p>
+                <p>Last Updated: {helper.formatDateTimeMs(repo.updated_at)}</p>
                 {/* Show sync button */}
                 {!self.state.clickedRepos.has(repo['id']) &&
                     <Button bsStyle="success"
@@ -181,7 +182,7 @@ export default class Profile extends Component {
                 <span className="githelpers-result-title">Issue: <a href={issue.html_url} >{issue.title}</a></span>
                 <p>Issue Body: {issue.body}</p>
                 <p>Repository Url: {issue.repository_url}</p>
-                <p>Last Updated: {issue.updated_at}</p>
+                <p>Last Updated: {helper.formatDateTimeMs(issue.updated_at)}</p>
                 {self.props.currentUser != null && 
                 <OverlayTrigger overlay={popover} rootClose={true}>
                     <a href={fb.getShareIssueLink(issue)} target="_blank">
