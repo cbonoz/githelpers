@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, FormControl, FormGroup, ListGroup, ListGroupItem } from 'react-bootstrap';
+import { Button, Row, Col, FormControl, FormGroup, ListGroup, ListGroupItem } from 'react-bootstrap';
 import { ClimbingBoxLoader } from 'react-spinners';
 import ReactPaginate from 'react-paginate';
 
@@ -79,7 +79,7 @@ export default class Search extends Component {
     const issueResults = self.state.issues;
 
     return (
-      <div className="full-height container">
+      <div className="full-height">
         <div className="search-form centered">
           <img src={githelpers} className="centered search-image" />
           <h3 className="centered search-banner-text">Discover Repositories that need your help.</h3>
@@ -99,7 +99,7 @@ export default class Search extends Component {
 
           <ListGroup>
             {self.state.lastQuery && <ListGroupItem
-              header={"Githelpers issue results for " + self.state.lastQuery} bsStyle="info">
+              header={`${issueResults.length} Githelper issue ${issueResults.length === 1 ? 'result' : 'results'} for: "${self.state.lastQuery}"`} bsStyle="info">
             </ListGroupItem>}
 
             {!self.state.searching && !self.state.error && self.state.lastQuery && issueResults.length === 0 &&
@@ -117,7 +117,7 @@ export default class Search extends Component {
                   nextLabel={"next"}
                   breakLabel={<a href="">...</a>}
                   breakClassName={"break-me"}
-                  pageCount={this.state.pageCount}
+                  pageCount={Math.ceil(issueResults.length / self.state.resultsPerPage)}
                   marginPagesDisplayed={2}
                   pageRangeDisplayed={5}
                   onPageChange={this._handlePageClick}

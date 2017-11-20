@@ -127,7 +127,7 @@ app.post('/api/issues', (req, res) => {
     const url = issue.html_url;
     const languages = issue.languages;
     const title = issue.title;
-    const created = issue.created;
+    const created = issue.created_at;
     const state = issue.state;
 
     // upsert the posted issues to the githelpers db.

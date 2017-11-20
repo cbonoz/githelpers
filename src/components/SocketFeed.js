@@ -32,7 +32,6 @@ export default class SocketFeed extends Component {
             }
         }).catch((err) => {
             console.error(err);
-
         });
     }
     
