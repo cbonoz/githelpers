@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Button, ListGroupItem, OverlayTrigger, Popover } from 'react-bootstrap';
 import fb from '../../utils/facebook';
+import helper from '../../utils/helper';
 import { toast } from 'react-toastify';
 
 export default class SearchResults extends Component {
@@ -30,10 +31,12 @@ export default class SearchResults extends Component {
 
         return (
             <div>
-                <span className="githelpers-result-title">Issue: <a href={issue.html_url} >{issue.title}</a></span>
+                <span className="githelpers-result-title">Issue: <a href={issue.url} >{issue.title}</a></span>
                 <p>Issue Body: {issue.body}</p>
-                <p>Repository Url: {issue.repository_url}</p>
-                <p>Last Updated: {issue.updated_at}</p>
+                {issue.languages && <p>Languages: {issue.languages}</p>}
+                <p>Last Updated: {helper.formatDateTimeMs(issue.created)}</p>
+                <p>Added by: {issue.creator}</p>
+                {issue.state && <p>State: {issue.state}</p>}
                 {self.props.currentUser != null && 
                 <OverlayTrigger overlay={popover} rootClose={true}>
                     <a href={fb.getShareIssueLink(issue)} target="_blank">
@@ -54,7 +57,7 @@ export default class SearchResults extends Component {
             <div>
                 {self.props.issues.map((issue, index) => {
                     return (<ListGroupItem className='search-issue' key={index}>
-                        <p>{self._renderIssue(issue)}</p>
+                       {self._renderIssue(issue)}
                     </ListGroupItem>);
                 })}
             </div>
