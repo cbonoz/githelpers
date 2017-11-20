@@ -6,7 +6,7 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
 import github from './../../utils/github';
 import fb from './../../utils/facebook';
-import { postIssues, getIssuesForUser, cookies, socket, postSocketEvent } from './../../utils/api';
+import { postIssues, getIssuesForUser, cookies, socket } from './../../utils/api';
 import { firebaseAuth } from '../../utils/fire';
 import { toast } from 'react-toastify';
 
@@ -39,7 +39,7 @@ export default class Profile extends Component {
 
     componentWillMount() {
         var existingUserName = cookies.get('githubName');
-        if (existingUserName == null || existingUserName == undefined) {
+        if (!existingUserName) {
             existingUserName = "";
         }
         this.setState({ githubName: existingUserName })

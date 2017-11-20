@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, FormControl, FormGroup, Row, Col, Grid, ListGroup, ListGroupItem } from 'react-bootstrap';
+import { Button, FormControl, FormGroup, ListGroup, ListGroupItem } from 'react-bootstrap';
 import { ClimbingBoxLoader } from 'react-spinners';
 import ReactPaginate from 'react-paginate';
 
@@ -8,7 +8,6 @@ import { fbLogin } from '../../utils/fire';
 import SearchResults from './SearchResults';
 
 import githelpers from '../../assets/githelpers_trans.png';
-import { firebaseAuth } from '../../utils/fire';
 
 export default class Search extends Component {
   constructor(props) {
@@ -32,14 +31,6 @@ export default class Search extends Component {
     console.log('searching', this.searchInput.value);
 
     const user = this.props.currentUser;
-    var userName = 'A guest';
-    if (user !== undefined && user['displayName'].length) {
-      const displayName = user['displayName'];
-      if (displayName) {
-        userName = displayName.split()[0];
-      }
-    }
-
     postSearchIssues(query).then((data) => {
       self.setState({ issues: data, searching: false });
       // Select/show the first page of results by default.
@@ -48,6 +39,14 @@ export default class Search extends Component {
       console.error('error searching', err);
       self.setState({ issues: [], searching: false, error: err });
     });
+
+    var userName = 'A guest';
+    if (user !== undefined && user['displayName'].length) {
+      const displayName = user['displayName'];
+      if (displayName) {
+        userName = displayName.split()[0];
+      }
+    }
 
     const len = Math.min(query.length, 15)
     const shortQuery = query.slice(0, len);
@@ -103,7 +102,7 @@ export default class Search extends Component {
               header={"Githelpers issue results for " + self.state.lastQuery} bsStyle="info">
             </ListGroupItem>}
 
-            {!self.state.searching && !self.state.error && self.state.lastQuery && issueResults.length == 0 &&
+            {!self.state.searching && !self.state.error && self.state.lastQuery && issueResults.length === 0 &&
               <ListGroupItem className="centered githelpers-results"><h4>No open <b>githelpers</b> issues for {self.state.lastQuery}</h4></ListGroupItem>
             }
 

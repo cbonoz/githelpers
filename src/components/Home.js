@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Jumbotron, Button, Row, Col, Grid, ListGroup, ListGroupItem } from 'react-bootstrap';
+import { Jumbotron, Button, Row, Col, ListGroup, ListGroupItem } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import ReactRotatingText from 'react-rotating-text';
 import YouTube from 'react-youtube';

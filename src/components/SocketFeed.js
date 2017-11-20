@@ -14,13 +14,16 @@ export default class SocketFeed extends Component {
         this._addEvent = this._addEvent.bind(this);
         this._setUpSocket = this._setUpSocket.bind(this);
     }
-    
+
+    componentWillUnmount() {
+        socket.close();
+    }
+ 
     componentWillMount() {
         const self = this;
-        console.log('getSOcketEvents')
+        self._setUpSocket();
         getSocketEvents().then((res) => {
             const blocks = self.state.blocks;
-            console.log('received events', res);
             if (blocks.length <= MAX_BLOCKS && res instanceof Array && res.length > 0) {
                 const count = Math.max(0, res.length - blocks.length)
                 const neededBlocks =  res.slice(0, count);
@@ -53,17 +56,7 @@ export default class SocketFeed extends Component {
         });
         socket.open();
     }
-
-    componentWillUnmount() {
-        socket.close();
-    }
-
-    componentWillMount() {
-        const self = this;
-        // self._addEvent(helper.exampleEvent);
-        self._setUpSocket();
-    }
-   
+ 
     render() {
         return (
             <div>

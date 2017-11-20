@@ -106,7 +106,7 @@ app.post('/api/search', (req, res) => {
   const body = req.body;
   const query = body.query.toLowerCase();
   // TODO: implement stronger search filtering (including languages).
-  pool.query("select * from issues where body like $1", [`%${query}%`],
+  pool.query("select * from issues where (body ILIKE $1 or title ILIKE $1)", [`%${query}%`],
     function(err, result) {
       if (err) {
         console.error('search error', err);
