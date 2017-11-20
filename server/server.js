@@ -135,12 +135,12 @@ app.post('/api/issues', (req, res) => {
     const insertQuery = ` INSERT INTO issues (id, body, url, languages, title, created, state, creator) 
                           VALUES (${issueId}, '${issueBody}', '${url}', '${languages}', '${title}', '${created}', '${state}', '${creator}');`;
 
-    const upsertQuery = `UPDATE issues SET state="${state}", body="${issueBody}" WHERE id=${issueId};
+    const upsertQuery = `UPDATE issues SET state='${state}', body='${issueBody}' WHERE id=${issueId};
                          INSERT INTO issues (id, body, url, languages, title, created, state, creator)
                                 SELECT ${issueId}, '${issueBody}', '${url}', '${languages}', '${title}', '${created}', '${state}', '${creator}' 
                                 WHERE NOT EXISTS (SELECT 1 FROM issues WHERE id=${issueId});`;
 
-    pool.query(insertQuery, (err, result) => {
+    pool.query(upsertQuery, (err, result) => {
       if (err) {
         console.log(`error inserting issue ${issueId}, "${issueBody}", "${url}", "${languages}", 
         "${title}", "${created}", "${state}", "${creator}": ${err}`);

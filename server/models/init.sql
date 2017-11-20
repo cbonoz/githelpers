@@ -11,7 +11,7 @@ CREATE TABLE issues (
   title VARCHAR(64),
   created VARCHAR(64),
   state VARCHAR(10),
-  creator VARCHAR(20)
+  creator VARCHAR(64)
 );
 
 CREATE TABLE events (
