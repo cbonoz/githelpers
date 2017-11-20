@@ -16,7 +16,6 @@ const github = require('octonode');
 // Variable and Server Setup //
 const prod = true;
 
-const csrfGuid = process.env.REACT_APP_FB_CSRF;
 let globalAccessToken = "";
 
 const dbUser = process.env.ADMIN_DB_USER;
