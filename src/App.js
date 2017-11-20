@@ -6,7 +6,6 @@ import FAQ from './components/FAQ';
 import Footer from './components/Footer';
 import Header from './components/Header';
 import Home from './components/Home';
-import Login from './components/Login';
 
 import {
   BrowserRouter as Router,
@@ -89,7 +88,6 @@ class App extends Component {
             <Header authed={this.state.authed}/>
             <Switch>
               <Route authed={this.state.authed} path="/faq" component={FAQ} />
-              <Route authed={this.state.authed} path="/login" component={Login} />
               <Route authed={this.state.authed} path="/search" component={Search} />
               <PublicRoute authed={this.state.authed} exact path="/" component={Home} />
               <PrivateRoute authed={this.state.authed} path="/dashboard" component={Dashboard}/>

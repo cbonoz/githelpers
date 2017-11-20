@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Row, Col } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
 import Search from './dash/Search';
 import Profile from './dash/Profile';
 import UserStatistics from './dash/UserStatistics';
@@ -8,10 +7,7 @@ import FeedPage from './dash/FeedPage';
 import Help from './dash/Help';
 import Sidebar from './dash/Sidebar';
 
-import github from '../utils/github';
-import { socket, cookies, getRepositories } from '../utils/api';
 import { firebaseAuth } from '../utils/fire';
-const GitHub = require('octonode');
 
 export default class Dashboard extends Component {
 
@@ -30,7 +26,6 @@ export default class Dashboard extends Component {
         const self = this;
         this.removeListener = firebaseAuth().onAuthStateChanged((user) => {
             self.setState({ currentUser: user });
-            console.log('currentUser', JSON.stringify(self.state.currentUser));
         })
     }
 
@@ -55,6 +50,8 @@ export default class Dashboard extends Component {
                 return <Help currentUser={self.state.currentUser} />
             case 4:
                 return <UserStatistics currentUser={self.state.currentUser} />
+            default: // 0
+                return <Search currentUser={self.state.currentUser} />
         }
     }
 

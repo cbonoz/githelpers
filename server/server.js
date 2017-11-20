@@ -16,7 +16,6 @@ const github = require('octonode');
 // Variable and Server Setup //
 const prod = true;
 
-const csrfGuid = process.env.REACT_APP_FB_CSRF;
 let globalAccessToken = "";
 
 const dbUser = process.env.ADMIN_DB_USER;
@@ -76,7 +75,7 @@ app.get('/api/events/:count', (req, res, next) => {
   const countParam = req.params.count === undefined ? null : req.params.count;
   const count = Math.min(Math.abs(countParam), 8);
 
-  pool.query('SELECT * FROM events ORDER BY id DESC limit ' + count, (err, res) => {
+  pool.query('SELECT * FROM events ORDER BY id DESC limit ' + count, (err, result) => {
     console.log('getEvents', err, count, result)
     if (err) {
       console.error('events error', err);
@@ -106,7 +105,7 @@ app.post('/api/search', (req, res) => {
   const body = req.body;
   const query = body.query.toLowerCase();
   // TODO: implement stronger search filtering (including languages).
-  pool.query("select * from issues where body like $1", [`%${query}%`],
+  pool.query("select * from issues where (body ILIKE $1 or title ILIKE $1)", [`%${query}%`],
     function(err, result) {
       if (err) {
         console.error('search error', err);
@@ -128,7 +127,7 @@ app.post('/api/issues', (req, res) => {
     const url = issue.html_url;
     const languages = issue.languages;
     const title = issue.title;
-    const created = issue.created;
+    const created = issue.created_at;
     const state = issue.state;
 
     // upsert the posted issues to the githelpers db.
@@ -156,12 +155,14 @@ app.post('/api/issues', (req, res) => {
 // Socket IO handlers //
 
 io.origins('*:*') // for latest version
-const nsp = io.of('/api/socketio');
-nsp.on('connection', function (client) {
+io.on('connection', function (client) {
+  client.on('connect', function () {
+    console.log('user connect');
+  });
   client.on('action', function (event) {
     pool.query('INSERT INTO events(name, time) values($1, $2)', [event.name, event.time]);
     console.log('action', JSON.stringify(event));
-    nsp.emit('incoming', event)
+    io.emit('incoming', event)
   });
   client.on('disconnect', function () {
     console.log('user disconnect');

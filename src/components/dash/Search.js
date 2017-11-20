@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, FormControl, FormGroup, Row, Col, Grid, ListGroup, ListGroupItem } from 'react-bootstrap';
+import { Button, Row, Col, FormControl, FormGroup, ListGroup, ListGroupItem } from 'react-bootstrap';
 import { ClimbingBoxLoader } from 'react-spinners';
 import ReactPaginate from 'react-paginate';
 
@@ -8,7 +8,6 @@ import { fbLogin } from '../../utils/fire';
 import SearchResults from './SearchResults';
 
 import githelpers from '../../assets/githelpers_trans.png';
-import { firebaseAuth } from '../../utils/fire';
 
 export default class Search extends Component {
   constructor(props) {
@@ -31,14 +30,7 @@ export default class Search extends Component {
     this.setState({ lastQuery: query, searching: true, error: null });
     console.log('searching', this.searchInput.value);
 
-    const user = cookies.get('user');
-    var username;
-    if (user !== undefined && user['login'].length) {
-      username = user['login'];
-    } else {
-      username = 'A guest'
-    }
-
+    const user = this.props.currentUser;
     postSearchIssues(query).then((data) => {
       self.setState({ issues: data, searching: false });
       // Select/show the first page of results by default.
@@ -48,10 +40,18 @@ export default class Search extends Component {
       self.setState({ issues: [], searching: false, error: err });
     });
 
+    var userName = 'A guest';
+    if (user !== undefined && user['displayName'].length) {
+      const displayName = user['displayName'];
+      if (displayName) {
+        userName = displayName.split()[0];
+      }
+    }
+
     const len = Math.min(query.length, 15)
     const shortQuery = query.slice(0, len);
     console.log('emitting event');
-    socket.emit('action', { name: `${username} just searched for ${shortQuery}.`, time: Date.now() }, (data) => {
+    socket.emit('action', { name: `${userName} just searched for ${shortQuery}.`, time: Date.now() }, (data) => {
       console.log('action ack', data);
     });
   }
@@ -79,7 +79,7 @@ export default class Search extends Component {
     const issueResults = self.state.issues;
 
     return (
-      <div className="full-height container">
+      <div className="full-height">
         <div className="search-form centered">
           <img src={githelpers} className="centered search-image" />
           <h3 className="centered search-banner-text">Discover Repositories that need your help.</h3>
@@ -99,10 +99,10 @@ export default class Search extends Component {
 
           <ListGroup>
             {self.state.lastQuery && <ListGroupItem
-              header={"Githelpers issue results for " + self.state.lastQuery} bsStyle="info">
+              header={`${issueResults.length} Githelper issue ${issueResults.length === 1 ? 'result' : 'results'} for: "${self.state.lastQuery}"`} bsStyle="info">
             </ListGroupItem>}
 
-            {!self.state.searching && !self.state.error && self.state.lastQuery && issueResults.length == 0 &&
+            {!self.state.searching && !self.state.error && self.state.lastQuery && issueResults.length === 0 &&
               <ListGroupItem className="centered githelpers-results"><h4>No open <b>githelpers</b> issues for {self.state.lastQuery}</h4></ListGroupItem>
             }
 
@@ -117,7 +117,7 @@ export default class Search extends Component {
                   nextLabel={"next"}
                   breakLabel={<a href="">...</a>}
                   breakClassName={"break-me"}
-                  pageCount={this.state.pageCount}
+                  pageCount={Math.ceil(issueResults.length / self.state.resultsPerPage)}
                   marginPagesDisplayed={2}
                   pageRangeDisplayed={5}
                   onPageChange={this._handlePageClick}

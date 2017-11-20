@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Jumbotron, Button, Row, Col, Grid, ListGroup, ListGroupItem } from 'react-bootstrap';
+import { Jumbotron, Button, Row, Col, ListGroup, ListGroupItem } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import ReactRotatingText from 'react-rotating-text';
 import YouTube from 'react-youtube';
@@ -54,14 +54,16 @@ export default class Home extends Component {
                             <Col xs={12} md={8}>
                                 <div className="static-modal-jumbotron opaque centered">
                                     <img className="home-banner-image" src={githelpers} />
-                                    <p className="bold">
-                                        {/* Connect with your friends around&nbsp;<ReactRotatingText pause={3000} typingInterval={50} deletingInterval={75} items={self.state.words}/><br/>&nbsp;great open source software. */}
-                                        {self.state.slogan}
+                                    <p className="bold slogan-text">
+                                        Connect with your friends while&nbsp;
+                                        <ReactRotatingText pause={3000} typingInterval={50} deletingInterval={75} items={self.state.words}/><br/>
+                                        great open source software.
+                                        {/* {self.state.slogan} */}
                                     </p>
                                     <div className="header-text-section">
                                         <span className="header-text">
                                             <div className="centered">
-                                                <p className="centered large">
+                                                <p className="centered large bold">
                                                     What are you waiting for?<br />
                                                 </p>
                                                 <Button bsStyle="primary" className="start-button" onClick={() => fbLogin()}>

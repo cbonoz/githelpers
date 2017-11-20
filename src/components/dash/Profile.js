@@ -6,8 +6,7 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
 import github from './../../utils/github';
 import fb from './../../utils/facebook';
-import { postIssues, getIssuesForUser } from './../../utils/api';
-import { cookies, socket, postSocketEvent } from './../../utils/api';
+import { postIssues, getIssuesForUser, cookies, socket } from './../../utils/api';
 import { firebaseAuth } from '../../utils/fire';
 import { toast } from 'react-toastify';
 
@@ -40,7 +39,7 @@ export default class Profile extends Component {
 
     componentWillMount() {
         var existingUserName = cookies.get('githubName');
-        if (existingUserName == null || existingUserName == undefined) {
+        if (!existingUserName) {
             existingUserName = "";
         }
         this.setState({ githubName: existingUserName })
@@ -64,7 +63,8 @@ export default class Profile extends Component {
 
     _syncIssuesForRepo(repo) {
         const self = this;
-        const ghrepo = this.client.repo(repo['full_name'])
+        const repoName = repo['full_name'];
+        const ghrepo = this.client.repo(repoName)
         ghrepo.issues((err, data, h) => {
             const repoId = repo['id'];
             if (err) {
@@ -83,7 +83,9 @@ export default class Profile extends Component {
             self.state.syncedRepos[repoId] = ghIssues.length;
             const creator = self.props.currentUser.email || self.props.currentUser.phoneNumber;
             postIssues(ghIssues, creator).then((res) => {
-                console.log('issues to db');
+                socket.emit('action', { name: `${ghIssues.length} new issues added from ${repoName}`, time: Date.now() }, (data) => {
+                    console.log('action ack', data);
+                  });
                 self.setState({ syncing: false });
             }).catch((err) => {
                 console.error('error syncing issues to db', err);
