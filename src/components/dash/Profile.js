@@ -80,24 +80,27 @@ export default class Profile extends Component {
             const ghIssues = data.filter((issue) => issue['labels']
                 .filter((label) => label.name.toLowerCase() === 'githelpers' || label.name.toLowerCase() === 'help wanted').length);
 
+            const existingIssues = self.state.issues;
+
             self.state.clickedRepos.add(repoId)
             self.state.syncedRepos[repoId] = ghIssues.length;
-            const creator = self.props.currentUser.email || self.props.currentUser.phoneNumber;
-            postIssues(ghIssues, creator).then((res) => {
-                socket.emit('action', { name: `${ghIssues.length} new issues added from ${repoName}`, time: Date.now() }, (data) => {
-                    console.log('action ack', data);
-                  });
-                self.setState({ syncing: false });
-            }).catch((err) => {
-                console.error('error syncing issues to db', err);
-                self.setState({ syncing: false });
-            })
+            if (ghIssues.length > 0) {
+                const creator = self.props.currentUser.email || self.props.currentUser.phoneNumber;
+                postIssues(ghIssues, creator).then((res) => {
+                    socket.emit('action', { name: `${ghIssues.length} new issues added from ${repoName}`, time: Date.now() }, (data) => {
+                        console.log('action ack', data);
+                    });
+                    self.setState({ syncing: false });
+                }).catch((err) => {
+                    console.error('error syncing issues to db', err);
+                    self.setState({ syncing: false });
+                });
 
-            // TODO: only insert if the db insert was successful.
-            const existingIssues = self.state.issues;
-            ghIssues.map((issue) => {
-                existingIssues[issue['id']] = issue;
-            });
+                // TODO: only insert if the db insert was successful.
+                ghIssues.map((issue) => {
+                    existingIssues[issue['id']] = issue;
+                });
+            }
             self.setState({ issues: existingIssues });
         });
     }

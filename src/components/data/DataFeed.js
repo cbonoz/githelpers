@@ -3,6 +3,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { Component } from 'react';
 import StackGrid, { transitions, easings } from 'react-stack-grid';
+import helper from '../../utils/helper';
 
 const itemModifier = [
   'gray'
@@ -39,7 +40,7 @@ export default class DataFeed extends Component {
           key={index}
           className={`item item--${item.modifier} feed-item`}
           style={{ height: 75 }}
-        ><span className='transaction bold'>{item.name}<br/></span><span>- {item.time}</span>
+        ><span className='transaction bold'>{item.name}<br/></span><span>- {helper.formatDateTimeMs(item.time)}</span>
         {/* <img className="check-icon" src={checkmark}/> */}
         </div>)
     );
