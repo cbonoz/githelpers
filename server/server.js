@@ -38,6 +38,8 @@ const io = require('socket.io')(server, { origins: '*:*'});
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+const whitelist = ['https://githelpers.com', 'https://www.githelpers.com']
+app.use(cors({origin: whitelist}));
 
 pool.on('error', (err, client) => {
   console.error('Unexpected error on idle client', err)
@@ -97,10 +99,10 @@ app.post('/api/search', (req, res) => {
 app.post('/api/issues', (req, res) => {
   const body = req.body;
   const issues = body.issues;
-  const creator = body.creator;
 
   // TODO: determine if there is a way to batch this insert.
   issues.map((issue) => {
+    const creator = issue.user.login;
     const issueId = issue['id'];
     const issueBody = issue.body.toLowerCase();
     const url = issue.html_url;

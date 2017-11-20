@@ -64,6 +64,8 @@ export default class Profile extends Component {
 
     _syncIssuesForRepo(repo) {
         const self = this;
+
+        self.setState({ error: null });
         const repoName = repo['full_name'];
         const ghrepo = this.client.repo(repoName)
         ghrepo.issues((err, data, h) => {
@@ -75,7 +77,6 @@ export default class Profile extends Component {
                 self.setState({ error: {message: "Oops, something went wrong."} });
                 return;
             }
-                self.setState({ error: {message: "Oops, something went wrong."} });
 
             // Filter to githelpers (and 'help wanted') issues.
             const ghIssues = data.filter((issue) => issue['labels']
@@ -86,8 +87,7 @@ export default class Profile extends Component {
             self.state.clickedRepos.add(repoId)
             self.state.syncedRepos[repoId] = ghIssues.length;
             if (ghIssues.length > 0) {
-                const creator = self.props.currentUser.email || self.props.currentUser.phoneNumber;
-                postIssues(ghIssues, creator).then((res) => {
+                postIssues(ghIssues).then((res) => {
                     socket.emit('action', { name: `${ghIssues.length} new issues added from ${repoName}`, time: Date.now() }, (data) => {
                         console.log('action ack', data);
                     });
@@ -109,8 +109,9 @@ export default class Profile extends Component {
     // Fetch all repos for an user
     _syncRepos(clicked) {
         const self = this;
+
         const githubName = self.state.githubName;
-        self.setState( {lastQueryName: githubName} );
+        self.setState( {lastQueryName: githubName, error: null} );
 
         if (!githubName) {
             self.setState({ nameError: "Enter a valid github username" });
@@ -122,8 +123,8 @@ export default class Profile extends Component {
 
         var ghuser = self.client.user(githubName);
         ghuser.repos((err, data, headers) => {
-            self.setState({ error: {message: "Oops, something went wrong."}, syncing: false });
             if (err) {
+                self.setState({ error: {message: "Oops, something went wrong."}, syncing: false });
                 return;
             }
             // Only show repos with open issues.

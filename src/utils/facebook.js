@@ -27,7 +27,7 @@ const library = (function () {
 
     function getShareIssueLink(issue) {
         const title = issue.title;
-        const issueUrl = issue.html_url;
+        const issueUrl = issue.url || issue.html_url;
         return `https://www.facebook.com/dialog/send?app_id=${APP_ID}&link=${issueUrl}&redirect_uri=${DASHBOARD_URL}`;
     }
 

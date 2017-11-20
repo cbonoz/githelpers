@@ -1,43 +1,38 @@
 GitHelpers
 ---
 
-This is a project for the <a href="https://developercircles.devpost.com/">Developer Circles</a> challenge offered by Facebook.
+This is a project built for the <a href="https://developercircles.devpost.com/">Developer Circles</a> challenge offered by Facebook.
 
-GitHelpers is a platform for connecting with friends around building open source projects.
+GitHelpers is a platform for connecting with friends around ubilding open source software.
 
 ## Description
 
-Many people on facebook are not developers, so just posting to people's feeds doesn't really make a difference. Maybe you get 1-2 likes at best, but most friends (even those that are developers) won't care.
+Contributing to open source can be relatively intimidating. Many people on facebook are not developers, and even for the ones that are, making posts about projects to your facebook wall is not effective in gathering interest for a project. 
+ And even with the power of google and github search at your disposal, finding projects and people that are looking for help is not always the easiest task.
+
+That's why we created Githelpers, a new platform for connecting with friends while building open source projects. GitHelpers is designed to be a forum *exclusively* for projects that need/want open contributions. And the platform itself is a completely open source solution built with NodeJS and ReactJS on the front end. 
 
 Our goal is to bring friends and open source software community together.
-
-Contributing to open source projects can be intimidating. GitHelpers is designed to be a forum *exclusively* for projects that need/want open source contributions.
-
-With this project we seek to mesh the coding community of github with the social environment of facebook is a more open manner. Making developer contributions more meaningful and opening up the possibility for more meaningful relationships being formed around open source development. Githelpers is a completely open source solution built with NodeJS and ReactJS on the front end. 
-
-Githelpers is a friends-first environment, designed to make interacting and contributing with your friends to open source projects intuitive and fun. 
 
 ## Facebook Technologies used
 
 * ReactJS
-* Account Kit (phone number login)
+* Account Kit (phone number and full account/email login)
     - Login with the bare minimum (phone number + github handle only, avoid github auth)
-    - Message us plugin, appears as button next to each repository in the 'githelpers' active issues search results: https://developers.facebook.com/docs/messenger-platform/discovery/message-us-plugin
-    
+    -  Share dialog plugin, appears as button next to each repository in the 'githelpers' active issues search results. https://developers.facebook.com/docs/messenger-platform/discovery/message-us-plugin. This plugin makes it easy to share links to projects with a group of friends, or just one particular friend.
 
 ##  What Github offers around encouraging open source:
 
-Github currently has the notion of the following label s: `good-first-timers` and `help-wanted`.
+Github currently has the notion of the following labels: `good-first-timers` and `help-wanted`.
 
-These label s can also be searched on github, but it can still be ambiguous where specific projects need help and from who. These label s can also be difficult to find - requiring advanced search by the end user in order to discover particular label s.
-
+These label s can also be searched on github, but it can still be ambiguous where specific projects need help and from who. These label s can also be difficult to find - requiring advanced search by the end user in order to discover particular labels.
 
 ## How it Works
 
 The process of adding a new project on GitHelpers is a 3 step process.
 
 1. Create a new github repository
-2. Create issues that you would like with on that repository. Tag with the label  githelpers
+2. Create issues that you would like with on that repository. Tag with the label githelpers
 3. Upload your project to the GitHelpers website. It will now be searchable by developers around the world.
 
 For every repo that's add to the DB, you can directly invite your friends or connect with the repo owners through facebook.
@@ -92,11 +87,6 @@ Builds the app for production to the `build` folder.<br/>
 It correctly bundles React in production mode and optimizes the build for the best performance.
 
 The build is minified and the filenames include the hashes.<br/>
-Your app is ready to be deployed!
+The app is ready to be deployed!
 
 See the section about [deployment](#deployment) for more information.
-
-
-### Docker / Docker Compose
-
-Using docker-compose, run ```docker-compose up``` from the project root directory.
