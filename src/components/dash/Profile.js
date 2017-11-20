@@ -72,9 +72,10 @@ export default class Profile extends Component {
                 if (self.state.syncedRepos.hasOwnProperty(repoId)) {
                     delete self.state.syncedRepos[repoId]
                 }
-                self.setState({ error: "Oops, something went wrong." });
+                self.setState({ error: {message: "Oops, something went wrong."} });
                 return;
             }
+                self.setState({ error: {message: "Oops, something went wrong."} });
 
             // Filter to githelpers (and 'help wanted') issues.
             const ghIssues = data.filter((issue) => issue['labels']
@@ -121,7 +122,7 @@ export default class Profile extends Component {
 
         var ghuser = self.client.user(githubName);
         ghuser.repos((err, data, headers) => {
-            self.setState({ error: "Oops, something went wrong.", syncing: false });
+            self.setState({ error: {message: "Oops, something went wrong."}, syncing: false });
             if (err) {
                 return;
             }
@@ -257,7 +258,7 @@ export default class Profile extends Component {
                                     <div className="-repos">
                                         {!self.state.syncing && !self.state.error && myRepos.length === 0 &&
                                             <h3 className="centered githelpers-results">No Repos found with open repos</h3>}
-                                        {self.state.error && <h3 className="centered error-text">Error: {self.state.error.message}</h3>}
+                                        {(self.state.error && self.state.error.message) && <h3 className="centered error-text">Error: {self.state.error.message}</h3>}
                                         {!self.state.syncing && myRepos.length > 0 &&
                                             <h4 className="centered githelpers-results">{myRepos.length} Repos for {self.state.lastQueryName} found with open Issues</h4>}
                                         <div>
@@ -277,7 +278,7 @@ export default class Profile extends Component {
                                     <div className="-issues">
                                         {!self.state.syncing && !self.state.error && myIssueIds.length === 0 &&
                                             <h3 className="centered githelpers-results">No <b>githelpers</b> Issues currently Synced</h3>}
-                                        {self.state.error && <h3 className="centered error-text">Error: {self.state.error.message}</h3>}
+                                        {(self.state.error && self.state.error.message) && <h3 className="centered error-text">Error: {self.state.error.message}</h3>}
                                         {!self.state.syncing && myIssueIds.length > 0 &&
                                             <h4 className="centered githelpers-results">{myIssueIds.length} Active <b>githelpers</b> Issues </h4>}
                                         <div>
