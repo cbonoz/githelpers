@@ -37,7 +37,7 @@ export default class Search extends Component {
       self._updateIssuesPage(0);
     }).catch((err) => {
       console.error('error searching', err);
-      self.setState({ issues: [], searching: false, error: {message: "Oops, something went wrong."}} });
+      self.setState({ issues: [], searching: false, error: {message: "Oops, something went wrong."}} );
     });
 
     
