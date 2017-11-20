@@ -31,12 +31,13 @@ export default class Search extends Component {
     this.setState({ lastQuery: query, searching: true, error: null });
     console.log('searching', this.searchInput.value);
 
-    const user = cookies.get('user');
-    var username;
-    if (user !== undefined && user['login'].length) {
-      username = user['login'];
-    } else {
-      username = 'A guest'
+    const user = this.props.currentUser;
+    var userName = 'A guest';
+    if (user !== undefined && user['displayName'].length) {
+      const displayName = user['displayName'];
+      if (displayName) {
+        userName = displayName.split()[0];
+      }
     }
 
     postSearchIssues(query).then((data) => {
@@ -51,7 +52,7 @@ export default class Search extends Component {
     const len = Math.min(query.length, 15)
     const shortQuery = query.slice(0, len);
     console.log('emitting event');
-    socket.emit('action', { name: `${username} just searched for ${shortQuery}.`, time: Date.now() }, (data) => {
+    socket.emit('action', { name: `${userName} just searched for ${shortQuery}.`, time: Date.now() }, (data) => {
       console.log('action ack', data);
     });
   }

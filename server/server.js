@@ -156,12 +156,14 @@ app.post('/api/issues', (req, res) => {
 // Socket IO handlers //
 
 io.origins('*:*') // for latest version
-const nsp = io.of('/api/socketio');
-nsp.on('connection', function (client) {
+io.on('connection', function (client) {
+  client.on('connect', function () {
+    console.log('user connect');
+  });
   client.on('action', function (event) {
     pool.query('INSERT INTO events(name, time) values($1, $2)', [event.name, event.time]);
     console.log('action', JSON.stringify(event));
-    nsp.emit('incoming', event)
+    io.emit('incoming', event)
   });
   client.on('disconnect', function () {
     console.log('user disconnect');

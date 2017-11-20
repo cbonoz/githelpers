@@ -8,21 +8,19 @@ const config = {
     projectId: "githelpers",
     storageBucket: "",
     messagingSenderId: "1005405342008"
-}
+};
 firebase.initializeApp(config)
 
 export const fbLogin = function() {
     firebase.auth().signInWithPopup(provider).then(function (result) {
         // This gives you a Facebook Access Token. You can use it to access the Facebook API.
         var token = result.credential.accessToken;
-        // The signed-in user info.
         var user = result.user;
-        // ... save the token, etc.
-        // console.log(user, token);
-        // console.log(JSON.stringify(user));
 
-        const guestName = result.user.displayName || 'Guest';
-        const eventName = `${guestName.split()[0]} just logged in.`;
+        const guestName = result.user.displayName || 'A guest';
+        const nameArray = guestName.split(' ');
+        const firstName = nameArray[0];
+        const eventName = `${firstName} just logged in.`;
 
         socket.emit('action', { name: eventName, time: Date.now() }, (data) => {
             console.log('action ack', data);

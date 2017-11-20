@@ -30,7 +30,6 @@ export default class Dashboard extends Component {
         const self = this;
         this.removeListener = firebaseAuth().onAuthStateChanged((user) => {
             self.setState({ currentUser: user });
-            console.log('currentUser', JSON.stringify(self.state.currentUser));
         })
     }
 
