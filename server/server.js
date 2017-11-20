@@ -139,15 +139,18 @@ app.post('/api/issues', (req, res) => {
     insert into issues values (${issueId}, ${issueBody}, ${url}, ${languages}, ${title}, ${created}, ${state}, ${creator})
     `;
 
-    const upsertQuery = `UPDATE issues SET state=${state}, body=${issueBody} WHERE id=${issueId};
-                         INSERT INTO issues (id, body, url, languages, title, created, state, creator)
-                                SELECT ${issueId}, '${issueBody}', ${url}, ${languages}, ${title}, ${created}, ${state}, ${creator} 
-                                WHERE NOT EXISTS (SELECT 1 FROM table WHERE id=${issueId});`;
+    const insertQuery = ` INSERT INTO issues (id, body, url, languages, title, created, state, creator) 
+                          VALUES (${issueId}, '${issueBody}', '${url}', '${languages}', '${title}', '${created}', '${state}', '${creator}');`;
 
-    pool.query(upsertQuery, (err, result) => {
+    const upsertQuery = `UPDATE issues SET state="${state}", body="${issueBody}" WHERE id=${issueId};
+                         INSERT INTO issues (id, body, url, languages, title, created, state, creator)
+                                SELECT ${issueId}, '${issueBody}', '${url}', '${languages}', '${title}', '${created}', '${state}', '${creator}' 
+                                WHERE NOT EXISTS (SELECT 1 FROM issues WHERE id=${issueId});`;
+
+    pool.query(insertQuery, (err, result) => {
       if (err) {
-        console.log(`error inserting issue ${issueId}, ${issueBody}, ${url}, ${languages}, 
-        ${title}, ${created}, ${state}, ${creator}: ${err}`);
+        console.log(`error inserting issue ${issueId}, "${issueBody}", "${url}", "${languages}", 
+        "${title}", "${created}", "${state}", "${creator}": ${err}`);
       }
     });
   })
