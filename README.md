@@ -3,7 +3,7 @@
 GitHelpers
 ---
 
-<h2>Live at https://www.githelpers.com</h2>
+<h3>Live at: <a href="https://www.githelpers.com">https://www.githelpers.com</a></h3>
 
 This is a project for the <a href="https://developercircles.devpost.com/">Developer Circles</a> challenge offered by Facebook.
 
