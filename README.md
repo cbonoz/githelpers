@@ -1,5 +1,9 @@
-![Githelpers](./img/githelpers_logo.png)
----
+<div style="text-align:center">
+    <img src="./src/assets/githelpers_trans.png"/>
+</div>
+
+Githelpers
+--
 
 <h3>Live at: <a href="https://www.githelpers.com">https://www.githelpers.com</a></h3>
 
