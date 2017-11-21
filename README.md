@@ -1,4 +1,4 @@
-![Githelpers](./img/githelpers_home.png)
+![Githelpers](./img/githelpers_logo.png)
 
 GitHelpers
 ---
