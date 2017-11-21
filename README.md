@@ -11,7 +11,7 @@ Githelpers
 
 This is a project for the <a href="https://developercircles.devpost.com/">Developer Circles</a> challenge offered by Facebook.
 
-Githelpers is a platform for connecting with friends around ubilding open source software.
+Githelpers is a platform for connecting with friends around building open source software.
 
 ## Description
 
@@ -46,16 +46,17 @@ The process of adding a new project on Githelpers is a 3 step process.
 2. Create issues that you would like with on that repository. Tag with the label githelpers
 3. Upload your project to the Githelpers website. It will now be searchable by developers around the world.
 
-For every repo that's add to the DB, you can directly invite your friends or connect with the repo owners through facebook.
+For every githelpers issue that's added to the database, you can directly invite your friends and message them about the issues through facebook.
 
-As developers find your project, there is no lack of understanding or expectations  of whether you are looking for help. All your label ged issues become searchable, and those developers can freely open pull requests on your github repository.
+As developers find your project, there is no lack of understanding or expectations of whether you are looking for help. All your label ged issues become searchable, and those developers can freely open pull requests on your github repository.
 
 ## Where Githelpers differentiates.
 
 <ol>
     <li>Live contribution and user sign up feed.</li>
-    <li>Community website around Github labels. </li>
+    <li>Community website around contribution-wanted labels. </li>
     <li>Searchable index around issues that have been explicitly marked.</li>
+    <li>No need to post on your facebook wall</li>
 </ol>
 
 ### Screenshots
@@ -71,7 +72,7 @@ As developers find your project, there is no lack of understanding or expectatio
 
 Future work includes:
 * Add leaderboard and user contribution history.
-* Add ability to chat directly with the repo owner through facebook.
+* Add ability to chat directly with the repository owner through facebook.
 * Implement native integration with github and/or facebook.
 
 ### Useful Links
