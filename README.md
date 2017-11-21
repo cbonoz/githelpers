@@ -1,10 +1,4 @@
-<<<<<<< HEAD
 ![Githelpers](./img/githelpers_logo.png)
-
-GitHelpers
-=======
-Githelpers
->>>>>>> fix caps
 ---
 
 <h3>Live at: <a href="https://www.githelpers.com">https://www.githelpers.com</a></h3>
