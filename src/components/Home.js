@@ -94,11 +94,11 @@ export default class Home extends Component {
                     <Col xs={12} md={12}>
                         <div className="home-video-section centered">
                             <h1 className='facebook-blue centered home-video-heading'>How it Works</h1>
-                            {/* <YouTube
-                                videoId="2g811Eo7K8U"
+                            <YouTube
+                                videoId="a_jt1hN8wpg"
                                 opts={videoOpts}
                                 onVideoReady={this._onVideoReady}
-                            /> */}
+                            />
                         </div>
                     </Col>
                 </Row>

@@ -68,7 +68,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 Future work includes:
 * Add leaderboard and user contribution history.
 * Add ability to chat directly with the repo owner through facebook.
-* Implement native integration with github and/or facebook if possible.
+* Implement native integration with github and/or facebook.
 
 ### Useful Links
 * https://developers.facebook.com/docs/accountkit
