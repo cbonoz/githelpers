@@ -47,6 +47,15 @@ As developers find your project, there is no lack of understanding or expectatio
     <li>Searchable index around issues that have been explicitly marked.</li>
 </ol>
 
+### Screenshots
+
+<h4>Githelpers home page with live activity feed</h4>
+<img src="./img/githelpers_home.png" width="400"/>
+<p>Githelpers user dashboard (Profile tab)</p>
+<img src="./img/githelpers_dash.png" width="400"/>
+<p>Githelpers public issue search (Search tab)</p>
+<img src="./img/githelpers_search.png" width="400"/>
+
 ### Future Work
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
@@ -71,7 +80,7 @@ In the project directory, you can run:
 ### `npm start`
 
 Runs the app in the development mode.<br/>
-Open [http://localhost:3000](http://localhost:3000) to view it in the br/owser.
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 The page will reload if you make edits.<br//>
 You will also see any lint errors in the console.
