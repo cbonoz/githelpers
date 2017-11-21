@@ -1,20 +1,24 @@
+<<<<<<< HEAD
 ![Githelpers](./img/githelpers_logo.png)
 
 GitHelpers
+=======
+Githelpers
+>>>>>>> fix caps
 ---
 
 <h3>Live at: <a href="https://www.githelpers.com">https://www.githelpers.com</a></h3>
 
 This is a project for the <a href="https://developercircles.devpost.com/">Developer Circles</a> challenge offered by Facebook.
 
-GitHelpers is a platform for connecting with friends around ubilding open source software.
+Githelpers is a platform for connecting with friends around ubilding open source software.
 
 ## Description
 
 Contributing to open source can be relatively intimidating. Many people on facebook are not developers, and even for the ones that are, making posts about projects to your facebook wall is not effective in gathering interest for a project. 
  And even with the power of google and github search at your disposal, finding projects and people that are looking for help is not always the easiest task.
 
-That's why we created Githelpers, a new platform for connecting with friends while building open source projects. GitHelpers is designed to be a forum *exclusively* for projects that need/want open contributions. And the platform itself is a completely open source solution built with NodeJS and ReactJS on the front end. 
+That's why we created Githelpers, a new platform for connecting with friends while building open source projects. Githelpers is designed to be a forum *exclusively* for projects that need/want open contributions. And the platform itself is a completely open source solution built with NodeJS and ReactJS on the front end. 
 
 Our goal is to bring friends and open source software community together.
 
@@ -36,11 +40,11 @@ These label s can also be searched on github, but it can still be ambiguous wher
 
 ## How it Works
 
-The process of adding a new project on GitHelpers is a 3 step process.
+The process of adding a new project on Githelpers is a 3 step process.
 
 1. Create a new github repository
 2. Create issues that you would like with on that repository. Tag with the label githelpers
-3. Upload your project to the GitHelpers website. It will now be searchable by developers around the world.
+3. Upload your project to the Githelpers website. It will now be searchable by developers around the world.
 
 For every repo that's add to the DB, you can directly invite your friends or connect with the repo owners through facebook.
 
