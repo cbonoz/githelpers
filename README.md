@@ -7,6 +7,8 @@ Githelpers
 
 <h3>Live at: <a href="https://www.githelpers.com">https://www.githelpers.com</a></h3>
 
+<p>Demo: <a href="https://www.youtube.com/watch?v=a_jt1hN8wpg">Githelpers Demo</a></p>
+
 This is a project for the <a href="https://developercircles.devpost.com/">Developer Circles</a> challenge offered by Facebook.
 
 Githelpers is a platform for connecting with friends around ubilding open source software.
