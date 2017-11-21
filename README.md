@@ -1,7 +1,9 @@
 GitHelpers
 ---
 
-This is a project built for the <a href="https://developercircles.devpost.com/">Developer Circles</a> challenge offered by Facebook.
+<h2>Live at https://www.githelpers.com</h2>
+
+This is a project for the <a href="https://developercircles.devpost.com/">Developer Circles</a> challenge offered by Facebook.
 
 GitHelpers is a platform for connecting with friends around ubilding open source software.
 
@@ -13,6 +15,9 @@ Contributing to open source can be relatively intimidating. Many people on faceb
 That's why we created Githelpers, a new platform for connecting with friends while building open source projects. GitHelpers is designed to be a forum *exclusively* for projects that need/want open contributions. And the platform itself is a completely open source solution built with NodeJS and ReactJS on the front end. 
 
 Our goal is to bring friends and open source software community together.
+
+Githelpers is a open source project: 
+<a href="https://github.com/cbonoz/githelpers">https://github.com/cbonoz/githelpers</a>
 
 ## Facebook Technologies used
 
