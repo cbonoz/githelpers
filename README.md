@@ -54,7 +54,7 @@ As developers find your project, there is no lack of understanding or expectatio
 
 <ol>
     <li>Live contribution and user sign up feed.</li>
-    <li>Community website around the label s. </li>
+    <li>Community website around Github labels. </li>
     <li>Searchable index around issues that have been explicitly marked.</li>
 </ol>
 
