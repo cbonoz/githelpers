@@ -1,4 +1,4 @@
-<div style="align:center">
+<div align="center">
     <img src="./src/assets/githelpers_trans.png"/>
 </div>
 
