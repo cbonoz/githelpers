@@ -61,12 +61,12 @@ As developers find your project, there is no lack of understanding or expectatio
 
 ### Screenshots
 
-<h4>Githelpers home page with live activity feed</h4>
-<img src="./img/githelpers_home.png" width="400"/>
-<p>Githelpers user dashboard (Profile tab)</p>
-<img src="./img/githelpers_dash.png" width="400"/>
-<p>Githelpers public issue search (Search tab)</p>
-<img src="./img/githelpers_search.png" width="400"/>
+<h3>Githelpers home page with live activity feed</h3>
+<img src="./img/githelpers_home.png" width="800"/>
+<h3>Githelpers user dashboard (Profile tab)</h3>
+<img src="./img/githelpers_dash.png" width="800"/>
+<h3>Githelpers public issue search (Search tab)</h3>
+<img src="./img/githelpers_search.png" width="800"/>
 
 ### Future Work
 
