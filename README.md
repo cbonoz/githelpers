@@ -36,7 +36,7 @@ Githelpers is a open source project:
 
 Github currently has the notion of the following labels: `good-first-timers` and `help-wanted`.
 
-These label s can also be searched on github, but it can still be ambiguous where specific projects need help and from who. These label s can also be difficult to find - requiring advanced search by the end user in order to discover particular labels.
+These labels can also be searched on github, but it can still be ambiguous where specific projects need help and from who. These labels can also be difficult to find - requiring advanced search by the end user in order to discover these particular issues.
 
 ## How it Works
 
