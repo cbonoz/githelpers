@@ -1,3 +1,5 @@
+![Githelpers](./img/githelpers_home.png)
+
 GitHelpers
 ---
 
