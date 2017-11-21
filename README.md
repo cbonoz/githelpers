@@ -66,9 +66,9 @@ As developers find your project, there is no lack of understanding or expectatio
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 Future work includes:
-* Adding leaderboard and user contribution history.
-* Ability to chat directly with the repo owner through FB integration.
-
+* Add leaderboard and user contribution history.
+* Add ability to chat directly with the repo owner through facebook.
+* Implement native integration with github and/or facebook if possible.
 
 ### Useful Links
 * https://developers.facebook.com/docs/accountkit
