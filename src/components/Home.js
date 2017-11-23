@@ -38,7 +38,7 @@ export default class Home extends Component {
             height: '390',
             width: '640',
             playerVars: { // https://developers.google.com/youtube/player_parameters
-                autoplay: 1
+                autoplay: 0
             }
         };
 
